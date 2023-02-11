@@ -1,0 +1,6 @@
+--Creao la tabella SPONSOR: 
+CREATE TABLE SPONSOR
+(
+PartitaIVA CHAR(11) PRIMARY KEY,
+NomeAzienda VARCHAR(50) NOT NULL
+);

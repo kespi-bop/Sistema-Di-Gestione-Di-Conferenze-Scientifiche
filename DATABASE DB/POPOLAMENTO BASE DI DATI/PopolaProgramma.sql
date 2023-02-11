@@ -1,0 +1,23 @@
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('23/05/2022',1);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('24/05/2022',1);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('25/05/2022',1);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('26/05/2022',1);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('27/05/2022',1);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('27/07/2022',2);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('28/07/2022',2);
+
+INSERT INTO PROGRAMMA(DataProgramma,CodConferenza)
+VALUES('29/07/2022',2);

@@ -1,0 +1,8 @@
+--Creao la tabella SEDE: 
+CREATE TABLE SEDE
+(
+NomeSede VARCHAR(100) PRIMARY KEY,
+NomeVia	VARCHAR(100) NOT NULL,
+NumeroCivico SMALLINT NOT NULL,
+Città VARCHAR(100) NOT NULL
+);
