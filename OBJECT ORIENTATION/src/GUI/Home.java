@@ -14,6 +14,8 @@ import javax.swing.JEditorPane;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Home {
 
@@ -48,7 +50,7 @@ public class Home {
 	private void initialize() {
 		frame = new JFrame("Home");
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 543, 393);
+		frame.setBounds(450, 100, 543, 393);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel titleConferenze = new JLabel("CONFERENZE SCIENTIFICHE");
@@ -86,6 +88,13 @@ public class Home {
 		panel.add(loginTxt);
 		
 		JButton loginButton = new JButton("login");
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginOrganizzatore log = new LoginOrganizzatore();
+				log.frame.setVisible(true);
+			}
+		});
+		loginButton.setFocusPainted(false);
 		
 		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		loginButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -107,8 +116,9 @@ public class Home {
 		frame.getContentPane().add(benvenutoTxt);
 		
 		JButton VisualizzaConferenzeButton = new JButton("visualizza conferenze");
+		VisualizzaConferenzeButton.setFocusPainted(false);
 		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
-		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
 		VisualizzaConferenzeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		VisualizzaConferenzeButton.setBorder(null);
 		VisualizzaConferenzeButton.setBackground(new Color(57, 113, 177));
@@ -116,8 +126,9 @@ public class Home {
 		frame.getContentPane().add(VisualizzaConferenzeButton);
 		
 		JButton riepilogoKSButton = new JButton("riepilogoKS");
+		riepilogoKSButton.setFocusPainted(false);
 		riepilogoKSButton.setForeground(new Color(255, 255, 255));
-		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
 		riepilogoKSButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		riepilogoKSButton.setBackground(new Color(57, 113, 177));
 		riepilogoKSButton.setBorder(null);

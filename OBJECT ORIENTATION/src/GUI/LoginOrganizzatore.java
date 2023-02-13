@@ -21,7 +21,7 @@ import java.awt.ComponentOrientation;
 
 public class LoginOrganizzatore {
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField textField;
 	private JPasswordField passwordField;
 
@@ -55,8 +55,8 @@ public class LoginOrganizzatore {
 		frame = new JFrame("Login");
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(750, 350, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
@@ -89,6 +89,8 @@ public class LoginOrganizzatore {
 		
 		
 		JButton btnNewButton = new JButton("login\r\n");
+		btnNewButton.setFocusPainted(false);
+		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		btnNewButton.setBackground(new Color(126, 87, 194));
 		btnNewButton.setForeground(new Color(255, 255, 255));
