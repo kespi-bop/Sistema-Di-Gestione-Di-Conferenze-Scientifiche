@@ -135,7 +135,7 @@ public class Home {
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
 		signature.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		signature.setForeground(new Color(56, 57, 59));
-		signature.setBounds(893, 110, 171, 14);
+		signature.setBounds(899, 116, 171, 14);
 		panel.add(signature);
 		
 		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
