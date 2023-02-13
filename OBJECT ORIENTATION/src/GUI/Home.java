@@ -58,7 +58,7 @@ public class Home {
 		frame.getContentPane().add(titleConferenze);
 		
 		JLabel background;
-		frame.setSize(1080,900);
+		frame.setSize(1080,850);
 		frame.getContentPane().setLayout(null);
 		
 		
@@ -72,7 +72,7 @@ public class Home {
 		JLabel lblNewLabel = new JLabel("Duminuco&Grieco.Company©");
 		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		lblNewLabel.setForeground(new Color(56, 57, 59));
-		lblNewLabel.setBounds(842, 206, 212, 14);
+		lblNewLabel.setBounds(842, 160, 212, 14);
 		panel.add(lblNewLabel);
 		
 		JTextPane txtpnNelCasoIn = new JTextPane();
