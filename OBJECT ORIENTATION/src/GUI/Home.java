@@ -58,7 +58,7 @@ public class Home {
 		JLabel titleConferenze = new JLabel("CONFERENZE SCIENTIFICHE");
 		titleConferenze.setFont(new Font("Gill Sans Ultra Bold Condensed", Font.BOLD, 40));
 		titleConferenze.setForeground(new Color(57, 113, 177));
-		titleConferenze.setBounds(300, 63, 528, 142);
+		titleConferenze.setBounds(300, 63, 682, 142);
 		frame.getContentPane().add(titleConferenze);
 		
 		
@@ -83,11 +83,11 @@ public class Home {
 		JTextPane loginTxt = new JTextPane();
 		loginTxt.setSelectionColor(new Color(126, 87, 194));
 		loginTxt.setEditable(false);
-		loginTxt.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		loginTxt.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		loginTxt.setForeground(new Color(56, 57, 59));
 		loginTxt.setOpaque(false);
 		loginTxt.setText("Nel caso in cui tu sia un organizzatore di conferenze puoi loggare per:\r\n- creare una nuova conferenza\r\n- modificare conferenze esistenti\r\n- eliminare conferenze");
-		loginTxt.setBounds(10, 11, 645, 98);
+		loginTxt.setBounds(10, 11, 695, 98);
 		panel.add(loginTxt);
 		
 		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
@@ -117,7 +117,7 @@ public class Home {
 		benvenutoTxt.setOpaque(false);
 		benvenutoTxt.setEditable(false);
 		benvenutoTxt.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker");
-		benvenutoTxt.setBounds(167, 166, 782, 121);
+		benvenutoTxt.setBounds(167, 166, 838, 121);
 		frame.getContentPane().add(benvenutoTxt);
 		
 		JButton VisualizzaConferenzeButton = new JButton("visualizza conferenze");
