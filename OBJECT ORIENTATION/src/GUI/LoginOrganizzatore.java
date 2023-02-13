@@ -1,12 +1,10 @@
 package GUI;
 
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
 import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -18,6 +16,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import java.awt.Cursor;
 import java.awt.ComponentOrientation;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginOrganizzatore {
 
@@ -26,37 +26,28 @@ public class LoginOrganizzatore {
 	private JPasswordField passwordField;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginOrganizzatore window = new LoginOrganizzatore();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
-	public LoginOrganizzatore() {
-		initialize();
+	public LoginOrganizzatore(JFrame framechiamante) {
+		initialize(framechiamante);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final JFrame framechiamante) {
 		frame = new JFrame("Login");
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.setBounds(750, 350, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.addWindowListener(new java.awt.event.WindowAdapter() {	
+		    @Override
+		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+		        framechiamante.setEnabled(true);    //se chiudo la finestra posso di nuovo interagire con Home
+		    }
+		});
+		
 		frame.getContentPane().setLayout(null);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
@@ -88,15 +79,26 @@ public class LoginOrganizzatore {
 		frame.getContentPane().add(passwordField);
 		
 		
-		JButton btnNewButton = new JButton("login\r\n");
-		btnNewButton.setFocusPainted(false);
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		btnNewButton.setBackground(new Color(126, 87, 194));
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBorder(null);
-		btnNewButton.setBounds(87, 170, 262, 34);
-		frame.getContentPane().add(btnNewButton);
+		JButton loginButton = new JButton("login\r\n");
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ModificaConferenze modificaConferenze = new ModificaConferenze(framechiamante);
+				frame.setVisible(false);
+				framechiamante.setVisible(true);	//richiamo setVisible di Home affinchè non venga posta sotto altre finestre aperte
+				modificaConferenze.frame.setVisible(true);
+			}
+		});
+		
+		
+		
+		loginButton.setFocusPainted(false);
+		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		loginButton.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		loginButton.setBackground(new Color(126, 87, 194));
+		loginButton.setForeground(new Color(255, 255, 255));
+		loginButton.setBorder(null);
+		loginButton.setBounds(87, 170, 262, 34);
+		frame.getContentPane().add(loginButton);
 		
 		JLabel Email = new JLabel("Email");
 		Email.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -128,11 +130,11 @@ public class LoginOrganizzatore {
 		passHide.setFocusPainted(false);
 		passHide.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {		
 				if(passHide.isSelected())
-					passwordField.setEchoChar((char)0);
+					passwordField.setEchoChar((char)0);	//mostro la password
 				else
-					passwordField.setEchoChar('\u25cf');
+					passwordField.setEchoChar('\u25cf');	//nascondo la password
 			}
 		});
 		passHide.setContentAreaFilled(false);
@@ -140,7 +142,7 @@ public class LoginOrganizzatore {
 		passHide.setBorderPainted(false);
 		passHide.setSelectedIcon(new ImageIcon(imghide));
 		passHide.setBorder(null);
-		passHide.setBounds(354, 139, 21, 20);
+		passHide.setBounds(352, 126, 21, 20);
 		passHide.setIcon(new ImageIcon(imgshow));
 		frame.getContentPane().add(passHide);
 		passHide.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

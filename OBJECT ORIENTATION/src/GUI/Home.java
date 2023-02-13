@@ -48,21 +48,23 @@ public class Home {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frame = new JFrame("Home");
 		frame.setResizable(false);
 		frame.setBounds(450, 100, 543, 393);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		//definisco il titolo
 		JLabel titleConferenze = new JLabel("CONFERENZE SCIENTIFICHE");
 		titleConferenze.setFont(new Font("Gill Sans Ultra Bold Condensed", Font.BOLD, 40));
 		titleConferenze.setForeground(new Color(57, 113, 177));
 		titleConferenze.setBounds(300, 63, 528, 142);
 		frame.getContentPane().add(titleConferenze);
 		
+		
 		JLabel background;
 		frame.setSize(1080,850);
 		frame.getContentPane().setLayout(null);
-		
 		
 		
 		JPanel panel = new JPanel();
@@ -71,6 +73,7 @@ public class Home {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
+		//©copyright
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 14));
 		signature.setForeground(new Color(56, 57, 59));
@@ -87,11 +90,13 @@ public class Home {
 		loginTxt.setBounds(10, 11, 645, 98);
 		panel.add(loginTxt);
 		
+		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
 		JButton loginButton = new JButton("login");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginOrganizzatore log = new LoginOrganizzatore();
+				LoginOrganizzatore log = new LoginOrganizzatore(frame);
 				log.frame.setVisible(true);
+				frame.setEnabled(false);	//non può essere toccata la finestra Home
 			}
 		});
 		loginButton.setFocusPainted(false);
