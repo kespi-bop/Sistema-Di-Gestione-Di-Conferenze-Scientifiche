@@ -46,7 +46,7 @@ public class Home {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
+		frame = new JFrame("Home");
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 543, 393);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
