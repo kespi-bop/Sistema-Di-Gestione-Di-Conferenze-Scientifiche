@@ -1,9 +1,0 @@
-/**
- * 
- */
-/**
- * @author gianf
- *
- */
-module ObjectOrientation {
-}
