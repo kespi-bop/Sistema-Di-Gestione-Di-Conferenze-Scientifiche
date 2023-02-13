@@ -14,6 +14,10 @@ import javax.swing.JEditorPane;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Home {
 
@@ -69,59 +73,60 @@ public class Home {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Duminuco&Grieco.Company©");
-		lblNewLabel.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-		lblNewLabel.setForeground(new Color(56, 57, 59));
-		lblNewLabel.setBounds(842, 160, 212, 14);
-		panel.add(lblNewLabel);
+		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+		signature.setForeground(new Color(56, 57, 59));
+		signature.setBounds(842, 160, 212, 14);
+		panel.add(signature);
 		
-		JTextPane txtpnNelCasoIn = new JTextPane();
-		txtpnNelCasoIn.setSelectionColor(new Color(126, 87, 194));
-		txtpnNelCasoIn.setEditable(false);
-		txtpnNelCasoIn.setFont(new Font("Century Gothic", Font.BOLD, 18));
-		txtpnNelCasoIn.setForeground(new Color(56, 57, 59));
-		txtpnNelCasoIn.setOpaque(false);
-		txtpnNelCasoIn.setText("Nel caso in cui tu sia un organizzatore di conferenze puoi loggare per:\r\n- creare una nuova conferenza\r\n- modificare conferenze esistenti\r\n- eliminare conferenze");
-		txtpnNelCasoIn.setBounds(10, 11, 645, 98);
-		panel.add(txtpnNelCasoIn);
+		JTextPane loginTxt = new JTextPane();
+		loginTxt.setSelectionColor(new Color(126, 87, 194));
+		loginTxt.setEditable(false);
+		loginTxt.setFont(new Font("Century Gothic", Font.BOLD, 18));
+		loginTxt.setForeground(new Color(56, 57, 59));
+		loginTxt.setOpaque(false);
+		loginTxt.setText("Nel caso in cui tu sia un organizzatore di conferenze puoi loggare per:\r\n- creare una nuova conferenza\r\n- modificare conferenze esistenti\r\n- eliminare conferenze");
+		loginTxt.setBounds(10, 11, 645, 98);
+		panel.add(loginTxt);
 		
-		JButton btnNewButton_2 = new JButton("login");
-		btnNewButton_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_2.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnNewButton_2.setBorder(null);
-		btnNewButton_2.setBackground(new Color(126, 87, 194));
-		btnNewButton_2.setForeground(new Color(255, 255, 255));
-		btnNewButton_2.setBounds(483, 96, 120, 50);
-		panel.add(btnNewButton_2);
+		JButton loginButton = new JButton("login");
 		
-		JEditorPane dtrpnBenvenutoNelNostro = new JEditorPane();
-		dtrpnBenvenutoNelNostro.setSelectionColor(new Color(128, 128, 128));
-		dtrpnBenvenutoNelNostro.setDisabledTextColor(new Color(255, 255, 255));
-		dtrpnBenvenutoNelNostro.setFont(new Font("Tahoma", Font.PLAIN, 19));
-		dtrpnBenvenutoNelNostro.setForeground(new Color(255, 255, 255));
-		dtrpnBenvenutoNelNostro.setOpaque(false);
-		dtrpnBenvenutoNelNostro.setEditable(false);
-		dtrpnBenvenutoNelNostro.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker");
-		dtrpnBenvenutoNelNostro.setBounds(167, 166, 782, 121);
-		frame.getContentPane().add(dtrpnBenvenutoNelNostro);
+		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		loginButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		loginButton.setBorder(null);
+		loginButton.setBackground(new Color(126, 87, 194));
+		loginButton.setForeground(new Color(255, 255, 255));
+		loginButton.setBounds(483, 96, 120, 50);
+		panel.add(loginButton);
 		
-		JButton btnNewButton = new JButton("visualizza conferenze");
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.setBorder(null);
-		btnNewButton.setBackground(new Color(57, 113, 177));
-		btnNewButton.setBounds(193, 352, 169, 77);
-		frame.getContentPane().add(btnNewButton);
+		JEditorPane benvenutoTxt = new JEditorPane();
+		benvenutoTxt.setSelectionColor(new Color(128, 128, 128));
+		benvenutoTxt.setDisabledTextColor(new Color(255, 255, 255));
+		benvenutoTxt.setFont(new Font("Tahoma", Font.PLAIN, 19));
+		benvenutoTxt.setForeground(new Color(255, 255, 255));
+		benvenutoTxt.setOpaque(false);
+		benvenutoTxt.setEditable(false);
+		benvenutoTxt.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker");
+		benvenutoTxt.setBounds(167, 166, 782, 121);
+		frame.getContentPane().add(benvenutoTxt);
 		
-		JButton btnNewButton_1 = new JButton("riepilogoKS");
-		btnNewButton_1.setForeground(new Color(255, 255, 255));
-		btnNewButton_1.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_1.setBackground(new Color(57, 113, 177));
-		btnNewButton_1.setBorder(null);
-		btnNewButton_1.setBounds(700, 352, 169, 77);
-		frame.getContentPane().add(btnNewButton_1);
+		JButton VisualizzaConferenzeButton = new JButton("visualizza conferenze");
+		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
+		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		VisualizzaConferenzeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		VisualizzaConferenzeButton.setBorder(null);
+		VisualizzaConferenzeButton.setBackground(new Color(57, 113, 177));
+		VisualizzaConferenzeButton.setBounds(193, 363, 169, 66);
+		frame.getContentPane().add(VisualizzaConferenzeButton);
+		
+		JButton riepilogoKSButton = new JButton("riepilogoKS");
+		riepilogoKSButton.setForeground(new Color(255, 255, 255));
+		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		riepilogoKSButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		riepilogoKSButton.setBackground(new Color(57, 113, 177));
+		riepilogoKSButton.setBorder(null);
+		riepilogoKSButton.setBounds(700, 363, 169, 66);
+		frame.getContentPane().add(riepilogoKSButton);
 		
 		Image img = new ImageIcon(this.getClass().getResource("/BackGround.jpg")).getImage();
 		
