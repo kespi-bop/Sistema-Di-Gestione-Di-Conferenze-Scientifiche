@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Image;
 
 import javax.swing.JFrame;
@@ -13,6 +14,8 @@ import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+
 import javax.swing.ImageIcon;
 import java.awt.Cursor;
 import java.awt.ComponentOrientation;
@@ -20,7 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LoginOrganizzatore {
-
+	
+	private int mouseX, mouseY;
 	public JFrame frame;
 	private JTextField textField;
 	private JPasswordField passwordField;
@@ -36,45 +40,79 @@ public class LoginOrganizzatore {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(final JFrame framechiamante) {
+		
 		frame = new JFrame("Login");
+		frame.setUndecorated(true);
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
-		frame.setBounds(750, 350, 450, 300);
+		frame.setBounds(750, 350, 450, 275);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.addWindowListener(new java.awt.event.WindowAdapter() {	
-		    @Override
-		    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-		        framechiamante.setEnabled(true);    //se chiudo la finestra posso di nuovo interagire con Home
-		    }
+		
+		//definisco il pulsante di uscita
+		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
+		
+		JLabel exitLabel = new JLabel("");
+		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				framechiamante.setVisible(true);
+				framechiamante.setEnabled(true);
+			}
 		});
+		exitLabel.setIcon(new ImageIcon(imgExit));
+		exitLabel.setBounds(423, 11, 17, 21);
+		frame.getContentPane().add(exitLabel);
+		
+		//trascino la finestra undecorated
+		JLabel dragFrame = new JLabel("");
+		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
+			}
+		});
+		dragFrame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();			}
+		});
+		dragFrame.setBounds(0, 0, 418, 40);
+		frame.getContentPane().add(dragFrame);
+		
+		
 		
 		frame.getContentPane().setLayout(null);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		signature.setForeground(new Color(56, 57, 59));
-		signature.setBounds(259, 228, 165, 33);
+		signature.setBounds(275, 242, 165, 33);
 		frame.getContentPane().add(signature);
 		
 		textField = new JTextField();
+		textField.setSelectionColor(new Color(126, 87, 194));
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textField.setCaretColor(new Color(255, 255, 255));
 		textField.setDisabledTextColor(new Color(255, 255, 255));
 		textField.setForeground(new Color(255, 255, 255));
 		textField.setBorder(null);
 		textField.setOpaque(false);
-		textField.setBounds(87, 47, 262, 20);
+		textField.setBounds(87, 76, 262, 20);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		
 		passwordField = new JPasswordField();
+		passwordField.setSelectionColor(new Color(126, 87, 194));
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		passwordField.setCaretColor(new Color(255, 255, 255));
 		passwordField.setForeground(new Color(255, 255, 255));
 		passwordField.setBorder(null);
 		passwordField.setOpaque(false);
-		passwordField.setBounds(87, 126, 262, 20);
+		passwordField.setBounds(87, 134, 262, 20);
 		passwordField.setEchoChar('\u25cf');
 		frame.getContentPane().add(passwordField);
 		
@@ -97,17 +135,17 @@ public class LoginOrganizzatore {
 		loginButton.setBackground(new Color(126, 87, 194));
 		loginButton.setForeground(new Color(255, 255, 255));
 		loginButton.setBorder(null);
-		loginButton.setBounds(87, 170, 262, 34);
+		loginButton.setBounds(87, 183, 262, 34);
 		frame.getContentPane().add(loginButton);
 		
 		JLabel Email = new JLabel("Email");
 		Email.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		Email.setForeground(new Color(57, 113, 177));
-		Email.setBounds(87, 24, 46, 14);
+		Email.setBounds(87, 58, 46, 14);
 		frame.getContentPane().add(Email);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(86, 78, 263, 2);
+		separator.setBounds(87, 96, 263, 2);
 		frame.getContentPane().add(separator);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -117,7 +155,7 @@ public class LoginOrganizzatore {
 		JLabel Password = new JLabel("Password");
 		Password.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		Password.setForeground(new Color(57, 113, 177));
-		Password.setBounds(87, 105, 84, 14);
+		Password.setBounds(87, 116, 84, 14);
 		frame.getContentPane().add(Password);
 		
 		Image imghide = new ImageIcon(this.getClass().getResource("/hide.png")).getImage();
@@ -142,7 +180,7 @@ public class LoginOrganizzatore {
 		passHide.setBorderPainted(false);
 		passHide.setSelectedIcon(new ImageIcon(imghide));
 		passHide.setBorder(null);
-		passHide.setBounds(352, 126, 21, 20);
+		passHide.setBounds(354, 134, 21, 20);
 		passHide.setIcon(new ImageIcon(imgshow));
 		frame.getContentPane().add(passHide);
 		passHide.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
