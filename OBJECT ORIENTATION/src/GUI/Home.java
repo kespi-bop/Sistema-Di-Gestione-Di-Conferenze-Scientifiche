@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JEditorPane;
 import javax.swing.JButton;
 import java.awt.Cursor;
@@ -121,7 +123,10 @@ public class Home {
 		btnNewButton_1.setBounds(700, 352, 169, 77);
 		frame.getContentPane().add(btnNewButton_1);
 		
-		background = new JLabel("",new ImageIcon("C:\\Users\\gianf\\git\\Progetto-Object-Orientation-Database\\Image\\BackGround.jpg"),JLabel.CENTER);
+		Image img = new ImageIcon(this.getClass().getResource("/BackGround.jpg")).getImage();
+		
+		background = new JLabel("");
+		background.setIcon(new ImageIcon(img));
 		background.setBounds(0,-44,1209,674);
 		frame.getContentPane().add(background);
 		
