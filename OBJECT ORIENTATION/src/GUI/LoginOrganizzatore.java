@@ -31,14 +31,14 @@ public class LoginOrganizzatore {
 	/**
 	 * Create the application.
 	 */
-	public LoginOrganizzatore(JFrame framechiamante) {
-		initialize(framechiamante);
+	public LoginOrganizzatore(JFrame frameHome) {
+		initialize(frameHome);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final JFrame framechiamante) {
+	private void initialize(final JFrame frameHome) {
 		
 		frame = new JFrame("Login");
 		frame.setUndecorated(true);
@@ -56,8 +56,8 @@ public class LoginOrganizzatore {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				framechiamante.setVisible(true);
-				framechiamante.setEnabled(true);
+				frameHome.setVisible(true);
+				frameHome.setEnabled(true);
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
@@ -119,10 +119,10 @@ public class LoginOrganizzatore {
 		JButton loginButton = new JButton("login\r\n");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ModificaConferenze modificaConferenze = new ModificaConferenze(framechiamante);
+				HomeOrganizzatore homeOrganizzatore = new HomeOrganizzatore(frameHome);
 				frame.setVisible(false);
-				framechiamante.setVisible(true);	//richiamo setVisible di Home affinchè non venga posta sotto altre finestre aperte
-				modificaConferenze.frame.setVisible(true);
+				frameHome.setVisible(false);	//richiamo setVisible di Home affinchè non venga posta sotto altre finestre aperte
+				homeOrganizzatore.frame.setVisible(true);
 			}
 		});
 		
