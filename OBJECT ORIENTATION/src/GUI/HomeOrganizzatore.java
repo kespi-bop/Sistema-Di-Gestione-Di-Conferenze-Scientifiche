@@ -144,6 +144,15 @@ public class HomeOrganizzatore {
 		panel.add(txtpnSoltantoGliOrganizzatori);
 		
 		JButton creaConferenzaButton = new JButton("Crea conferenza");
+		creaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CreazioneConferenza creazioneConferenza = new CreazioneConferenza(frame);
+				creazioneConferenza.frame.setVisible(true);
+				frame.setEnabled(false);	//non può essere toccata la finestra HomeOrganizzatore
+			}
+		});
+		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		creaConferenzaButton.setForeground(Color.WHITE);
 		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		creaConferenzaButton.setFocusPainted(false);
@@ -153,6 +162,7 @@ public class HomeOrganizzatore {
 		panel.add(creaConferenzaButton);
 		
 		JButton cancellaConferenzaButton = new JButton("Cancella conferenza");
+		cancellaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cancellaConferenzaButton.setForeground(Color.WHITE);
 		cancellaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		cancellaConferenzaButton.setFocusPainted(false);
