@@ -154,7 +154,7 @@ public class Home {
 		loginButton.setBorder(null);
 		loginButton.setBackground(new Color(126, 87, 194));
 		loginButton.setForeground(new Color(255, 255, 255));
-		loginButton.setBounds(385, 22, 306, 50);
+		loginButton.setBounds(378, 22, 313, 50);
 		panel.add(loginButton);
 		
 		JTextPane txtpnSoltantoGliOrganizzatori = new JTextPane();
