@@ -1,52 +1,51 @@
 package Model;
 
 import java.util.Date;
-import java.util.ArrayList;
 
 public class Conferenza {
-	private String TitoloConferenza;
-	private Date DataInizio;
-	private Date DataFine;
-	private String Descrizione;
-	private int CodConferenza; //Il primo codice conferenza deve essere 1
-	private String NomeSede; //chiave esterna
+	private String titoloConferenza;
+	private Date dataInizio;
+	private Date dataFine;
+	private String descrizione;
+	private int codConferenza; //Il primo codice conferenza deve essere 1
+	private String nomeSede; //chiave esterna
 	
 	//Costruttori
 	
 	//Metodi gets
 	public String getTitoloConferenza() {
-		return TitoloConferenza;
+		return titoloConferenza;
 	}
 	public String getDescrizione() {
-		return Descrizione;
+		return descrizione;
 	}
 	public Date getDataInizio() {
-		return DataInizio;
+		return dataInizio;
 	}
 	public Date getDataFine() {
-		return DataFine;
+		return dataFine;
 	}
-	public String getNomeSede(String input) {
-		return NomeSede;
+	public String getNomeSede() {
+		return nomeSede;
 	}
 	
 	//Metodi sets
-	public void setTitoloCoferenza(String input) {
-		TitoloConferenza =input;
+	public void setTitoloCoferenza(String titoloConferenza) {
+		this.titoloConferenza = titoloConferenza;
 	}
-	public void setCodConferenza (int input) {
-		CodConferenza=input;
+	public void setCodConferenza (int codConferenza) {
+		this.codConferenza= codConferenza;
 	}
-	public void setDataInizio (Date input) {
-		DataInizio=input;
+	public void setDataInizio (Date dataInizio) {
+		this.dataInizio= dataInizio;
 	}
-	public void setDataFine (Date input) {
-		DataFine=input;
+	public void setDataFine (Date dataFine) {
+		this.dataFine= dataFine;
 	}
-	public void setDescrizione (String input) {
-		Descrizione=input;
+	public void setDescrizione (String descrizione) {
+		this.descrizione= descrizione;
 	}
-	public void setNomeSede(String input) {
-		NomeSede=input;
+	public void setNomeSede(String nomeSede) {
+		this.nomeSede= nomeSede;
 	}
 }

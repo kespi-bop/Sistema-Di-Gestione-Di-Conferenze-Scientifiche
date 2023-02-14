@@ -3,12 +3,12 @@ package Model;
 import java.sql.Time;
 
 public class Intervento {
-	private int CodIntervento = 0;
-	private Time OrarioInizioIntervento;
-	private Time OrarioFineIntervento;
-	private String Abstract;
-	private String CodPartecipante;//formato email
-	private  int CodSessione;
+	private int codIntervento = 0;
+	private Time orarioInizioIntervento;
+	private Time orarioFineIntervento;
+	private String aabstract;
+	private String codPartecipante;//formato email
+	private  int codSessione;
 	
 	//Costruttori
 	
@@ -16,47 +16,47 @@ public class Intervento {
 	//Metodi gets
 	public int getCodIntervento()
 	{
-		return CodIntervento;
+		return codIntervento;
 	}
 	public Time getOrarioInizioIntervento()
 	{
-		return OrarioInizioIntervento;
+		return orarioInizioIntervento;
 	}
 	public Time OrarioFineIntervento()
 	{
-		return OrarioFineIntervento;
+		return orarioFineIntervento;
 	}
-	public String getAbstract()
+	public String getAabstract()
 	{
-		return Abstract;
+		return aabstract;
 	}
 	public String getCodPartecipante()
 	{
-		return CodPartecipante;
+		return codPartecipante;
 	}
 	public int getCodSessione()
 	{
-		return CodSessione;
+		return codSessione;
 	}
 	
 	//Metodi sets
 	
-	public void setCodIntervento(int input) {
-		CodIntervento=input;
+	public void setCodIntervento(int codIntervento) {
+		this.codIntervento = codIntervento;
 	}
-	public void setOrarioInizioIntervento(Time input) {
-		OrarioInizioIntervento=input;
+	public void setOrarioInizioIntervento(Time orarioInizioIntervento) {
+		this.orarioInizioIntervento = orarioInizioIntervento;
 	}
-	public void setOrarioFineIntervento(Time input) {
-		OrarioFineIntervento=input;
+	public void setOrarioFineIntervento(Time orarioFineIntervento) {
+		this.orarioFineIntervento = orarioFineIntervento;
 	}
-	public void setAbstract(String input) {
-		Abstract=input;
+	public void setAbstract(String aabstract) {
+		this.aabstract = aabstract;
 	}
-	public void setCodPartecipante(String input) {
-		CodPartecipante=input;
+	public void setCodPartecipante(String codPartecipante) {
+		this.codPartecipante = codPartecipante;
 	}
-	public void setCodSessione(int input) {
-		CodSessione=input;
+	public void setCodSessione(int codSessione) {
+		this.codSessione = codSessione;
 	}
 }

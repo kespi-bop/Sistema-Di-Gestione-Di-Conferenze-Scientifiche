@@ -1,24 +1,24 @@
 package Model;
 
 public class Sponsor {
-	private String PartitaIva;
-	private String NomeAzienda;
+	private String partitaIva;
+	private String nomeAzienda;
 	
 	//Costruttori
 	
 	//Metodi gets
 	public String getPartitaIva() {
-		return PartitaIva;
+		return partitaIva;
 	}
 	public String getNomeAzienda() {
-		return NomeAzienda;
+		return nomeAzienda;
 	}
 	
 	//Metodi sets
-	public void setPartitaIva(String input) {
-		PartitaIva=input;
+	public void setPartitaIva(String partitaIva) {
+		this.partitaIva = partitaIva;
 	}
-	public void setNomeAzienda(String input) {
-		NomeAzienda=input;
+	public void setNomeAzienda(String nomeAzienda) {
+		this.nomeAzienda = nomeAzienda;
 	}
 }

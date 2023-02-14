@@ -2,11 +2,11 @@ package Model;
 
 public class Organizzatore_Scientifico {
 	private String emailS; //formato email
-	private String DescrizioneCurriculum;
-	private String Titolo;
-	private String Nome;
-	private String Cognome;
-	private String Istituzione_di_Afferenza;
+	private String sescrizioneCurriculum;
+	private String titolo;
+	private String nome;
+	private String cognome;
+	private String istituzione_di_Afferenza;
 	
 	//Costruttori
 	
@@ -16,33 +16,33 @@ public class Organizzatore_Scientifico {
 		return emailS;
 	}
 	public String getTitolo() {
-		return Titolo;
+		return titolo;
 	}
 	public String getNome() {
-		return Nome;
+		return nome;
 	}
 	public String getCognome() {
-		return Cognome;
+		return cognome;
 	}
 	public String getIstituzione_di_Afferenza() {
-		return Istituzione_di_Afferenza;
+		return istituzione_di_Afferenza;
 	}
 	
 	//Metodi sets
 	
-	public void setemailL(String input) {
-		emailS=input;
+	public void setemailL(String emailS) {
+		this.emailS = emailS;
 	}
-	public void setTitolo(String input) {
-		Titolo=input;
+	public void setTitolo(String titolo) {
+		this.titolo = titolo;
 	}
-	public void setNome(String input) {
-		Nome=input;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-	public void setCognome(String input) {
-		Cognome=input;
+	public void setCognome(String cognome) {
+		this.cognome = cognome;
 	}
-	public void setIstituzione_di_Afferenza(String input) {
-		Istituzione_di_Afferenza=input;
+	public void setIstituzione_di_Afferenza(String istituzione_di_Afferenza) {
+		this.istituzione_di_Afferenza = istituzione_di_Afferenza;
 	}
 }

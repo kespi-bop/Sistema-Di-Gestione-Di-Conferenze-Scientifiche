@@ -3,48 +3,48 @@ package Model;
 import java.sql.Time;
 
 public class Evento_Sociale {
-	private int CodEvento; //Chiave primaria
-	private String TipoEvento;
-	private Time OrarioInizioEvento;
-	private Time OrarioFineEvento;
-	private int CodProgramma; //Chiave secondaria (cascade)
+	private int codEvento; //Chiave primaria
+	private String tipoEvento;
+	private Time orarioInizioEvento;
+	private Time orarioFineEvento;
+	private int codProgramma; //Chiave secondaria (cascade)
 	//Costruttori
 	
 	//Metodi gets
 	public int getcodEvento() {
-		return CodEvento;
+		return codEvento;
 	}
 	public String getTipoEvento() {
-		return TipoEvento;
+		return tipoEvento;
 	}
 	public Time getOrarioInizioEvento() {
 
-		return OrarioInizioEvento;
+		return orarioInizioEvento;
 	}
 	public Time getOrarioFineEvento() {
 
-		return OrarioFineEvento;
+		return orarioFineEvento;
 	}
 	public int getCodProgramma() {
 
-		return CodProgramma;
+		return codProgramma;
 	}
 	
 	//Metodi sets
-	public void setCodEvento(int input) {
-		CodEvento = input;
+	public void setCodEvento(int codEvento) {
+		this.codEvento = codEvento;
 	}
-	public void setTipoEvento(String input) {
-		TipoEvento = input;
+	public void setTipoEvento(String tipoEvento) {
+		this.tipoEvento = tipoEvento;
 	}
-	public void setOrarioInizioEvento(Time input) {
-		OrarioInizioEvento=input;
+	public void setOrarioInizioEvento(Time orarioInizioEvento) {
+		this.orarioInizioEvento = orarioInizioEvento;
 	}
-	public void setOrarioFineEvento(Time input) {
-		OrarioFineEvento=input;
+	public void setOrarioFineEvento(Time orarioFineEvento) {
+		this.orarioFineEvento = orarioFineEvento;
 	}
-	public void setCodProgramma(int input) {
-		CodProgramma=input;
+	public void setCodProgramma(int codProgramma) {
+		this.codProgramma = codProgramma;
 	}
 } 
 

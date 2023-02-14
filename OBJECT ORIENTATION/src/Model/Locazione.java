@@ -1,26 +1,26 @@
 package Model;
 
 public class Locazione {
-	private String NomeLocazione;
-	private String NomeSede;
+	private String nomeLocazione;
+	private String nomeSede;
 	
 	//Costruttori
 	
 	//Metodi gets
 	
 	public String getNomeLocazione() {
-		return NomeLocazione;
+		return nomeLocazione;
 	}
 	public String getNomeSede() {
-		return NomeSede;
+		return nomeSede;
 	}
 	
 	//Metodi sets
 	
-	public void setNomeLocazione(String input) {
-		NomeLocazione=input;
+	public void setNomeLocazione(String nomeLocazione) {
+		this.nomeLocazione = nomeLocazione;
 	}
-	public void setNomeSede(String input) {
-		NomeSede=input;
+	public void setNomeSede(String nomeSede) {
+		this.nomeSede = nomeSede;
 	}
 }

@@ -3,13 +3,13 @@ package Model;
 import java.sql.Time;
 
 public class Sessione {
-	private int CodSessione;
-	private Time OrarioInizioSessione;
-	private Time OrarioFineSessione;
-	private String TitoloSessione;
-	private String DescrizioneSessione;
-	private String Chair;
-	private String KeyNoteSpeaker;
-	private int CodProgramma;
-	private String NomeLocazione;
+	private int codSessione;
+	private Time orarioInizioSessione;
+	private Time orarioFineSessione;
+	private String titoloSessione;
+	private String descrizioneSessione;
+	private String chair;
+	private String keyNoteSpeaker;
+	private int codProgramma;
+	private String nomeLocazione;
 }

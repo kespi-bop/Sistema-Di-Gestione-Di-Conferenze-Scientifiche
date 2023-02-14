@@ -3,31 +3,31 @@ package Model;
 import java.util.Date;
 
 public class Programma {
-	private int CodProgramma;
-	private Date DataProgramma;
-	private int CodConferenza;
+	private int codProgramma;
+	private Date dataProgramma;
+	private int codConferenza;
 	
 	//Costruttori
 	
 	//Metodi gets
 	public int getCodProgramma() {
-		return CodProgramma;
+		return codProgramma;
 	}
 	public Date DataProgramma() {
-		return DataProgramma;
+		return dataProgramma;
 	}
 	public int getCodConferenza() {
-		return CodConferenza;
+		return codConferenza;
 	}
 	
 	//Metodi sets
-	public void setCodProgramma(int input) {
-		CodProgramma = input;
+	public void setCodProgramma(int codProgramma) {
+		this.codProgramma = codProgramma;
 	}
-	public void setDataProgramma(Date input) {
-		DataProgramma = input;
+	public void setDataProgramma(Date dataProgramma) {
+		this.dataProgramma = dataProgramma;
 	}
-	public void setCodConferenza(int input) {
-		CodConferenza = input;
+	public void setCodConferenza(int codConferenza) {
+		this.codConferenza = codConferenza;
 	}
 }

@@ -1,16 +1,16 @@
 package Model;
 
 public class Ente {
-	private String NomeIstituzione;
+	private String nomeIstituzione;
 	
 	//Costruttori
 	//--
 	//Metodi gets
 	public String getNomeIstituazione() {
-		return NomeIstituzione;
+		return nomeIstituzione;
 	}
 	//Metodi sets
-	public void getNomeIstituzione(String input) {
-		NomeIstituzione=input;
+	public void getNomeIstituzione(String nomeIstituzione) {
+		this.nomeIstituzione = nomeIstituzione;
 	}
 }

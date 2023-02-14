@@ -1,39 +1,39 @@
 package Model;
 
 public class Sede {
-	private String NomeSede;
-	private String NomeVia;
-	private int NumeroCivico;
-	private String Città;
+	private String nomeSede;
+	private String nomeVia;
+	private int numeroCivico;
+	private String città;
 	
 	//Costruttori
 	
 	//Metodi gets
 	
 	public String getNomeSede() {
-		return NomeSede;
+		return nomeSede;
 	}
 	public String getNomeVia() {
-		return NomeVia;
+		return nomeVia;
 	}
 	public int getNumeroCivico() {
-		return NumeroCivico;
+		return numeroCivico;
 	}
 	public String getCittà() {
-		return Città;
+		return città;
 	}
 	
 	//Metodi sets
-	public void setNomeSede(String input) {
-		NomeSede=input;
+	public void setNomeSede(String nomeSede) {
+		this.nomeSede = nomeSede;
 	}
-	public void setNomeVia(String input) {
-		NomeVia=input;
+	public void setNomeVia(String nomeVia) {
+		this.nomeVia = nomeVia;
 	}
-	public void setNumeroCivico(int input) {
-		NumeroCivico=input;
+	public void setNumeroCivico(int numeroCivico) {
+		this.numeroCivico = numeroCivico;
 	}
-	public void setCittà(String input) {
-		Città=input;
+	public void setCittà(String città) {
+		this.città = città;
 	}
 }

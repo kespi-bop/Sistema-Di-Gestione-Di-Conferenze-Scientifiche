@@ -3,46 +3,46 @@ package Model;
 import java.sql.Time;
 
 public class Intervallo {
-	private int CodIntervallo= 0;
-	private String TipoIntervallo;
-	private Time OrarioInizioIntervallo;
-	private Time OrarioFineIntervallo;
-	private int CodProgramma;
+	private int codIntervallo= 0;
+	private String tipoIntervallo;
+	private Time orarioInizioIntervallo;
+	private Time orarioFineIntervallo;
+	private int codProgramma;
 	
 	//Costruttori
 	
 	//Metodi gets
 	public int getCodIntervallo() {
-		return CodIntervallo;
+		return codIntervallo;
 	}
 	public String getTipoIntervallo() {
-		return TipoIntervallo;
+		return tipoIntervallo;
 	}
 	public Time getOrarioInizioIntervallo() {
-		return OrarioInizioIntervallo;
+		return orarioInizioIntervallo;
 	}
 	public Time getOrarioFineIntervallo() {
-		return OrarioFineIntervallo;
+		return orarioFineIntervallo;
 	}
 	public int getCodProgramma() {
-		return CodProgramma;
+		return codProgramma;
 	}
 	
 	//Metodi sets
-	public void setCodIntervallo(int input) {
-		CodIntervallo = input;
+	public void setCodIntervallo(int codIntervallo) {
+		this.codIntervallo = codIntervallo;
 	}
-	public void setTipoIntervallo(String input) {
-		TipoIntervallo = input;
+	public void setTipoIntervallo(String tipoIntervallo) {
+		this.tipoIntervallo = tipoIntervallo;
 	}
-	public void setOrarioInizioIntervallo(Time input) {
-		OrarioInizioIntervallo = input;
+	public void setOrarioInizioIntervallo(Time orarioInizioIntervallo) {
+		this.orarioInizioIntervallo = orarioInizioIntervallo;
 	}
-	public void setOrarioFineIntervallo(Time input) {
-		OrarioFineIntervallo = input;
+	public void setOrarioFineIntervallo(Time orarioFineIntervallo) {
+		this.orarioFineIntervallo = orarioFineIntervallo;
 	}
-	public void CodProgramma (int input) {
-		CodProgramma = input;
+	public void CodProgramma (int codProgramma) {
+		this.codProgramma = codProgramma;
 	}
 
 }
