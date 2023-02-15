@@ -16,15 +16,17 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
 
-public class CancellaConferenza {
+public class VisualizzaProgrammi {
 
 	private int mouseX, mouseY;
 	private JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
-	private JScrollPane scrollPane;
+	private JScrollPane programmiVisualizzatiPanel;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -33,7 +35,7 @@ public class CancellaConferenza {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CancellaConferenza window = new CancellaConferenza();
+					VisualizzaProgrammi window = new VisualizzaProgrammi();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +47,7 @@ public class CancellaConferenza {
 	/**
 	 * Create the application.
 	 */
-	public CancellaConferenza() {
+	public VisualizzaProgrammi() {
 		initialize();
 	}
 
@@ -55,14 +57,15 @@ public class CancellaConferenza {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setUndecorated(true);
+		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		
-		scrollPane = new JScrollPane();
-		scrollPane.setBorder(null);
-		scrollPane.setBackground(new Color(0, 0, 0));
-		scrollPane.setBounds(37, 49, 378, 192);
-		frame.getContentPane().add(scrollPane);
+		programmiVisualizzatiPanel = new JScrollPane();
+		programmiVisualizzatiPanel.setBorder(null);
+		programmiVisualizzatiPanel.setBackground(new Color(0, 0, 0));
+		programmiVisualizzatiPanel.setBounds(47, 55, 425, 259);
+		frame.getContentPane().add(programmiVisualizzatiPanel);
 		
 		table = new JTable();
 		table.setSelectionBackground(new Color(126, 87, 194));
@@ -90,7 +93,7 @@ public class CancellaConferenza {
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		scrollPane.setViewportView(table);
+		programmiVisualizzatiPanel.setViewportView(table);
 		table.setBorder(null);
 		table.setBackground(new Color(32, 33, 35));
 		
@@ -98,7 +101,7 @@ public class CancellaConferenza {
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
 		JLabel exitLabel = new JLabel("");
-		exitLabel.setBounds(423, 11, 17, 21);
+		exitLabel.setBounds(486, 11, 17, 21);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -126,19 +129,34 @@ public class CancellaConferenza {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 416, 44);
+		dragFrame.setBounds(0, 0, 454, 44);
 		frame.getContentPane().add(dragFrame);
 		
 		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(56, 57, 59));
+		signature.setForeground(new Color(71, 72, 75));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(275, 267, 165, 33);
+		signature.setBounds(322, 375, 191, 33);
 		frame.getContentPane().add(signature);
+		
+		JButton backToVisualizzaConferenzeButton = new JButton("back");
+		backToVisualizzaConferenzeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		backToVisualizzaConferenzeButton.setForeground(Color.WHITE);
+		backToVisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		backToVisualizzaConferenzeButton.setFocusPainted(false);
+		backToVisualizzaConferenzeButton.setBorder(null);
+		backToVisualizzaConferenzeButton.setBackground(new Color(126, 87, 194));
+		backToVisualizzaConferenzeButton.setBounds(47, 349, 96, 33);
+		frame.getContentPane().add(backToVisualizzaConferenzeButton);
+		
+		lblNewLabel = new JLabel("Attenzione! Gli intervalli e gli eventi sociali non dispongono di una descrizione");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setForeground(new Color(71, 72, 75));
+		lblNewLabel.setBounds(47, 318, 425, 14);
+		frame.getContentPane().add(lblNewLabel);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 513, 408);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
 }

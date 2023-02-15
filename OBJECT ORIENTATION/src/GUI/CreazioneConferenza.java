@@ -131,10 +131,10 @@ public class CreazioneConferenza {
 		textField.setBounds(150, 145, 154, 20);
 		textField.setColumns(10);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBorder(null);
-		comboBox.setBackground(new Color(32, 33, 35));
-		comboBox.setBounds(150, 111, 154, 21);
+		JComboBox enumeraSede = new JComboBox();
+		enumeraSede.setBorder(null);
+		enumeraSede.setBackground(new Color(32, 33, 35));
+		enumeraSede.setBounds(150, 111, 154, 21);
 		
 		textField_1 = new JTextField();
 		textField_1.setCaretColor(new Color(255, 255, 255));
@@ -257,7 +257,7 @@ public class CreazioneConferenza {
 		panel.add(sponsorLabel);
 		panel.add(descrizioneLabel);
 		panel.add(textField);
-		panel.add(comboBox);
+		panel.add(enumeraSede);
 		panel.add(textField_1);
 		panel.add(textField_2);
 		panel.add(editorPane);

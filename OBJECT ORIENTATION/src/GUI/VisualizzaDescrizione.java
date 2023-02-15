@@ -12,19 +12,16 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import javax.swing.JTextPane;
 
-public class CancellaConferenza {
+public class VisualizzaDescrizione {
 
 	private int mouseX, mouseY;
 	private JFrame frame;
-	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
-	private JScrollPane scrollPane;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -33,7 +30,7 @@ public class CancellaConferenza {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CancellaConferenza window = new CancellaConferenza();
+					VisualizzaDescrizione window = new VisualizzaDescrizione();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +42,7 @@ public class CancellaConferenza {
 	/**
 	 * Create the application.
 	 */
-	public CancellaConferenza() {
+	public VisualizzaDescrizione() {
 		initialize();
 	}
 
@@ -55,50 +52,15 @@ public class CancellaConferenza {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setUndecorated(true);
+		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBorder(null);
-		scrollPane.setBackground(new Color(0, 0, 0));
-		scrollPane.setBounds(37, 49, 378, 192);
-		frame.getContentPane().add(scrollPane);
-		
-		table = new JTable();
-		table.setSelectionBackground(new Color(126, 87, 194));
-		table.setRequestFocusEnabled(false);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-			},
-			new String[] {
-				"New column", "New column"
-			}
-		) {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		scrollPane.setViewportView(table);
-		table.setBorder(null);
-		table.setBackground(new Color(32, 33, 35));
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
 		JLabel exitLabel = new JLabel("");
-		exitLabel.setBounds(423, 11, 17, 21);
+		exitLabel.setBounds(486, 11, 17, 21);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -126,19 +88,42 @@ public class CancellaConferenza {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 416, 44);
+		dragFrame.setBounds(0, 0, 454, 44);
 		frame.getContentPane().add(dragFrame);
 		
 		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(56, 57, 59));
+		signature.setForeground(new Color(71, 72, 75));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(275, 267, 165, 33);
+		signature.setBounds(322, 313, 191, 33);
 		frame.getContentPane().add(signature);
+		
+		JButton visualizzaProgrammiButton = new JButton("back");
+		visualizzaProgrammiButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		visualizzaProgrammiButton.setForeground(Color.WHITE);
+		visualizzaProgrammiButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		visualizzaProgrammiButton.setFocusPainted(false);
+		visualizzaProgrammiButton.setBorder(null);
+		visualizzaProgrammiButton.setBackground(new Color(126, 87, 194));
+		visualizzaProgrammiButton.setBounds(47, 288, 96, 33);
+		frame.getContentPane().add(visualizzaProgrammiButton);
+		
+		lblNewLabel = new JLabel("Descrizione di ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setForeground(new Color(71, 72, 75));
+		lblNewLabel.setBounds(47, 263, 425, 14);
+		frame.getContentPane().add(lblNewLabel);
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setEditable(false);
+		textPane.setSelectionColor(new Color(126, 87, 194));
+		textPane.setBackground(new Color(32, 33, 35));
+		textPane.setForeground(new Color(255, 255, 255));
+		textPane.setBounds(47, 55, 425, 203);
+		frame.getContentPane().add(textPane);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 513, 348);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-
 }

@@ -32,9 +32,7 @@ public class AggiuntaProgrammi {
 	private JTable table;
 	private JTextField textField_4;
 
-	/**
-	 * Create the application.
-	 */
+	
 	public AggiuntaProgrammi(JFrame frameHomeOrganizzatore, JFrame frameCreazioneConferenza) {
 		initialize(frameHomeOrganizzatore, frameCreazioneConferenza);
 	}
@@ -146,10 +144,10 @@ public class AggiuntaProgrammi {
 		textField_2.setBackground(new Color(32, 33, 35));
 		textField_2.setColumns(10);
 		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(150, 185, 154, 22);
-		comboBox_1.setBorder(null);
-		comboBox_1.setBackground(new Color(32, 33, 35));
+		JComboBox enumeraLocazione = new JComboBox();
+		enumeraLocazione.setBounds(150, 185, 154, 22);
+		enumeraLocazione.setBorder(null);
+		enumeraLocazione.setBackground(new Color(32, 33, 35));
 		
 		textField_3 = new JTextField();
 		textField_3.setBounds(150, 254, 142, 20);
@@ -182,7 +180,7 @@ public class AggiuntaProgrammi {
 		panel.add(table);
 		panel.add(as);
 		panel.add(textField_3);
-		panel.add(comboBox_1);
+		panel.add(enumeraLocazione);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
 		signature.setBounds(425, 767, 165, 33);
