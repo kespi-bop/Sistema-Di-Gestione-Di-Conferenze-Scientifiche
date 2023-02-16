@@ -22,7 +22,7 @@ public class Partecipante {
 	//Trasposizione delle entità sessione-partecipante (1..*,0..1)
 	public Partecipante(Sessione ref$Sessione$KS) {
 		partecipantiKS.add(ref$Sessione$KS);
-		ref$Sessione$KS.
+		ref$Sessione$KS.KSpresente=this;
 	}
 	//Metodi gets
 	public String getemailP() {
