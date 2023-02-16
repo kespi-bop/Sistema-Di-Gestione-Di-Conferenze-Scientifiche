@@ -7,8 +7,7 @@ public class Evento_Sociale {
 	private String tipoEvento;
 	private Time orarioInizioEvento;
 	private Time orarioFineEvento;
-	private int codProgramma; //Chiave secondaria (cascade)
-	public Programma eventoSocialeInProgramma;
+	public Programma eventoSocialeInProgramma;//Chiave esterna
 	//Costruttori
 	public Evento_Sociale()
 	{
@@ -33,10 +32,7 @@ public class Evento_Sociale {
 
 		return orarioFineEvento;
 	}
-	public int getCodProgramma() {
 
-		return codProgramma;
-	}
 	
 	//Metodi sets
 	public void setCodEvento(int codEvento) {
@@ -51,8 +47,6 @@ public class Evento_Sociale {
 	public void setOrarioFineEvento(Time orarioFineEvento) {
 		this.orarioFineEvento = orarioFineEvento;
 	}
-	public void setCodProgramma(int codProgramma) {
-		this.codProgramma = codProgramma;
-	}
+
 } 
 

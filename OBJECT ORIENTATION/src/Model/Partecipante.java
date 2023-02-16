@@ -7,7 +7,7 @@ public class Partecipante {
 	private String titolo;
 	private String nome;
 	private String cognome;
-	private String istituzione_di_Afferenza;
+	public Ente entePartecipante;//Chiave esterna
 	
 	//Costruttori
 	ArrayList<Intervento> interventiPartecipante = new ArrayList<Intervento>();
@@ -24,6 +24,10 @@ public class Partecipante {
 		partecipantiKS.add(ref$Sessione$KS);
 		ref$Sessione$KS.KSpresente=this;
 	}
+	public Partecipante(Ente ref$Ente) {
+		entePartecipante=ref$Ente;
+		ref$Ente.partecipantiIscritti.add(this);
+	}
 	//Metodi gets
 	public String getemailP() {
 		return emailP;
@@ -37,10 +41,6 @@ public class Partecipante {
 	public String getCognome() {
 		return cognome;
 	}
-	public String getIstituzione_Di_Afferenza() {
-		return istituzione_di_Afferenza;
-	}
-	
 	//Metodi sets
 	
 	public void setemailL(String emailP) {
@@ -54,8 +54,5 @@ public class Partecipante {
 	}
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
-	}
-	public void setIstituzione_Di_Afferenza(String istituzione_di_Afferenza) {
-		this.istituzione_di_Afferenza = istituzione_di_Afferenza;
 	}
 }

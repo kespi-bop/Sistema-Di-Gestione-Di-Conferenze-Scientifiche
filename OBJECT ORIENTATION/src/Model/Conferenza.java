@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Conferenza {
@@ -7,11 +8,15 @@ public class Conferenza {
 	private Date dataInizio;
 	private Date dataFine;
 	private String descrizione;
-	private int codConferenza; //Il primo codice conferenza deve essere 1
-	private String nomeSede; //chiave esterna
+	private int codConferenza;
+	public Sede ospitaConferenza;//Chiave esterna
 	
+	public ArrayList<Programma> programmiConferenza = new ArrayList<Programma>();
 	//Costruttori
-	public Sede ospitaConferenza;
+	public Conferenza(Programma ref$Programma) {
+		programmiConferenza.add(ref$Programma);
+		ref$Programma.programmaConferenza=this;
+	}
 	
 	//Trasposizione delle entità conferenza-sede
 	public Conferenza(Sede ref$Sede) {
@@ -33,9 +38,6 @@ public class Conferenza {
 	public Date getDataFine() {
 		return dataFine;
 	}
-	public String getNomeSede() {
-		return nomeSede;
-	}
 	public int getCodConferenza() {
 		return codConferenza;
 	}
@@ -56,7 +58,5 @@ public class Conferenza {
 	public void setDescrizione (String descrizione) {
 		this.descrizione= descrizione;
 	}
-	public void setNomeSede(String nomeSede) {
-		this.nomeSede= nomeSede;
-	}
+	
 }

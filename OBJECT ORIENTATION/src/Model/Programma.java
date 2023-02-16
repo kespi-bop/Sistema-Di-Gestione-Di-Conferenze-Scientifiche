@@ -6,7 +6,7 @@ import java.util.Date;
 public class Programma {
 	private int codProgramma;
 	private Date dataProgramma;
-	private int codConferenza;
+	public Conferenza programmaConferenza;//Chiave esterna
 	
 	//Costruttori
 	public Programma() {
@@ -33,15 +33,16 @@ public class Programma {
 		eventiProgrammati.add(ref$EventoSociale);
 		ref$EventoSociale.eventoSocialeInProgramma=this;
 	}
+	public Programma(Conferenza ref$Conferenza) {
+		programmaConferenza=ref$Conferenza;
+		ref$Conferenza.programmiConferenza.add(this);
+	}
 	//Metodi gets
 	public int getCodProgramma() {
 		return codProgramma;
 	}
 	public Date DataProgramma() {
 		return dataProgramma;
-	}
-	public int getCodConferenza() {
-		return codConferenza;
 	}
 	
 	//Metodi sets
@@ -50,8 +51,5 @@ public class Programma {
 	}
 	public void setDataProgramma(Date dataProgramma) {
 		this.dataProgramma = dataProgramma;
-	}
-	public void setCodConferenza(int codConferenza) {
-		this.codConferenza = codConferenza;
 	}
 }

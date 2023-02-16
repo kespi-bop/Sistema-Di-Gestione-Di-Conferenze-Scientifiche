@@ -4,8 +4,7 @@ import java.util.ArrayList;
 
 public class Locazione {
 	private String nomeLocazione;
-	private String nomeSede;
-	public Sede sedeProprietaria;
+	public Sede sedeProprietaria;//Chiave esterna
 	
 	//Costruttori
 	public ArrayList<Sessione> sessioniAccolte = new ArrayList<Sessione>();
@@ -26,16 +25,9 @@ public class Locazione {
 	public String getNomeLocazione() {
 		return nomeLocazione;
 	}
-	public String getNomeSede() {
-		return nomeSede;
-	}
-	
 	//Metodi sets
 	
 	public void setNomeLocazione(String nomeLocazione) {
 		this.nomeLocazione = nomeLocazione;
-	}
-	public void setNomeSede(String nomeSede) {
-		this.nomeSede = nomeSede;
 	}
 }

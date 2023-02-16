@@ -7,8 +7,7 @@ public class Intervallo {
 	private String tipoIntervallo;
 	private Time orarioInizioIntervallo;
 	private Time orarioFineIntervallo;
-	private int codProgramma;
-	public Programma intervalloInProgramma;
+	public Programma intervalloInProgramma; //Chiave esterna
 	//Costruttori
 	public Intervallo(){
 	}
@@ -30,9 +29,7 @@ public class Intervallo {
 	public Time getOrarioFineIntervallo() {
 		return orarioFineIntervallo;
 	}
-	public int getCodProgramma() {
-		return codProgramma;
-	}
+	
 	
 	//Metodi sets
 	public void setCodIntervallo(int codIntervallo) {
@@ -46,9 +43,6 @@ public class Intervallo {
 	}
 	public void setOrarioFineIntervallo(Time orarioFineIntervallo) {
 		this.orarioFineIntervallo = orarioFineIntervallo;
-	}
-	public void CodProgramma (int codProgramma) {
-		this.codProgramma = codProgramma;
 	}
 
 }

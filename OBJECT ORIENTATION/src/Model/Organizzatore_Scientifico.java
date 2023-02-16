@@ -1,16 +1,29 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Organizzatore_Scientifico {
 	private String emailS; //formato email
-	private String sescrizioneCurriculum;
+	private String descrizioneCurriculum;
 	private String titolo;
 	private String nome;
 	private String cognome;
-	private String istituzione_di_Afferenza;
+	public Ente appartenenzaEnteOS;//Chiave esterna
 	
 	//Costruttori
-	
-	
+	public ArrayList<Sessione> sessioniChair= new ArrayList<Sessione>();
+	public Organizzatore_Scientifico() {
+		
+	}
+	public Organizzatore_Scientifico(Ente ref$Ente) {
+		appartenenzaEnteOS=ref$Ente;
+		ref$Ente.listaOrganizzatoriScientificoEnte.add(this);
+	}
+	//Trasposizione sessione-Organizzatore_Scientifico(0..*,1)
+	public Organizzatore_Scientifico(Sessione ref$Sessione) {
+		sessioniChair.add(ref$Sessione);
+		ref$Sessione.chairSessione=this;
+	}
 	//Metodi gets
 	public String getemailS() {
 		return emailS;
@@ -24,10 +37,9 @@ public class Organizzatore_Scientifico {
 	public String getCognome() {
 		return cognome;
 	}
-	public String getIstituzione_di_Afferenza() {
-		return istituzione_di_Afferenza;
+	public String getDescrizioneCurriculum() {
+		return descrizioneCurriculum;
 	}
-	
 	//Metodi sets
 	
 	public void setemailL(String emailS) {
@@ -42,7 +54,7 @@ public class Organizzatore_Scientifico {
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
-	public void setIstituzione_di_Afferenza(String istituzione_di_Afferenza) {
-		this.istituzione_di_Afferenza = istituzione_di_Afferenza;
+	public void setDescrizioneCurriculum(String descrizioneCurriculum) {
+		this.descrizioneCurriculum=descrizioneCurriculum;
 	}
 }

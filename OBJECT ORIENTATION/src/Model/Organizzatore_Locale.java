@@ -5,10 +5,15 @@ public class Organizzatore_Locale {
 	private String titolo;
 	private String nome;
 	private String cognome;
-	private String istituzione_di_Afferenza;
-	
+	public Ente appartenenzaEnteOL;//Chiave esterna
 	//Costruttori
-	
+	public Organizzatore_Locale() {
+		
+	}
+	public Organizzatore_Locale(Ente ref$Ente) {
+		appartenenzaEnteOL=ref$Ente;
+		ref$Ente.listaOrganizzatoriLocaleEnte.add(this);
+	}
 	
 	//Metodi gets
 	public String getemailL() {
@@ -22,9 +27,6 @@ public class Organizzatore_Locale {
 	}
 	public String getCognome() {
 		return cognome;
-	}
-	public String getIstituzione_di_Afferenza() {
-		return istituzione_di_Afferenza;
 	}
 	
 	//Metodi sets
@@ -40,8 +42,5 @@ public class Organizzatore_Locale {
 	}
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
-	}
-	public void setIstituzione_di_Afferenza(String istituzione_di_Afferenza) {
-		this.istituzione_di_Afferenza = istituzione_di_Afferenza;
 	}
 }

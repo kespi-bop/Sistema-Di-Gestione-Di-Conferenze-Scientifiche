@@ -7,10 +7,8 @@ public class Intervento {
 	private Time orarioInizioIntervento;
 	private Time orarioFineIntervento;
 	private String aabstract;
-	private String codPartecipante;//formato email
-	private  int codSessione;
-	public Sessione interventoInSessione;
-	public Partecipante partecipanteIntervenuto;
+	public Sessione interventoInSessione;//Chiave esterna
+	public Partecipante partecipanteIntervenuto;//Chiave esterna
 	//Costruttori
 	public Intervento() {
 		
@@ -44,15 +42,6 @@ public class Intervento {
 	{
 		return aabstract;
 	}
-	public String getCodPartecipante()
-	{
-		return codPartecipante;
-	}
-	public int getCodSessione()
-	{
-		return codSessione;
-	}
-	
 	//Metodi sets
 	
 	public void setCodIntervento(int codIntervento) {
@@ -66,11 +55,5 @@ public class Intervento {
 	}
 	public void setAbstract(String aabstract) {
 		this.aabstract = aabstract;
-	}
-	public void setCodPartecipante(String codPartecipante) {
-		this.codPartecipante = codPartecipante;
-	}
-	public void setCodSessione(int codSessione) {
-		this.codSessione = codSessione;
 	}
 }

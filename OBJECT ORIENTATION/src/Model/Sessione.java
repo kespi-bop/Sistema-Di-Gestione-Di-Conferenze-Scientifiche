@@ -9,13 +9,10 @@ public class Sessione {
 	private Time orarioFineSessione;
 	private String titoloSessione;
 	private String descrizioneSessione;
-	private String chair;
-	private String keyNoteSpeaker;
-	private int codProgramma;
-	private String nomeLocazione;
-	public Programma sessioneInProgramma;
-	public Locazione luogoLocazione;
-	public Partecipante KSpresente=null;
+	public Programma sessioneInProgramma;//Chiave esterna
+	public Locazione luogoLocazione;//Chiave esterna
+	public Partecipante KSpresente=null;//Chiave esterna 
+	public Organizzatore_Scientifico chairSessione=null;//Chiave esterna
 	//Costruttori
 	public ArrayList<Intervento> interventiSessione= new ArrayList<Intervento>();
 	public Sessione() {
@@ -38,6 +35,9 @@ public class Sessione {
 		KSpresente=ref$KS$Partecipante;
 		ref$KS$Partecipante.partecipantiKS.add(this);
 	}
+	public Sessione(Organizzatore_Scientifico ref$Organizzatore_Scientifico) {
+		chairSessione.sessioniChair.add(this);
+	}
 	//Metodi gets
 	public int getCodSessione() {
 		return codSessione;
@@ -53,18 +53,6 @@ public class Sessione {
 	}
 	public String getDescrizioneSessione(){
 		return descrizioneSessione;
-	}
-	public String getChair(){
-		return chair;
-	}
-	public String getKeyNoteSpeaker(){
-		return keyNoteSpeaker;
-	}
-	public int getCodProgramma(){
-		return codProgramma;
-	}
-	public String getNomeLocazione(){
-		return nomeLocazione;
 	}
 	
 	//Metodi sets
@@ -82,18 +70,6 @@ public class Sessione {
 	}
 	public void setDescrizioneSessione(String descrizioneSessione) {
 		this.descrizioneSessione=descrizioneSessione;
-	}
-	public void setChair(String chair) {
-		this.chair=chair;
-	}
-	public void setKeyNoteSpeaker(String keyNoteSpeaker) {
-		this.keyNoteSpeaker=keyNoteSpeaker;
-	}
-	public void setCodProgramma(int codProgramma) {
-		this.codProgramma=codProgramma;
-	}
-	public void setNomeLocazione(String nomeLocazione) {
-		this.nomeLocazione=nomeLocazione;
 	}
 
 }
