@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import Controller.Controller;
+import javax.swing.border.LineBorder;
 
 public class VisualizzaDescrizione {
 
@@ -26,6 +27,7 @@ public class VisualizzaDescrizione {
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JLabel lblNewLabel;
+	private JPanel panel;
 
 
 	public VisualizzaDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, Object descrizione) {
@@ -45,8 +47,16 @@ public class VisualizzaDescrizione {
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
+		panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBackground(new Color(32, 33, 35));
+		panel.setBounds(0, 0, 513, 346);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setBounds(486, 11, 17, 21);
+		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -58,10 +68,30 @@ public class VisualizzaDescrizione {
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
-		frame.getContentPane().add(exitLabel);
-		
 		//trascino la finestra undecorated
 		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 454, 44);
+		panel.add(dragFrame);
+		
+		signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(322, 313, 191, 33);
+		panel.add(signature);
+		signature.setForeground(new Color(71, 72, 75));
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		
+		lblNewLabel = new JLabel("Descrizione di ");
+		lblNewLabel.setBounds(47, 263, 425, 14);
+		panel.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setForeground(new Color(71, 72, 75));
+		
+		JTextPane textPane = new JTextPane();
+		textPane.setBounds(47, 55, 425, 203);
+		panel.add(textPane);
+		textPane.setEditable(false);
+		textPane.setSelectionColor(new Color(126, 87, 194));
+		textPane.setBackground(new Color(32, 33, 35));
+		textPane.setForeground(new Color(255, 255, 255));
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -74,28 +104,6 @@ public class VisualizzaDescrizione {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 454, 44);
-		frame.getContentPane().add(dragFrame);
-		
-		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(71, 72, 75));
-		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(322, 313, 191, 33);
-		frame.getContentPane().add(signature);
-		
-		lblNewLabel = new JLabel("Descrizione di ");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel.setForeground(new Color(71, 72, 75));
-		lblNewLabel.setBounds(47, 263, 425, 14);
-		frame.getContentPane().add(lblNewLabel);
-		
-		JTextPane textPane = new JTextPane();
-		textPane.setEditable(false);
-		textPane.setSelectionColor(new Color(126, 87, 194));
-		textPane.setBackground(new Color(32, 33, 35));
-		textPane.setForeground(new Color(255, 255, 255));
-		textPane.setBounds(47, 55, 425, 203);
-		frame.getContentPane().add(textPane);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));

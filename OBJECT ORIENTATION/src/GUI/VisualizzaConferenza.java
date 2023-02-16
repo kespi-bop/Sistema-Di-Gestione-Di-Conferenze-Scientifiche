@@ -24,6 +24,7 @@ import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+import javax.swing.JPanel;
 
 public class VisualizzaConferenza {
 
@@ -36,6 +37,7 @@ public class VisualizzaConferenza {
 	private JLabel dataProgrammaLabel;
 	private JTextField textField;
 	private JSeparator separator_1;
+	private JPanel panel;
 
 	
 	public VisualizzaConferenza(Controller controller, JFrame frameHome) {
@@ -52,11 +54,18 @@ public class VisualizzaConferenza {
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		
+		panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBackground(new Color(32, 33, 35));
+		panel.setBounds(0, 0, 513, 408);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		scrollPane = new JScrollPane();
+		scrollPane.setBounds(39, 152, 425, 212);
+		panel.add(scrollPane);
 		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setBackground(new Color(0, 0, 0));
-		scrollPane.setBounds(39, 152, 425, 212);
-		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		
@@ -97,7 +106,7 @@ public class VisualizzaConferenza {
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		scrollPane.setViewportView(table);
-		table.setBorder(null);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
 		
 		//definisco il pulsante di uscita
@@ -105,6 +114,7 @@ public class VisualizzaConferenza {
 		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setBounds(486, 11, 17, 21);
+		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -115,10 +125,72 @@ public class VisualizzaConferenza {
 		
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
-		frame.getContentPane().add(exitLabel);
-		
 		//trascino la finestra undecorated
 		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 460, 44);
+		panel.add(dragFrame);
+		
+		signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(322, 375, 191, 33);
+		panel.add(signature);
+		signature.setForeground(new Color(71, 72, 75));
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		
+		dataProgrammaLabel = new JLabel("Data");
+		dataProgrammaLabel.setBounds(39, 55, 48, 14);
+		panel.add(dataProgrammaLabel);
+		dataProgrammaLabel.setForeground(new Color(57, 113, 177));
+		dataProgrammaLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		dataProgrammaLabel.setBackground(new Color(57, 113, 177));
+		
+		textField = new JTextField();
+		textField.setBounds(86, 55, 174, 20);
+		panel.add(textField);
+		textField.setSelectionColor(new Color(126, 87, 194));
+		textField.setForeground(Color.WHITE);
+		textField.setDisabledTextColor(Color.WHITE);
+		textField.setColumns(10);
+		textField.setCaretColor(Color.WHITE);
+		textField.setBorder(null);
+		textField.setBackground(new Color(32, 33, 35));
+		
+		separator_1 = new JSeparator();
+		separator_1.setBounds(86, 79, 174, 2);
+		panel.add(separator_1);
+		
+		JLabel sedeLabel = new JLabel("Sede");
+		sedeLabel.setBounds(39, 110, 48, 14);
+		panel.add(sedeLabel);
+		sedeLabel.setForeground(new Color(57, 113, 177));
+		sedeLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setBounds(86, 107, 154, 21);
+		panel.add(comboBox);
+		comboBox.setBorder(null);
+		comboBox.setBackground(new Color(32, 33, 35));
+		
+		JButton aggiornaListaConferenzeButton = new JButton("aggiorna");
+		aggiornaListaConferenzeButton.setBounds(373, 103, 88, 26);
+		panel.add(aggiornaListaConferenzeButton);
+		aggiornaListaConferenzeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		aggiornaListaConferenzeButton.setForeground(Color.WHITE);
+		aggiornaListaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		aggiornaListaConferenzeButton.setFocusPainted(false);
+		aggiornaListaConferenzeButton.setBorder(null);
+		aggiornaListaConferenzeButton.setBackground(new Color(126, 87, 194));
+		
+		JLabel lblNewLabel = new JLabel("filtra per data");
+		lblNewLabel.setBounds(86, 85, 174, 14);
+		panel.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setForeground(new Color(71, 72, 75));
+		
+		JLabel lblFiltraPerSede = new JLabel("filtra per sede");
+		lblFiltraPerSede.setBounds(86, 131, 174, 14);
+		panel.add(lblFiltraPerSede);
+		lblFiltraPerSede.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFiltraPerSede.setForeground(new Color(71, 72, 75));
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -131,71 +203,6 @@ public class VisualizzaConferenza {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 460, 44);
-		frame.getContentPane().add(dragFrame);
-		
-		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(71, 72, 75));
-		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(322, 375, 191, 33);
-		frame.getContentPane().add(signature);
-		
-		dataProgrammaLabel = new JLabel("Data");
-		dataProgrammaLabel.setForeground(new Color(57, 113, 177));
-		dataProgrammaLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		dataProgrammaLabel.setBackground(new Color(57, 113, 177));
-		dataProgrammaLabel.setBounds(39, 55, 48, 14);
-		frame.getContentPane().add(dataProgrammaLabel);
-		
-		textField = new JTextField();
-		textField.setSelectionColor(new Color(126, 87, 194));
-		textField.setForeground(Color.WHITE);
-		textField.setDisabledTextColor(Color.WHITE);
-		textField.setColumns(10);
-		textField.setCaretColor(Color.WHITE);
-		textField.setBorder(null);
-		textField.setBackground(new Color(32, 33, 35));
-		textField.setBounds(86, 55, 174, 20);
-		frame.getContentPane().add(textField);
-		
-		separator_1 = new JSeparator();
-		separator_1.setBounds(86, 79, 174, 2);
-		frame.getContentPane().add(separator_1);
-		
-		JLabel sedeLabel = new JLabel("Sede");
-		sedeLabel.setForeground(new Color(57, 113, 177));
-		sedeLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		sedeLabel.setBounds(39, 110, 48, 14);
-		frame.getContentPane().add(sedeLabel);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBorder(null);
-		comboBox.setBackground(new Color(32, 33, 35));
-		comboBox.setBounds(86, 107, 154, 21);
-		frame.getContentPane().add(comboBox);
-		
-		JButton aggiornaListaConferenzeButton = new JButton("aggiorna");
-		aggiornaListaConferenzeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		aggiornaListaConferenzeButton.setForeground(Color.WHITE);
-		aggiornaListaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		aggiornaListaConferenzeButton.setFocusPainted(false);
-		aggiornaListaConferenzeButton.setBorder(null);
-		aggiornaListaConferenzeButton.setBackground(new Color(126, 87, 194));
-		aggiornaListaConferenzeButton.setBounds(373, 103, 88, 26);
-		frame.getContentPane().add(aggiornaListaConferenzeButton);
-		
-		JLabel lblNewLabel = new JLabel("filtra per data");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel.setForeground(new Color(71, 72, 75));
-		lblNewLabel.setBounds(86, 85, 174, 14);
-		frame.getContentPane().add(lblNewLabel);
-		
-		JLabel lblFiltraPerSede = new JLabel("filtra per sede");
-		lblFiltraPerSede.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblFiltraPerSede.setForeground(new Color(71, 72, 75));
-		lblFiltraPerSede.setBounds(86, 131, 174, 14);
-		frame.getContentPane().add(lblFiltraPerSede);
-		
 		
 		frame.setBackground(new Color(32, 33, 35));
 		frame.setBounds(100, 100, 513, 408);

@@ -20,6 +20,9 @@ import java.awt.Cursor;
 import java.awt.ComponentOrientation;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class LoginOrganizzatore {
 	
@@ -28,9 +31,7 @@ public class LoginOrganizzatore {
 	private JTextField textField;
 	private JPasswordField passwordField;
 
-	/**
-	 * Create the application.
-	 */
+	
 	public LoginOrganizzatore(JFrame frameHome) {
 		initialize(frameHome);
 	}
@@ -47,10 +48,23 @@ public class LoginOrganizzatore {
 		frame.setBounds(750, 350, 450, 275);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
+		Image imghide = new ImageIcon(this.getClass().getResource("/hide.png")).getImage();
+		
+		Image imgshow = new ImageIcon(this.getClass().getResource("/show.png")).getImage();
+		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(32, 33, 35));
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(0, 0, 450, 275);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		JLabel exitLabel = new JLabel("");
+		exitLabel.setBounds(423, 11, 17, 21);
+		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -61,37 +75,21 @@ public class LoginOrganizzatore {
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
-		exitLabel.setBounds(423, 11, 17, 21);
-		frame.getContentPane().add(exitLabel);
 		
 		//trascino la finestra undecorated
 		JLabel dragFrame = new JLabel("");
-		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
-			}
-		});
-		dragFrame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();			}
-		});
 		dragFrame.setBounds(0, 0, 418, 40);
-		frame.getContentPane().add(dragFrame);
-		
-		
-		
-		frame.getContentPane().setLayout(null);
+		panel.add(dragFrame);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(275, 242, 165, 33);
+		panel.add(signature);
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		signature.setForeground(new Color(56, 57, 59));
-		signature.setBounds(275, 242, 165, 33);
-		frame.getContentPane().add(signature);
 		
 		textField = new JTextField();
+		textField.setBounds(87, 76, 262, 20);
+		panel.add(textField);
 		textField.setSelectionColor(new Color(126, 87, 194));
 		textField.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		textField.setCaretColor(new Color(255, 255, 255));
@@ -99,24 +97,24 @@ public class LoginOrganizzatore {
 		textField.setForeground(new Color(255, 255, 255));
 		textField.setBorder(null);
 		textField.setOpaque(false);
-		textField.setBounds(87, 76, 262, 20);
-		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		
 		passwordField = new JPasswordField();
+		passwordField.setBounds(87, 134, 262, 20);
+		panel.add(passwordField);
 		passwordField.setSelectionColor(new Color(126, 87, 194));
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		passwordField.setCaretColor(new Color(255, 255, 255));
 		passwordField.setForeground(new Color(255, 255, 255));
 		passwordField.setBorder(null);
 		passwordField.setOpaque(false);
-		passwordField.setBounds(87, 134, 262, 20);
 		passwordField.setEchoChar('\u25cf');
-		frame.getContentPane().add(passwordField);
 		
 		
 		JButton loginButton = new JButton("login\r\n");
+		loginButton.setBounds(87, 191, 262, 34);
+		panel.add(loginButton);
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				HomeOrganizzatore homeOrganizzatore = new HomeOrganizzatore(frameHome);
@@ -134,36 +132,32 @@ public class LoginOrganizzatore {
 		loginButton.setBackground(new Color(126, 87, 194));
 		loginButton.setForeground(new Color(255, 255, 255));
 		loginButton.setBorder(null);
-		loginButton.setBounds(87, 183, 262, 34);
-		frame.getContentPane().add(loginButton);
 		
 		JLabel Email = new JLabel("Email");
+		Email.setBounds(87, 58, 46, 14);
+		panel.add(Email);
 		Email.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		Email.setForeground(new Color(57, 113, 177));
-		Email.setBounds(87, 58, 46, 14);
-		frame.getContentPane().add(Email);
 		
 		JSeparator separator = new JSeparator();
 		separator.setBounds(87, 96, 263, 2);
-		frame.getContentPane().add(separator);
+		panel.add(separator);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(87, 157, 262, 2);
-		frame.getContentPane().add(separator_1);
+		panel.add(separator_1);
 		
 		JLabel Password = new JLabel("Password");
+		Password.setBounds(87, 116, 84, 14);
+		panel.add(Password);
 		Password.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		Password.setForeground(new Color(57, 113, 177));
-		Password.setBounds(87, 116, 84, 14);
-		frame.getContentPane().add(Password);
-		
-		Image imghide = new ImageIcon(this.getClass().getResource("/hide.png")).getImage();
-		
-		Image imgshow = new ImageIcon(this.getClass().getResource("/show.png")).getImage();
 		
 		
 		
 		final JToggleButton passHide = new JToggleButton("");
+		passHide.setBounds(354, 134, 21, 20);
+		panel.add(passHide);
 		passHide.setFocusPainted(false);
 		passHide.addMouseListener(new MouseAdapter() {
 			@Override
@@ -179,10 +173,37 @@ public class LoginOrganizzatore {
 		passHide.setBorderPainted(false);
 		passHide.setSelectedIcon(new ImageIcon(imghide));
 		passHide.setBorder(null);
-		passHide.setBounds(354, 134, 21, 20);
 		passHide.setIcon(new ImageIcon(imgshow));
-		frame.getContentPane().add(passHide);
 		passHide.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("ricorda");
+		chckbxNewCheckBox.setBounds(185, 161, 97, 23);
+		panel.add(chckbxNewCheckBox);
+		chckbxNewCheckBox.setRolloverEnabled(false);
+		chckbxNewCheckBox.setRequestFocusEnabled(false);
+		chckbxNewCheckBox.setOpaque(false);
+		chckbxNewCheckBox.setFocusable(false);
+		chckbxNewCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		chckbxNewCheckBox.setForeground(new Color(57, 58, 60));
+		chckbxNewCheckBox.setBackground(new Color(32, 33, 35));
+		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
+			}
+		});
+		dragFrame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();			}
+		});
+		
+		
+		
+		frame.getContentPane().setLayout(null);
+		
+		
 		
 	}
 }

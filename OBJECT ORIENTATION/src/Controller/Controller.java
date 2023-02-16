@@ -2,6 +2,13 @@ package Controller;
 
 import javax.swing.JFrame;
 
+import GUI.AggiungiProgrammiEdit;
+import GUI.AggiuntaProgrammi;
+import GUI.AzioneDiModifica;
+import GUI.CancellaConferenza;
+import GUI.CancellaProgramma;
+import GUI.CreazioneConferenza;
+import GUI.ModificaConferenza;
 import GUI.RiepilogoKeynoteSpeaker;
 import GUI.VisualizzaConferenza;
 import GUI.VisualizzaDescrizione;
@@ -52,34 +59,53 @@ public class Controller {
 		
 	}
 	
-	public void vediCreazioneConferenza()
+	public void vediCreazioneConferenza(Controller controller, JFrame frameHome)
 	{
-		
+		CreazioneConferenza creazioneConferenza = new CreazioneConferenza(controller, frameHome);
+		creazioneConferenza.frame.setVisible(true);
+		frameHome.setEnabled(false);	//non può essere toccata la finestra HomeOrganizzatore
 	}
 	
-	public void vediCreazioneProgramma()
+	public void vediCreazioneProgramma(Controller controller, JFrame frameCreazioneConferenza, JFrame frameHome)
 	{
-		
+		AggiuntaProgrammi creazioneProgramma = new AggiuntaProgrammi(controller, frameCreazioneConferenza, frameHome);
+		creazioneProgramma.frame.setVisible(true);
+		frameCreazioneConferenza.setEnabled(false);
 	}
 	
-	public void vediModificaConferneza()
+	public void vediModificaConferenza(Controller controller, JFrame frameHome)
 	{
-		
+		ModificaConferenza modificaConferenza = new ModificaConferenza(controller, frameHome);
+		modificaConferenza.frame.setVisible(true);
+		frameHome.setEnabled(false);
 	}
 	
-	public void vediAzioniDiModifica()
+	public void vediAzioniDiModifica(Controller controller,JFrame frameModificaConferenza, JFrame frameHome, Object programma)
 	{
-		
+		AzioneDiModifica scegliModifica = new AzioneDiModifica(controller, frameModificaConferenza, frameHome, programma);
+		scegliModifica.frame.setVisible(true);
+		frameModificaConferenza.setEnabled(false);
 	}
 	
-	public void vediCancellaProgramma()
+	public void vediCreazioneProgrammaEdit(Controller controller, JFrame frameAzioniDiModifica)
 	{
-		
+		AggiungiProgrammiEdit aggiungiProgrammi = new AggiungiProgrammiEdit(controller, frameAzioniDiModifica);
+		aggiungiProgrammi.frame.setVisible(true);
+		frameAzioniDiModifica.setEnabled(false);
 	}
 	
-	public void vediCancellaConferenza()
+	public void vediCancellaProgramma(Controller controller, JFrame frameAzioniDiModifica)
 	{
-		
+		CancellaProgramma listaCancellabili = new CancellaProgramma(controller, frameAzioniDiModifica);
+		listaCancellabili.frame.setVisible(true);
+		frameAzioniDiModifica.setEnabled(false);
+	}
+	
+	public void vediCancellaConferenza(Controller controller, JFrame frameHome)
+	{
+		CancellaConferenza elencoConferenzeCancellabili = new CancellaConferenza(controller, frameHome);
+		elencoConferenzeCancellabili.frame.setVisible(true);
+		frameHome.setEnabled(false);
 	}
 
 	

@@ -20,6 +20,8 @@ import Controller.Controller;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class VisualizzaProgrammi {
 
@@ -30,6 +32,7 @@ public class VisualizzaProgrammi {
 	private JLabel signature;
 	private JScrollPane programmiVisualizzatiPanel;
 	private JLabel lblNewLabel;
+	private JPanel panel;
 
 
 	public VisualizzaProgrammi(Controller controller, JFrame frameVisualizzaConferenza, Object programma) {
@@ -46,11 +49,19 @@ public class VisualizzaProgrammi {
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		
+		panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBackground(new Color(32, 33, 35));
+		panel.setBounds(0, 0, 513, 408);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		programmiVisualizzatiPanel = new JScrollPane();
-		programmiVisualizzatiPanel.setBorder(null);
-		programmiVisualizzatiPanel.setBackground(new Color(0, 0, 0));
+		programmiVisualizzatiPanel.setOpaque(false);
 		programmiVisualizzatiPanel.setBounds(47, 55, 425, 259);
-		frame.getContentPane().add(programmiVisualizzatiPanel);
+		panel.add(programmiVisualizzatiPanel);
+		programmiVisualizzatiPanel.setBorder(new LineBorder(new Color(0, 0, 0), 0));
+		programmiVisualizzatiPanel.setBackground(new Color(0, 0, 0));
 		
 		table = new JTable();
 		table.setSelectionBackground(new Color(126, 87, 194));
@@ -81,26 +92,15 @@ public class VisualizzaProgrammi {
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		programmiVisualizzatiPanel.setViewportView(table);
-		table.setBorder(null);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
-		
-		table.addMouseListener(new MouseAdapter() {
-	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               int column = target.getSelectedColumn(); // seleziona colonna
-	               //se la zona clickata è una sessione, allora eseguo la riga seguente:
-	               controller.visualizzaFrameDescrizione(controller, frame, table.getValueAt(row, column));  //passo il valore della Sessione cliccata
-	            }
-	         }
-	      });
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setBounds(486, 11, 17, 21);
+		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -112,10 +112,22 @@ public class VisualizzaProgrammi {
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
-		frame.getContentPane().add(exitLabel);
-		
 		//trascino la finestra undecorated
 		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 454, 44);
+		panel.add(dragFrame);
+		
+		signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(322, 375, 191, 33);
+		panel.add(signature);
+		signature.setForeground(new Color(71, 72, 75));
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		
+		lblNewLabel = new JLabel("Attenzione! Gli intervalli e gli eventi sociali non dispongono di una descrizione");
+		lblNewLabel.setBounds(47, 318, 425, 14);
+		panel.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNewLabel.setForeground(new Color(71, 72, 75));
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -128,21 +140,18 @@ public class VisualizzaProgrammi {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 454, 44);
-		frame.getContentPane().add(dragFrame);
 		
-		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(71, 72, 75));
-		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(322, 375, 191, 33);
-		frame.getContentPane().add(signature);
-		
-		lblNewLabel = new JLabel("Attenzione! Gli intervalli e gli eventi sociali non dispongono di una descrizione");
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel.setForeground(new Color(71, 72, 75));
-		lblNewLabel.setBounds(47, 318, 425, 14);
-		frame.getContentPane().add(lblNewLabel);
-		
+		table.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+	               JTable target = (JTable)me.getSource();
+	               int row = target.getSelectedRow(); // seleziona riga
+	               int column = target.getSelectedColumn(); // seleziona colonna
+	               //se la zona clickata è una sessione, allora eseguo la riga seguente:
+	               controller.visualizzaFrameDescrizione(controller, frame, table.getValueAt(row, column));  //passo il valore della Sessione cliccata
+	            }
+	         }
+	      });
 		
 		frame.setBackground(new Color(32, 33, 35));
 		frame.setBounds(100, 100, 513, 408);

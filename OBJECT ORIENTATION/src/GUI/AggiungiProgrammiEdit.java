@@ -24,7 +24,7 @@ import javax.swing.border.LineBorder;
 
 import Controller.Controller;
 
-public class AggiuntaProgrammi {
+public class AggiungiProgrammiEdit {
 
 	private int mouseX, mouseY;
 	public JFrame frame;
@@ -36,24 +36,24 @@ public class AggiuntaProgrammi {
 	private JTextField textField_4;
 
 	
-	public AggiuntaProgrammi(Controller controller, JFrame frameCreazioneConferenza, JFrame frameHomeOrganizzatore) {
-		initialize(controller, frameCreazioneConferenza, frameHomeOrganizzatore);
+	public AggiungiProgrammiEdit(Controller controller, JFrame frameAzioniDiModifica) {
+		initialize(controller,  frameAzioniDiModifica);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final Controller controller, final JFrame frameCreazioneConferenza, final JFrame frameHome) {
+	private void initialize(final Controller controller, final JFrame frameAzioniDiModifica) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 600, 800);
+		frame.setBounds(100, 100, 600, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
-		panel.setBounds(0, 0, 600, 800);
+		panel.setBounds(0, 0, 600, 750);
 		frame.getContentPane().add(panel);
 		
 		//definisco il pulsante di uscita
@@ -66,9 +66,8 @@ public class AggiuntaProgrammi {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
-				frameHome.setVisible(true);
-				frameCreazioneConferenza.setVisible(true);		
-				frameCreazioneConferenza.setEnabled(true);
+				frameAzioniDiModifica.setVisible(true);		
+				frameAzioniDiModifica.setEnabled(true);
 			}
 		});
 		panel.setLayout(null);
@@ -187,7 +186,7 @@ public class AggiuntaProgrammi {
 		panel.add(enumeraLocazione);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setBounds(425, 767, 165, 33);
+		signature.setBounds(425, 717, 165, 33);
 		signature.setForeground(new Color(56, 57, 59));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		panel.add(signature);
@@ -279,26 +278,23 @@ public class AggiuntaProgrammi {
 		lblChair.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		panel.add(lblChair);
 		
-		JButton creaConferenzaButton = new JButton("CREA");
-		creaConferenzaButton.addMouseListener(new MouseAdapter() {
+		JButton okAggiungiProgrammaButton = new JButton("OK");
+		okAggiungiProgrammaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frameCreazioneConferenza.dispose();
-				controller.tornaAllaHome(controller, frame, frameHome);
+				frameAzioniDiModifica.setVisible(true);
+				frameAzioniDiModifica.setEnabled(true);
+				frame.dispose();			
 			}
 		});
-		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		creaConferenzaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		creaConferenzaButton.setForeground(Color.WHITE);
-		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		creaConferenzaButton.setFocusPainted(false);
-		creaConferenzaButton.setBorder(null);
-		creaConferenzaButton.setBackground(new Color(57, 113, 177));
-		creaConferenzaButton.setBounds(398, 727, 165, 36);
-		panel.add(creaConferenzaButton);
+		okAggiungiProgrammaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		okAggiungiProgrammaButton.setForeground(Color.WHITE);
+		okAggiungiProgrammaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		okAggiungiProgrammaButton.setFocusPainted(false);
+		okAggiungiProgrammaButton.setBorder(null);
+		okAggiungiProgrammaButton.setBackground(new Color(57, 113, 177));
+		okAggiungiProgrammaButton.setBounds(460, 655, 103, 36);
+		panel.add(okAggiungiProgrammaButton);
 		
 		
 		

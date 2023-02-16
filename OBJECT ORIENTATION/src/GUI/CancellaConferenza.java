@@ -15,56 +15,53 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import Controller.Controller;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 public class CancellaConferenza {
 
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JScrollPane scrollPane;
-	private JButton ConfermaModificaButton;
+	private JButton ConfermaCancellazioneButton;
+	private JPanel panel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CancellaConferenza window = new CancellaConferenza();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public CancellaConferenza() {
-		initialize();
+	
+	public CancellaConferenza(Controller controller, JFrame frameHome) {
+		initialize(controller, frameHome);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final Controller controller, final JFrame frameHome) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		
+		
+		
+		panel = new JPanel();
+		panel.setBackground(new Color(32, 33, 35));
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(0, 0, 450, 300);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
 		scrollPane = new JScrollPane();
-		scrollPane.setBorder(null);
+		scrollPane.setBounds(37, 49, 378, 185);
+		panel.add(scrollPane);
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		scrollPane.setBackground(new Color(0, 0, 0));
-		scrollPane.setBounds(37, 49, 378, 192);
-		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.setSelectionBackground(new Color(126, 87, 194));
@@ -93,7 +90,7 @@ public class CancellaConferenza {
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		scrollPane.setViewportView(table);
-		table.setBorder(null);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
 		
 		//definisco il pulsante di uscita
@@ -101,21 +98,42 @@ public class CancellaConferenza {
 		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setBounds(423, 11, 17, 21);
+		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				frame.dispose();
-				
+				controller.tornaAllaHome(controller, frame, frameHome);
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
-		frame.getContentPane().add(exitLabel);
-		
 		//trascino la finestra undecorated
 		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 416, 44);
+		panel.add(dragFrame);
+		
+		signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(275, 267, 165, 33);
+		panel.add(signature);
+		signature.setForeground(new Color(56, 57, 59));
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		
+		ConfermaCancellazioneButton = new JButton("conferma");
+		ConfermaCancellazioneButton.setBounds(318, 245, 97, 26);
+		panel.add(ConfermaCancellazioneButton);
+		ConfermaCancellazioneButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.tornaAllaHome(controller, frame, frameHome);
+			}
+		});
+		ConfermaCancellazioneButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		ConfermaCancellazioneButton.setForeground(Color.WHITE);
+		ConfermaCancellazioneButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		ConfermaCancellazioneButton.setFocusPainted(false);
+		ConfermaCancellazioneButton.setBorder(null);
+		ConfermaCancellazioneButton.setBackground(new Color(57, 113, 177));
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -128,23 +146,7 @@ public class CancellaConferenza {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 416, 44);
-		frame.getContentPane().add(dragFrame);
 		
-		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(56, 57, 59));
-		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(275, 267, 165, 33);
-		frame.getContentPane().add(signature);
-		
-		ConfermaModificaButton = new JButton("conferma");
-		ConfermaModificaButton.setForeground(Color.WHITE);
-		ConfermaModificaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		ConfermaModificaButton.setFocusPainted(false);
-		ConfermaModificaButton.setBorder(null);
-		ConfermaModificaButton.setBackground(new Color(57, 113, 177));
-		ConfermaModificaButton.setBounds(301, 238, 125, 36);
-		frame.getContentPane().add(ConfermaModificaButton);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));

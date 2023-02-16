@@ -12,77 +12,129 @@ import java.awt.Color;
 import java.awt.Cursor;
 
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 import java.awt.Font;
 import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+
+import Controller.Controller;
+
+import javax.swing.border.LineBorder;
+import javax.swing.JPanel;
 
 public class CancellaProgramma {
 
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
+	private JScrollPane scrollPane;
+	private JPanel panel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CancellaProgramma window = new CancellaProgramma();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public CancellaProgramma() {
-		initialize();
+	
+	public CancellaProgramma(Controller controller, JFrame frameAzioniDiModifica) {
+		initialize(controller, frameAzioniDiModifica);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Controller controller, final JFrame frameAzioniDiModifica) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		
+		panel = new JPanel();
+		panel.setBackground(new Color(32, 33, 35));
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(0, 0, 450, 300);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(130, 135, 144), 0));
+		scrollPane.setBounds(37, 49, 378, 187);
+		panel.add(scrollPane);
+		
 		table = new JTable();
-		table.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		table.setRequestFocusEnabled(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionBackground(new Color(126, 87, 194));
+		table.setModel(new DefaultTableModel(
+				new Object[][] {
+					{null, null},
+				},
+				new String[] {
+					"New column", "New column"
+				}
+			) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+				boolean[] columnEditables = new boolean[] {
+					false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+		
+		scrollPane.setViewportView(table);
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
-		table.setBounds(37, 49, 378, 192);
-		frame.getContentPane().add(table);
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setBounds(423, 11, 17, 21);
+		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				frameAzioniDiModifica.setEnabled(true);
+				frameAzioniDiModifica.setVisible(true);
 				frame.dispose();
 				
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
-		frame.getContentPane().add(exitLabel);
-		
 		//trascino la finestra undecorated
 		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 416, 44);
+		panel.add(dragFrame);
+		
+		signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(275, 267, 165, 33);
+		panel.add(signature);
+		signature.setForeground(new Color(56, 57, 59));
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		
+		JButton ConfermaModificaButton = new JButton("conferma");
+		ConfermaModificaButton.setBounds(318, 242, 97, 26);
+		panel.add(ConfermaModificaButton);
+		ConfermaModificaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		ConfermaModificaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frameAzioniDiModifica.setEnabled(true);
+				frameAzioniDiModifica.setVisible(true);
+				frame.dispose();
+			}
+		});
+		ConfermaModificaButton.setForeground(Color.WHITE);
+		ConfermaModificaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		ConfermaModificaButton.setFocusPainted(false);
+		ConfermaModificaButton.setBorder(null);
+		ConfermaModificaButton.setBackground(new Color(57, 113, 177));
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -95,23 +147,8 @@ public class CancellaProgramma {
 				mouseX = e.getX();
 				mouseY = e.getY();			}
 		});
-		dragFrame.setBounds(0, 0, 416, 44);
-		frame.getContentPane().add(dragFrame);
 		
-		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setForeground(new Color(56, 57, 59));
-		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		signature.setBounds(275, 267, 165, 33);
-		frame.getContentPane().add(signature);
 		
-		JButton ConfermaModificaButton = new JButton("conferma");
-		ConfermaModificaButton.setForeground(Color.WHITE);
-		ConfermaModificaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		ConfermaModificaButton.setFocusPainted(false);
-		ConfermaModificaButton.setBorder(null);
-		ConfermaModificaButton.setBackground(new Color(57, 113, 177));
-		ConfermaModificaButton.setBounds(290, 231, 125, 36);
-		frame.getContentPane().add(ConfermaModificaButton);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));

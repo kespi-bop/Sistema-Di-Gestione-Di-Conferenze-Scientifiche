@@ -27,9 +27,6 @@ public class HomeOrganizzatore {
 	JFrame frame;
 
 
-	/**
-	 * Create the application.
-	 */
 	public HomeOrganizzatore(JFrame frameHome) {
 		initialize(frameHome);
 	}
@@ -125,6 +122,12 @@ public class HomeOrganizzatore {
 		
 		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
 		JButton modificaConferenzaButton = new JButton("Modifica conferenza");
+		modificaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.vediModificaConferenza(controller, frame);
+			}
+		});
 		
 		modificaConferenzaButton.setFocusPainted(false);
 		
@@ -150,9 +153,7 @@ public class HomeOrganizzatore {
 		creaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreazioneConferenza creazioneConferenza = new CreazioneConferenza(frame);
-				creazioneConferenza.frame.setVisible(true);
-				frame.setEnabled(false);	//non può essere toccata la finestra HomeOrganizzatore
+				controller.vediCreazioneConferenza(controller, frame);
 			}
 		});
 		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -165,6 +166,12 @@ public class HomeOrganizzatore {
 		panel.add(creaConferenzaButton);
 		
 		JButton cancellaConferenzaButton = new JButton("Cancella conferenza");
+		cancellaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.vediCancellaConferenza(controller, frame);
+			}
+		});
 		cancellaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cancellaConferenzaButton.setForeground(Color.WHITE);
 		cancellaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));

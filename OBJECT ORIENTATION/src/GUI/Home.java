@@ -64,7 +64,7 @@ public class Home {
 		frame.setBounds(450, 100, 1080, 700);
 		
 		JPanel bcPanel = new JPanel();
-		bcPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		bcPanel.setBorder(null);
 		bcPanel.setOpaque(false);
 		bcPanel.setBounds(0, 0, 1080, 700);
 		frame.getContentPane().add(bcPanel);
@@ -136,7 +136,7 @@ public class Home {
 		bcPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBorder(null);
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 553, 1080, 147);
 		bcPanel.add(panel);

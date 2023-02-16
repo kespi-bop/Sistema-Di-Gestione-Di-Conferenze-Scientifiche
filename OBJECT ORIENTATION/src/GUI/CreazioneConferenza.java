@@ -22,10 +22,12 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.Rectangle;
 import javax.swing.border.LineBorder;
 
+import Controller.Controller;
+
 public class CreazioneConferenza {
 
 	private int mouseX, mouseY;
-	JFrame frame;
+	public JFrame frame;
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
@@ -37,14 +39,14 @@ public class CreazioneConferenza {
 	/**
 	 * Create the application.
 	 */
-	public CreazioneConferenza(JFrame frameHomeOrganizzatore) {
-		initialize(frameHomeOrganizzatore);
+	public CreazioneConferenza(Controller controller, JFrame frameHome) {
+		initialize(controller,frameHome);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final JFrame frameHomeOrganizzatore) {
+	private void initialize(final Controller controller, final JFrame frameHome) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 600, 800);
@@ -66,9 +68,7 @@ public class CreazioneConferenza {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frameHomeOrganizzatore.setEnabled(true);
-				frameHomeOrganizzatore.setVisible(true);
-				frame.dispose();
+				controller.tornaAllaHome(controller, frame, frameHome);
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
@@ -354,11 +354,7 @@ public class CreazioneConferenza {
 		costruisciProgrammaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AggiuntaProgrammi aggiuntaProgrammi = new AggiuntaProgrammi(frameHomeOrganizzatore, frame);
-				frameHomeOrganizzatore.setVisible(true);	//richiamo setVisible di Home affinchè non venga posta sotto altre finestre aperte
-				frame.setVisible(true);
-				aggiuntaProgrammi.frame.setVisible(true);
-				frame.setEnabled(false);
+				controller.vediCreazioneProgramma(controller, frame, frameHome);
 			}
 		});
 		costruisciProgrammaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
