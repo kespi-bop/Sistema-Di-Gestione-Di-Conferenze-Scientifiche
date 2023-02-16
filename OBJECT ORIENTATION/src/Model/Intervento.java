@@ -9,9 +9,23 @@ public class Intervento {
 	private String aabstract;
 	private String codPartecipante;//formato email
 	private  int codSessione;
-	
+	public Sessione interventoInSessione;
+	public Partecipante partecipanteIntervenuto;
 	//Costruttori
+	public Intervento() {
+		
+	}
 	
+	public Intervento(Sessione ref$Sessione) {
+		interventoInSessione=ref$Sessione;
+		ref$Sessione.interventiSessione.add(this);
+	}
+	
+	public Intervento(Partecipante ref$Partecipante) {
+		partecipanteIntervenuto=ref$Partecipante;
+		ref$Partecipante.interventiPartecipante.add(this);
+		
+	}
 	
 	//Metodi gets
 	public int getCodIntervento()

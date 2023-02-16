@@ -11,7 +11,15 @@ public class Conferenza {
 	private String nomeSede; //chiave esterna
 	
 	//Costruttori
+	public Sede ospitaConferenza;
 	
+	//Trasposizione delle entità conferenza-sede
+	public Conferenza(Sede ref$Sede) {
+		ospitaConferenza=ref$Sede;
+		ref$Sede.sediConferenza.add(this);
+	}
+	public Conferenza() {
+	}
 	//Metodi gets
 	public String getTitoloConferenza() {
 		return titoloConferenza;
@@ -27,6 +35,9 @@ public class Conferenza {
 	}
 	public String getNomeSede() {
 		return nomeSede;
+	}
+	public int getCodConferenza() {
+		return codConferenza;
 	}
 	
 	//Metodi sets

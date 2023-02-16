@@ -8,8 +8,16 @@ public class Evento_Sociale {
 	private Time orarioInizioEvento;
 	private Time orarioFineEvento;
 	private int codProgramma; //Chiave secondaria (cascade)
+	public Programma eventoSocialeInProgramma;
 	//Costruttori
-	
+	public Evento_Sociale()
+	{
+		
+	}
+	public Evento_Sociale(Programma ref$Programma) {
+		eventoSocialeInProgramma=ref$Programma;
+		ref$Programma.eventiProgrammati.add(this);
+	}
 	//Metodi gets
 	public int getcodEvento() {
 		return codEvento;

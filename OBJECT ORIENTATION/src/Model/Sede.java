@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Sede {
 	private String nomeSede;
 	private String nomeVia;
@@ -7,6 +9,21 @@ public class Sede {
 	private String città;
 	
 	//Costruttori
+	public ArrayList<Conferenza> sediConferenza = new ArrayList<Conferenza>();
+	public ArrayList<Locazione> locazioniSede = new ArrayList<Locazione>();
+	//Trasposizione delle entità conferenza-sede (1..*,1)
+	public Sede(Conferenza ref$Conferenza) {
+		sediConferenza.add(ref$Conferenza);
+		ref$Conferenza.ospitaConferenza=this;
+	}
+	
+	//Trasposizione delle entità locazione-sede (1..*,1)
+	public Sede(Locazione ref$Locazione) {
+		locazioniSede.add(ref$Locazione);
+		ref$Locazione.sedeProprietaria=this;
+	}
+	public Sede() {
+	}
 	
 	//Metodi gets
 	

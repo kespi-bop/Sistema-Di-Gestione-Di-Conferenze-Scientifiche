@@ -8,9 +8,15 @@ public class Intervallo {
 	private Time orarioInizioIntervallo;
 	private Time orarioFineIntervallo;
 	private int codProgramma;
-	
+	public Programma intervalloInProgramma;
 	//Costruttori
+	public Intervallo(){
+	}
 	
+	public Intervallo(Programma p) {
+		intervalloInProgramma=p;
+		p.intervalliProgrammati.add(this);
+	}
 	//Metodi gets
 	public int getCodIntervallo() {
 		return codIntervallo;

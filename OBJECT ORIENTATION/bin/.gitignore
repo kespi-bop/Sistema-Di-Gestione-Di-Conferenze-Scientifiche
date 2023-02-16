@@ -1,10 +1,4 @@
-/BackGround.jpg
-/GUI/
-<<<<<<< HEAD
-/exit.png
-/minimize.png
-=======
-/hide.png
-/show.png
+/Main/
 /Model/
->>>>>>> branch 'main' of https://github.com/kespi-bop/Progetto-Object-Orientation-Database.git
+/GUI/
+/Controller/

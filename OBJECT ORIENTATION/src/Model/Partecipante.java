@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Partecipante {
 	private String emailP; //formato email
 	private String titolo;
@@ -8,8 +10,20 @@ public class Partecipante {
 	private String istituzione_di_Afferenza;
 	
 	//Costruttori
-	
-	
+	ArrayList<Intervento> interventiPartecipante = new ArrayList<Intervento>();
+	ArrayList<Sessione> partecipantiKS = new ArrayList<Sessione>();
+	public Partecipante() {
+	}
+	//Trasposizione delle entità intervento-partecipante (1..*,1)
+	public Partecipante(Intervento ref$Intervento) {
+		interventiPartecipante.add(ref$Intervento);
+		ref$Intervento.partecipanteIntervenuto=this;
+	}
+	//Trasposizione delle entità sessione-partecipante (1..*,0..1)
+	public Partecipante(Sessione ref$Sessione$KS) {
+		partecipantiKS.add(ref$Sessione$KS);
+		ref$Sessione$KS.
+	}
 	//Metodi gets
 	public String getemailP() {
 		return emailP;
