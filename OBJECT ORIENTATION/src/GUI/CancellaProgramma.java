@@ -15,6 +15,7 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 import java.awt.Font;
+import javax.swing.JButton;
 
 public class CancellaProgramma {
 
@@ -102,6 +103,15 @@ public class CancellaProgramma {
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		signature.setBounds(275, 267, 165, 33);
 		frame.getContentPane().add(signature);
+		
+		JButton ConfermaModificaButton = new JButton("conferma");
+		ConfermaModificaButton.setForeground(Color.WHITE);
+		ConfermaModificaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		ConfermaModificaButton.setFocusPainted(false);
+		ConfermaModificaButton.setBorder(null);
+		ConfermaModificaButton.setBackground(new Color(57, 113, 177));
+		ConfermaModificaButton.setBounds(290, 231, 125, 36);
+		frame.getContentPane().add(ConfermaModificaButton);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));

@@ -20,6 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
 
 public class AggiuntaProgrammi {
 
@@ -48,6 +49,7 @@ public class AggiuntaProgrammi {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 0, 600, 800);
 		frame.getContentPane().add(panel);
@@ -104,7 +106,7 @@ public class AggiuntaProgrammi {
 		OrarioFineLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		OrarioFineLabel.setForeground(new Color(57, 113, 177));
 		
-		JLabel locazioneLabel = new JLabel("Locazione");
+		JLabel locazioneLabel = new JLabel("Locazione*");
 		locazioneLabel.setBounds(74, 189, 60, 14);
 		locazioneLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		locazioneLabel.setForeground(new Color(57, 113, 177));

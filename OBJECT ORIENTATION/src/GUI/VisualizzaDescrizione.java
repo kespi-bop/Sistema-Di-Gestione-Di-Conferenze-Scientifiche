@@ -14,42 +14,28 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+
+import Controller.Controller;
 
 public class VisualizzaDescrizione {
 
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JLabel lblNewLabel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VisualizzaDescrizione window = new VisualizzaDescrizione();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
-	public VisualizzaDescrizione() {
-		initialize();
+	public VisualizzaDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, Object descrizione) {
+		initialize(controller, frameVisualizzaProgrammi, descrizione);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(Controller controller, final JFrame frameVisualizzaProgrammi, Object descrizione) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -65,9 +51,9 @@ public class VisualizzaDescrizione {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				frameVisualizzaProgrammi.setVisible(true);
+				frameVisualizzaProgrammi.setEnabled(true);
 				frame.dispose();
-				
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
@@ -96,16 +82,6 @@ public class VisualizzaDescrizione {
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		signature.setBounds(322, 313, 191, 33);
 		frame.getContentPane().add(signature);
-		
-		JButton visualizzaProgrammiButton = new JButton("back");
-		visualizzaProgrammiButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		visualizzaProgrammiButton.setForeground(Color.WHITE);
-		visualizzaProgrammiButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		visualizzaProgrammiButton.setFocusPainted(false);
-		visualizzaProgrammiButton.setBorder(null);
-		visualizzaProgrammiButton.setBackground(new Color(126, 87, 194));
-		visualizzaProgrammiButton.setBounds(47, 288, 96, 33);
-		frame.getContentPane().add(visualizzaProgrammiButton);
 		
 		lblNewLabel = new JLabel("Descrizione di ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));

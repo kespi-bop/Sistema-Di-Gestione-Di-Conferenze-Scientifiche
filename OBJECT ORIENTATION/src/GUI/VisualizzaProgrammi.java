@@ -15,46 +15,31 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import Controller.Controller;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 
 public class VisualizzaProgrammi {
 
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JScrollPane programmiVisualizzatiPanel;
 	private JLabel lblNewLabel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VisualizzaProgrammi window = new VisualizzaProgrammi();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
-	public VisualizzaProgrammi() {
-		initialize();
+	public VisualizzaProgrammi(Controller controller, JFrame frameVisualizzaConferenza, Object programma) {
+		initialize(controller, frameVisualizzaConferenza, programma);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final Controller controller, final JFrame frameVisualizzaConferenza, Object programma) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -91,11 +76,25 @@ public class VisualizzaProgrammi {
 				return columnEditables[column];
 			}
 		});
+		
+		
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		programmiVisualizzatiPanel.setViewportView(table);
 		table.setBorder(null);
 		table.setBackground(new Color(32, 33, 35));
+		
+		table.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+	               JTable target = (JTable)me.getSource();
+	               int row = target.getSelectedRow(); // seleziona riga
+	               int column = target.getSelectedColumn(); // seleziona colonna
+	               //se la zona clickata è una sessione, allora eseguo la riga seguente:
+	               controller.visualizzaFrameDescrizione(controller, frame, table.getValueAt(row, column));  //passo il valore della Sessione cliccata
+	            }
+	         }
+	      });
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -106,9 +105,9 @@ public class VisualizzaProgrammi {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				frameVisualizzaConferenza.setVisible(true);
+				frameVisualizzaConferenza.setEnabled(true);
 				frame.dispose();
-				
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
@@ -137,16 +136,6 @@ public class VisualizzaProgrammi {
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		signature.setBounds(322, 375, 191, 33);
 		frame.getContentPane().add(signature);
-		
-		JButton backToVisualizzaConferenzeButton = new JButton("back");
-		backToVisualizzaConferenzeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		backToVisualizzaConferenzeButton.setForeground(Color.WHITE);
-		backToVisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		backToVisualizzaConferenzeButton.setFocusPainted(false);
-		backToVisualizzaConferenzeButton.setBorder(null);
-		backToVisualizzaConferenzeButton.setBackground(new Color(126, 87, 194));
-		backToVisualizzaConferenzeButton.setBounds(47, 349, 96, 33);
-		frame.getContentPane().add(backToVisualizzaConferenzeButton);
 		
 		lblNewLabel = new JLabel("Attenzione! Gli intervalli e gli eventi sociali non dispongono di una descrizione");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));

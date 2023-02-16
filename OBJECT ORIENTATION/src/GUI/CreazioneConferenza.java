@@ -19,6 +19,8 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.Rectangle;
+import javax.swing.border.LineBorder;
 
 public class CreazioneConferenza {
 
@@ -50,6 +52,8 @@ public class CreazioneConferenza {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panel.setBounds(new Rectangle(3, 3, 3, 3));
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 0, 600, 800);
 		frame.getContentPane().add(panel);

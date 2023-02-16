@@ -2,7 +2,6 @@ package GUI;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -12,19 +11,24 @@ import java.awt.event.MouseMotionAdapter;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import Controller.Controller;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
+import javax.swing.border.LineBorder;
 
 public class VisualizzaConferenza {
 
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
@@ -33,33 +37,15 @@ public class VisualizzaConferenza {
 	private JTextField textField;
 	private JSeparator separator_1;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VisualizzaConferenza window = new VisualizzaConferenza();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public VisualizzaConferenza() {
-		initialize();
+	
+	public VisualizzaConferenza(Controller controller, JFrame frameHome) {
+		initialize(controller, frameHome);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final Controller controller, final JFrame frameHome) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -67,12 +53,24 @@ public class VisualizzaConferenza {
 		frame.getContentPane().setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBorder(null);
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setBackground(new Color(0, 0, 0));
 		scrollPane.setBounds(39, 152, 425, 212);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		
+		table.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+	               JTable target = (JTable)me.getSource();
+	               int row = target.getSelectedRow(); // seleziona riga
+	               int column = target.getSelectedColumn(); // seleziona colonna
+	              controller.visualizzaFrameProgrammi(controller, frame, table.getValueAt(row, column));  //passo il valore del Programma cliccato
+	            }
+	         }
+	      });
+		
 		table.setSelectionBackground(new Color(126, 87, 194));
 		table.setRequestFocusEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -111,11 +109,10 @@ public class VisualizzaConferenza {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				frame.dispose();
-				
+				controller.tornaAllaHome(controller, frame, frameHome);		
 			}
 		});
+		
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
 		frame.getContentPane().add(exitLabel);

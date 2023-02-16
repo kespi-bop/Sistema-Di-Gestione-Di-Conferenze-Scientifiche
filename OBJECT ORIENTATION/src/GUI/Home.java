@@ -20,9 +20,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import javax.swing.border.LineBorder;
+
+import Controller.Controller;
 
 public class Home {
 	
+	Controller controller = new Controller();
 	private int mouseX, mouseY;
 	private JFrame frame;
 
@@ -57,7 +61,13 @@ public class Home {
 		frame = new JFrame("Home");
 		frame.setUndecorated(true);
 		frame.setResizable(false);
-		frame.setBounds(450, 100, 543, 393);
+		frame.setBounds(450, 100, 1080, 700);
+		
+		JPanel bcPanel = new JPanel();
+		bcPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		bcPanel.setOpaque(false);
+		bcPanel.setBounds(0, 0, 1080, 700);
+		frame.getContentPane().add(bcPanel);
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -74,7 +84,7 @@ public class Home {
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		exitLabel.setBounds(1053,11,17,21);
-		frame.getContentPane().add(exitLabel);
+		bcPanel.add(exitLabel);
 		
 		
 		//definisco il pulsante minimize
@@ -93,7 +103,7 @@ public class Home {
 		minimizeLabel.setAutoscrolls(true);
 		minimizeLabel.setIcon(new ImageIcon(imgMinimize));
 		minimizeLabel.setBounds(1023, 25, 18, 3);
-		frame.getContentPane().add(minimizeLabel);
+		bcPanel.add(minimizeLabel);
 		
 		
 		//trascino la finestra undecorated
@@ -111,24 +121,25 @@ public class Home {
 				mouseY = e.getY();			}
 		});
 		dragFrame.setBounds(10, 0, 1060, 52);
-		frame.getContentPane().add(dragFrame);
+		bcPanel.add(dragFrame);
 		
 		//definisco il titolo
 		JLabel titleConferenze = new JLabel("CONFERENZE SCIENTIFICHE");
 		titleConferenze.setFont(new Font("Gill Sans Ultra Bold Condensed", Font.BOLD, 40));
 		titleConferenze.setForeground(new Color(57, 113, 177));
 		titleConferenze.setBounds(300, 63, 682, 142);
-		frame.getContentPane().add(titleConferenze);
+		bcPanel.add(titleConferenze);
 		
 		
 		JLabel background;
-		frame.setSize(1080,700);
-		frame.getContentPane().setLayout(null);
+		bcPanel.setSize(1080,700);
+		bcPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
-		panel.setBounds(0, 553, 1080, 166);
-		frame.getContentPane().add(panel);
+		panel.setBounds(0, 553, 1080, 147);
+		bcPanel.add(panel);
 		panel.setLayout(null);
 		
 		//©copyright
@@ -176,9 +187,18 @@ public class Home {
 		benvenutoTxt.setEditable(false);
 		benvenutoTxt.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker\r\n- aggiunta, cancellazione e modifica di una conferenza scientifica");
 		benvenutoTxt.setBounds(167, 166, 838, 131);
-		frame.getContentPane().add(benvenutoTxt);
+		bcPanel.add(benvenutoTxt);
 		
+		
+		//apro una nuova finestra per visualizzare le conferenze
 		JButton VisualizzaConferenzeButton = new JButton("Visualizza conferenze");
+		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameConferenze(controller, frame);
+			}
+		});
+		
 		VisualizzaConferenzeButton.setFocusPainted(false);
 		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
 		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -186,9 +206,15 @@ public class Home {
 		VisualizzaConferenzeButton.setBorder(null);
 		VisualizzaConferenzeButton.setBackground(new Color(57, 113, 177));
 		VisualizzaConferenzeButton.setBounds(193, 363, 169, 66);
-		frame.getContentPane().add(VisualizzaConferenzeButton);
+		bcPanel.add(VisualizzaConferenzeButton);
 		
 		JButton riepilogoKSButton = new JButton("RiepilogoKS");
+		riepilogoKSButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameRiepilogoKS(controller, frame);
+			}
+		});
 		riepilogoKSButton.setFocusPainted(false);
 		riepilogoKSButton.setForeground(new Color(255, 255, 255));
 		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -196,7 +222,7 @@ public class Home {
 		riepilogoKSButton.setBackground(new Color(57, 113, 177));
 		riepilogoKSButton.setBorder(null);
 		riepilogoKSButton.setBounds(700, 363, 169, 66);
-		frame.getContentPane().add(riepilogoKSButton);
+		bcPanel.add(riepilogoKSButton);
 		
 		Image img = new ImageIcon(this.getClass().getResource("/BackGround.jpg")).getImage();
 	
@@ -204,6 +230,8 @@ public class Home {
 		background.setIcon(new ImageIcon(img));
 		background.setBounds(0,-44,1209,597);
 		frame.getContentPane().add(background);
+		
+		
 		
 	}
 }

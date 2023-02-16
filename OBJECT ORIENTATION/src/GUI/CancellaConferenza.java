@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
 
 public class CancellaConferenza {
 
@@ -25,6 +26,7 @@ public class CancellaConferenza {
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JScrollPane scrollPane;
+	private JButton ConfermaModificaButton;
 
 	/**
 	 * Launch the application.
@@ -134,6 +136,15 @@ public class CancellaConferenza {
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		signature.setBounds(275, 267, 165, 33);
 		frame.getContentPane().add(signature);
+		
+		ConfermaModificaButton = new JButton("conferma");
+		ConfermaModificaButton.setForeground(Color.WHITE);
+		ConfermaModificaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		ConfermaModificaButton.setFocusPainted(false);
+		ConfermaModificaButton.setBorder(null);
+		ConfermaModificaButton.setBackground(new Color(57, 113, 177));
+		ConfermaModificaButton.setBounds(301, 238, 125, 36);
+		frame.getContentPane().add(ConfermaModificaButton);
 		
 		
 		frame.setBackground(new Color(32, 33, 35));

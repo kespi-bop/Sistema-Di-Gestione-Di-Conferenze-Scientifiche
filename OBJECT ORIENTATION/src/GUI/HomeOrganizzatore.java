@@ -18,8 +18,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
+import Controller.Controller;
+
 public class HomeOrganizzatore {
 	
+	Controller controller = new Controller();
 	private int mouseX, mouseY;
 	JFrame frame;
 
@@ -207,6 +210,12 @@ public class HomeOrganizzatore {
 		frame.getContentPane().add(benvenutoTxt);
 		
 		JButton VisualizzaConferenzeButton = new JButton("Visualizza conferenze");
+		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameConferenze(controller, frame);
+			}
+		});
 		VisualizzaConferenzeButton.setFocusPainted(false);
 		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
 		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -217,6 +226,12 @@ public class HomeOrganizzatore {
 		frame.getContentPane().add(VisualizzaConferenzeButton);
 		
 		JButton riepilogoKSButton = new JButton("RiepilogoKS");
+		riepilogoKSButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameRiepilogoKS(controller, frame);
+			}
+		});
 		riepilogoKSButton.setFocusPainted(false);
 		riepilogoKSButton.setForeground(new Color(255, 255, 255));
 		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));

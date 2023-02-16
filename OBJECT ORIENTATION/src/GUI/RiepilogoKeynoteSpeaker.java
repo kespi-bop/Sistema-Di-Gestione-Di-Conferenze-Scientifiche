@@ -15,6 +15,9 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+
+import Controller.Controller;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
@@ -24,7 +27,7 @@ import javax.swing.JComboBox;
 public class RiepilogoKeynoteSpeaker {
 
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
 	private JLabel signature;
@@ -36,33 +39,15 @@ public class RiepilogoKeynoteSpeaker {
 	private JComboBox enumeraSede;
 	private JLabel sedeLabel;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RiepilogoKeynoteSpeaker window = new RiepilogoKeynoteSpeaker();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the application.
-	 */
-	public RiepilogoKeynoteSpeaker() {
-		initialize();
+	public RiepilogoKeynoteSpeaker(Controller controller, JFrame frameHome) {
+		initialize(controller, frameHome);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(final Controller controller, final JFrame frameHome) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -114,9 +99,9 @@ public class RiepilogoKeynoteSpeaker {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				frame.dispose();
-				
+				frameHome.setEnabled(true);
+				frameHome.setVisible(true);
+				frame.dispose();		
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
@@ -147,6 +132,12 @@ public class RiepilogoKeynoteSpeaker {
 		frame.getContentPane().add(signature);
 		
 		JButton backToHomeButton = new JButton("back");
+		backToHomeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.tornaAllaHome(controller, frame, frameHome);
+			}
+		});
 		backToHomeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		backToHomeButton.setForeground(Color.WHITE);
 		backToHomeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
