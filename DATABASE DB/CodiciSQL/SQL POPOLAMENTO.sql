@@ -230,26 +230,26 @@ VALUES('Università di Catania');
 
 
 --popolo la tabella ORGANIZZATORE_LOCALE:
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('CarmenBisogni@unisa.it','Mss', 'Carmen','Bisogni', 'Università degli Studi di Salerno');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('CarmenBisogni@unisa.it','Conferenze1000','Mss', 'Carmen','Bisogni', 'Università degli Studi di Salerno');
 
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('PiercarloDondi@unipa.it','Professor', 'Piercarlo','Dondi', 'Università di Pavia');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('PiercarloDondi@unipa.it','Conferenze1000','Professor', 'Piercarlo','Dondi', 'Università di Pavia');
 
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('FabioNarducci@unisa.it','Mr', 'Fabio','Narducci', 'Università degli Studi di Salerno');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('FabioNarducci@unisa.it','Conferenze1000','Mr', 'Fabio','Narducci', 'Università degli Studi di Salerno');
 
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('AlessandroBruno@gmail.it','Mr', 'Alessandro','Bruno', 'Humanitas University');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('AlessandroBruno@gmail.it','Conferenze1000','Mr', 'Alessandro','Bruno', 'Humanitas University');
 
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('SimonePalazzo@unica.it','Mr', 'Simone','Palazzo', 'Università di Catania');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('SimonePalazzo@unica.it','Conferenze1000','Mr', 'Simone','Palazzo', 'Università di Catania');
 
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('FedericaProiettoSalanitri@unisa.it','Mss', 'Federica','Proietto Salanitri', 'Università di Catania');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('FedericaProiettoSalanitri@unisa.it','Conferenze1000','Mss', 'Federica','Proietto Salanitri', 'Università di Catania');
 
-INSERT INTO ORGANIZZATORE_LOCALE(emailL,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('VincenzoLomonaco@unipa.it','Professor', 'Vincenzo','Lomonaco', 'Università di Pavia');
+INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('VincenzoLomonaco@unipa.it','Conferenze1000','Professor', 'Vincenzo','Lomonaco', 'Università di Pavia');
 
 
 
@@ -257,23 +257,23 @@ VALUES('VincenzoLomonaco@unipa.it','Professor', 'Vincenzo','Lomonaco', 'Universi
 
 
 --popolo la tabella ORGANIZZATORE_SCIENTIFICO:
-INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('ZoheirSabeur@gmail.com','Professor','Zoheir','Sabeur','Bournemouth University');
+INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('ZoheirSabeur@gmail.com','Conferenze1000','Professor','Zoheir','Sabeur','Bournemouth University');
 
-INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('DenizChetinkaya@gmail.com','Professoressa', 'Deniz','Chetinkaya', 'Bournemouth University');
+INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('DenizChetinkaya@gmail.com','Conferenze1000','Professoressa', 'Deniz','Chetinkaya', 'Bournemouth University');
 
-INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('FranciscoFlorez-Revuelta@gmail.com','Mr', 'Francisco','Florez-Revuelta', 'University of Alicante');
+INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('FranciscoFlorez-Revuelta@gmail.com','Conferenze1000','Mr', 'Francisco','Florez-Revuelta', 'University of Alicante');
 
-INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('PeterPocta@gmail.com','Mr', 'Peter','Pocta', 'University of Zilina');
+INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('PeterPocta@gmail.com','Conferenze1000','Mr', 'Peter','Pocta', 'University of Zilina');
 
-INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('JonAnderGomezAdrian@gmail.com','Mr', 'Jon Ander','Gomez Adrian', 'University of Alicante');
+INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('JonAnderGomezAdrian@gmail.com','Conferenze1000','Mr', 'Jon Ander','Gomez Adrian', 'University of Alicante');
 
-INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('StephenHawking@gmail.com','Mr', 'Stephen','Hawking', 'University of Cambridge');
+INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
+VALUES('StephenHawking@gmail.com','Conferenze1000','Mr', 'Stephen','Hawking', 'University of Cambridge');
 
 
 

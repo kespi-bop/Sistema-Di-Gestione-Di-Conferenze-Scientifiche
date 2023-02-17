@@ -2,6 +2,7 @@
 CREATE TABLE Organizzatore_Locale
 (
 emailL VARCHAR(100) PRIMARY KEY CHECK(emailL LIKE '__%@___%.__%'),
+password VARCHAR(25) NOT NULL,
 Titolo TipoTitolo NOT NULL,
 Nome VARCHAR(100) NOT NULL,
 Cognome VARCHAR(100) NOT NULL,

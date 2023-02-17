@@ -2,6 +2,7 @@
 CREATE TABLE Organizzatore_Scientifico
 (
 emailS VARCHAR(100) PRIMARY KEY CHECK(emailS LIKE '__%@___%.__%'),
+password VARCHAR(25) NOT NULL,
 DescrizioneCurriculum VARCHAR(500),
 Titolo TipoTitolo NOT NULL,
 Nome VARCHAR(100) NOT NULL,

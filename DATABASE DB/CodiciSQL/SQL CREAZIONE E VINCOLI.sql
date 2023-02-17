@@ -8,7 +8,7 @@ CREATE TYPE TipoTitolo AS ENUM ('Mr','Mss','Dottor','Dottoressa','Professor','Pr
 
 
 
---Creao la tabella SEDE: 
+--Creo la tabella SEDE: 
 CREATE TABLE SEDE
 (
 NomeSede VARCHAR(100) PRIMARY KEY,
@@ -21,7 +21,17 @@ Città VARCHAR(100) NOT NULL
 
 
 
---Creao la tabella LOCAZIONE: 
+--Creo la tabella UTENTERICORDATO:
+CREATE TABLE UtenteRicordato
+(
+	emailU VARCHAR(100) PRIMARY KEY CHECK(emailU LIKE '__%@___%.__%'),
+	password VARCHAR(25) NOT NULL
+);
+
+
+
+
+--Creo la tabella LOCAZIONE: 
 CREATE TABLE LOCAZIONE
 (
 NomeLocazione VARCHAR(100) PRIMARY KEY,
@@ -40,7 +50,7 @@ REFERENCES SEDE(NomeSede) ON DELETE CASCADE;
 
 
 
---Creao la tabella CONFERENZA: 
+--Creo la tabella CONFERENZA: 
 CREATE TABLE CONFERENZA
 (
 CodConferenza SERIAL PRIMARY KEY,
@@ -69,7 +79,7 @@ ALTER SEQUENCE conferenza_codconferenza_seq RESTART WITH 1;
 
 
 
---Creao la tabella SPONSOR: 
+--Creo la tabella SPONSOR: 
 CREATE TABLE SPONSOR
 (
 PartitaIVA CHAR(11) PRIMARY KEY,
@@ -80,7 +90,7 @@ NomeAzienda VARCHAR(50) NOT NULL
 
 
 
---Creao la tabella PROGRAMMA: 
+--Creo la tabella PROGRAMMA: 
 CREATE TABLE PROGRAMMA
 (
 CodProgramma INTEGER DEFAULT 0,
@@ -133,7 +143,7 @@ EXECUTE PROCEDURE GenerateProgrammmaPK();
 
 
 
---Creao la tabella INTERVALLO: 
+--Creo la tabella INTERVALLO: 
 CREATE TABLE INTERVALLO
 (
 CodIntervallo INTEGER DEFAULT 0,
@@ -190,7 +200,7 @@ EXECUTE PROCEDURE GenerateIntervalloPK();
 
 
 
---Creao la tabella EVENTO_SOCIALE: 
+--Creo la tabella EVENTO_SOCIALE: 
 CREATE TABLE EVENTO_SOCIALE
 (
 CodEvento INTEGER DEFAULT 0,
@@ -247,7 +257,7 @@ EXECUTE PROCEDURE GenerateEvento_SocialePK();
 
 
 
---Creao la tabella ENTE: 
+--Creo la tabella ENTE: 
 CREATE TABLE ENTE
 (
 NomeIstituzione VARCHAR(100) PRIMARY KEY
@@ -257,10 +267,11 @@ NomeIstituzione VARCHAR(100) PRIMARY KEY
 
 
 
---Creao la tabella Organizzatore_Locale: 
+--Creo la tabella Organizzatore_Locale: 
 CREATE TABLE Organizzatore_Locale
 (
 emailL VARCHAR(100) PRIMARY KEY CHECK(emailL LIKE '__%@___%.__%'),
+password VARCHAR(25) NOT NULL,
 Titolo TipoTitolo NOT NULL,
 Nome VARCHAR(100) NOT NULL,
 Cognome VARCHAR(100) NOT NULL,
@@ -278,10 +289,11 @@ REFERENCES ENTE(NomeIstituzione);
 
 
 
---Creao la tabella Organizzatore_Scientifico: 
+--Creo la tabella Organizzatore_Scientifico: 
 CREATE TABLE Organizzatore_Scientifico
 (
 emailS VARCHAR(100) PRIMARY KEY CHECK(emailS LIKE '__%@___%.__%'),
+password VARCHAR(25) NOT NULL,
 DescrizioneCurriculum VARCHAR(500),
 Titolo TipoTitolo NOT NULL,
 Nome VARCHAR(100) NOT NULL,
@@ -300,7 +312,7 @@ REFERENCES ENTE(NomeIstituzione);
 
 
 
---Creao la tabella PARTECIPANTE: 
+--Creo la tabella PARTECIPANTE: 
 CREATE TABLE PARTECIPANTE
 (
 emailP VARCHAR(100) PRIMARY KEY CHECK(emailP LIKE '__%@___%.__%'),
@@ -321,7 +333,7 @@ REFERENCES ENTE(NomeIstituzione);
 
 
 
---Creao la tabella SESSIONE: 
+--Creo la tabella SESSIONE: 
 CREATE TABLE SESSIONE
 (
 CodSessione INTEGER DEFAULT 0,
@@ -395,7 +407,7 @@ EXECUTE PROCEDURE GenerateSessionePK();
 
 
 
---Creao la tabella INTERVENTO: 
+--Creo la tabella INTERVENTO: 
 CREATE TABLE INTERVENTO
 (
 CodIntervento INTEGER DEFAULT 0,
@@ -460,7 +472,7 @@ EXECUTE PROCEDURE GenerateInterventoPK();
 
 
 
---Creao la tabella PUBBLICITÀ: 
+--Creo la tabella PUBBLICITÀ: 
 CREATE TABLE Pubblicità
 (
 PartitaIva CHAR(11) NOT NULL,
@@ -490,7 +502,7 @@ CONSTRAINT UnicoSponsor UNIQUE(PartitaIva, CodConferenza);
 
 
 
---Creao la tabella AMMINISTRARE: 
+--Creo la tabella AMMINISTRARE: 
 CREATE TABLE AMMINISTRARE
 (
 NomeIstituzione VARCHAR(100) NOT NULL,
@@ -514,7 +526,7 @@ REFERENCES ENTE(NomeIstituzione);
 
 
 
---Creao la tabella Organizzare_L: 
+--Creo la tabella Organizzare_L: 
 CREATE TABLE Organizzare_L
 (
 emailL VARCHAR(100) NOT NULL,
@@ -540,7 +552,7 @@ REFERENCES Organizzatore_Locale(emailL)ON DELETE CASCADE;
 
 
 
---Creao la tabella Organizzare_S: 
+--Creo la tabella Organizzare_S: 
 CREATE TABLE Organizzare_S
 (
 emailS VARCHAR(100) NOT NULL,
@@ -566,7 +578,7 @@ REFERENCES Organizzatore_Scientifico(emailS)ON DELETE CASCADE;
 
 
 
---Creao la tabella PARTECIPARE: 
+--Creo la tabella PARTECIPARE: 
 CREATE TABLE PARTECIPARE
 (
 emailP VARCHAR(100) NOT NULL,
