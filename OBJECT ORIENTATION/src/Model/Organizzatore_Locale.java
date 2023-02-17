@@ -1,6 +1,6 @@
 package Model;
 
-public class Organizzatore_Locale {
+public class Organizzatore_Locale extends Utente{
 	private String emailL; //formato email
 	private String titolo;
 	private String nome;
@@ -30,8 +30,8 @@ public class Organizzatore_Locale {
 	}
 	
 	//Metodi sets
-	
-	public void setemailL(String emailL) {
+	@Override
+	public void setEmail(String emailL) {
 		this.emailL = emailL;
 	}
 	public void setTitolo(String titolo) {

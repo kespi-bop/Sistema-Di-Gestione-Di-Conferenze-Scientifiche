@@ -28,27 +28,9 @@ public class Home {
 	
 	Controller controller = new Controller();
 	private int mouseX, mouseY;
-	private JFrame frame;
+	public JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Home window = new Home();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
+	
 	public Home() {
 		initialize();
 	}

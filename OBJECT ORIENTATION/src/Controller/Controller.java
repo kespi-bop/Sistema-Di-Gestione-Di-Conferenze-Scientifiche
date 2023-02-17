@@ -1,22 +1,20 @@
 package Controller;
 
+
+
+import java.util.ArrayList;
+import java.util.Date;
+
 import javax.swing.JFrame;
 
-import GUI.AggiungiProgrammiEdit;
-import GUI.AggiuntaProgrammi;
-import GUI.AzioneDiModifica;
-import GUI.CancellaConferenza;
-import GUI.CancellaProgramma;
-import GUI.CreazioneConferenza;
-import GUI.ModificaConferenza;
-import GUI.RiepilogoKeynoteSpeaker;
-import GUI.VisualizzaConferenza;
-import GUI.VisualizzaDescrizione;
-import GUI.VisualizzaProgrammi;
+import DAO.UtenteDAO;
+import GUI.*;
+import ImplementazioniPostgresDAO.UtenteImplementazionePostgresDAO;
+import Model.*;
 
 public class Controller {
 	
-	
+	Utente utente;
 	
 	
 	//costruttore
@@ -108,10 +106,71 @@ public class Controller {
 		frameHome.setEnabled(false);
 	}
 
+	public ArrayList<Object> ottieniConferenzeConProgrammi(Date data, Sede sede)
+	{
+		return null;	
+	}
 	
+	public ArrayList<Sessione> ottieniSessioni(int codProgramma)
+	{
+		return null;
+	}
 	
+	public ArrayList<String> ottieniDescrizione(int CodSessione)
+	{
+		return null;
+	}
 	
+	public ArrayList<Object> ottieniRiepilogoKS(int mese, int anno)
+	{
+		return null;		
+	}
 	
+	public ArrayList<Sponsor> ottieniAllSponsor()
+	{
+		return null;	
+	}
 	
+	public ArrayList<Organizzatore_Locale> ottieniAllOrganizzatoriL()
+	{
+		return null;
+	}
 	
+	public ArrayList<Organizzatore_Scientifico> ottieniAllOrganizzatoriS()
+	{
+		return null;
+	}
+	
+	public ArrayList<Conferenza> ottieniConferenze()
+	{
+		return null;
+	}
+	
+	public void commitCreazioneConferenza()
+	{
+		
+	}
+	
+	public void commitModificaConferenza()
+	{
+		
+	}
+	
+	public void commitCancellaConferenza()
+	{
+		
+	}
+	
+	public Boolean isCorrectCredenziali(String email, String password)
+	{
+		return null;
+	}
+	
+	public Utente ottieniOrganizzatoreLoggato()
+	{
+		UtenteDAO u = new UtenteImplementazionePostgresDAO();
+		utente = u.ottieniUtenteRicordatoDB();
+		
+		return utente;
+	}
 }

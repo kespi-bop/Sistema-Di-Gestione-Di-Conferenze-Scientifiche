@@ -24,11 +24,16 @@ public class HomeOrganizzatore {
 	
 	Controller controller = new Controller();
 	private int mouseX, mouseY;
-	JFrame frame;
+	public JFrame frame;
 
 
 	public HomeOrganizzatore(JFrame frameHome) {
 		initialize(frameHome);
+	}
+	
+	public HomeOrganizzatore() {
+		Home home = new Home();
+		initialize(home.frame);
 	}
 
 	/**

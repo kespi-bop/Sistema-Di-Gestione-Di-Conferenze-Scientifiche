@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Organizzatore_Scientifico {
+public class Organizzatore_Scientifico extends Utente{
 	private String emailS; //formato email
 	private String descrizioneCurriculum;
 	private String titolo;
@@ -24,6 +24,7 @@ public class Organizzatore_Scientifico {
 		sessioniChair.add(ref$Sessione);
 		ref$Sessione.chairSessione=this;
 	}
+	
 	//Metodi gets
 	public String getemailS() {
 		return emailS;
@@ -40,9 +41,11 @@ public class Organizzatore_Scientifico {
 	public String getDescrizioneCurriculum() {
 		return descrizioneCurriculum;
 	}
+	
 	//Metodi sets
 	
-	public void setemailL(String emailS) {
+	@Override
+	public void setEmail(String emailS) {
 		this.emailS = emailS;
 	}
 	public void setTitolo(String titolo) {
