@@ -7,8 +7,12 @@ import java.util.Date;
 
 import javax.swing.JFrame;
 
+import DAO.ConferenzaDAO;
+import DAO.SedeDAO;
 import DAO.UtenteDAO;
 import GUI.*;
+import ImplementazioniPostgresDAO.ConferenzaImplementazionePostgresDAO;
+import ImplementazioniPostgresDAO.SedeImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.UtenteImplementazionePostgresDAO;
 import Model.*;
 
@@ -104,10 +108,17 @@ public class Controller {
 		elencoConferenzeCancellabili.frame.setVisible(true);
 		frameHome.setEnabled(false);
 	}
-
-	public ArrayList<Object> ottieniConferenzeConProgrammi(Date data, Sede sede)
+	
+	public ArrayList<String> ottieniSedi()
 	{
-		return null;	
+		SedeDAO listaSedi = new SedeImplementazionePostgresDAO();
+		return listaSedi.getSedeDB();
+	}
+
+	public void ottieniConferenzeConProgrammi(ArrayList<String> listaTitoli, ArrayList<String> listaDate, ArrayList<String> listaSedi, String data, String sede)
+	{
+		ConferenzaDAO listaConferenze = new ConferenzaImplementazionePostgresDAO();
+		listaConferenze.getConferenzeAndProgrammiDB(listaTitoli, listaDate, listaSedi, data, sede);	
 	}
 	
 	public ArrayList<Sessione> ottieniSessioni(int codProgramma)
