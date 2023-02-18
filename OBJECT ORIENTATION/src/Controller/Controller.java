@@ -16,7 +16,6 @@ public class Controller {
 	
 	Utente utente;
 	
-	
 	//costruttore
 	public Controller() {}
 	
@@ -161,16 +160,28 @@ public class Controller {
 		
 	}
 	
-	public Boolean isCorrectCredenziali(String email, String password)
-	{
-		return null;
-	}
-	
-	public Utente ottieniOrganizzatoreLoggato()
+	//metodi di login
+	public String isCorrectCredenziali(String email, String password)
 	{
 		UtenteDAO u = new UtenteImplementazionePostgresDAO();
-		utente = u.ottieniUtenteRicordatoDB();
-		
-		return utente;
+		return u.getAccessDB(email, password);
+	}
+	
+	public String ottieniOrganizzatoreLoggato()
+	{
+		UtenteDAO u = new UtenteImplementazionePostgresDAO();
+		return u.ottieniUtenteRicordatoDB();
+	}
+	
+	public void storeOrganizzatoreRicordato(String email)
+	{
+		UtenteDAO u = new UtenteImplementazionePostgresDAO();
+		u.ricordaPasswordDB(email);
+	}
+	
+	public void deleteOrganizzatoreRicordato()
+	{
+		UtenteDAO u = new UtenteImplementazionePostgresDAO();
+		u.eliminaPasswordDB();
 	}
 }

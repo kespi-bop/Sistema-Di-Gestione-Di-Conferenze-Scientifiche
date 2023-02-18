@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,7 +13,6 @@ import java.awt.Cursor;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
-import javax.swing.border.EtchedBorder;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;

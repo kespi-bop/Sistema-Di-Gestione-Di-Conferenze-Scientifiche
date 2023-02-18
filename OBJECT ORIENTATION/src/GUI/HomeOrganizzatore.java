@@ -25,21 +25,16 @@ public class HomeOrganizzatore {
 	Controller controller = new Controller();
 	private int mouseX, mouseY;
 	public JFrame frame;
-
-
-	public HomeOrganizzatore(JFrame frameHome) {
-		initialize(frameHome);
-	}
 	
-	public HomeOrganizzatore() {
+	public HomeOrganizzatore(JFrame frameHome, String nome) {
 		Home home = new Home();
-		initialize(home.frame);
+		initialize(home.frame, nome);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final JFrame frameHome) {
+	private void initialize(final JFrame frameHome, String nome) {
 		
 		frame = new JFrame("Home");
 		frame.setUndecorated(true);
@@ -200,8 +195,8 @@ public class HomeOrganizzatore {
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
 				frame.setVisible(false);
-				frameHome.setVisible(true);
-				frameHome.setEnabled(true);
+				controller.tornaAllaHome(controller, frame, frameHome);
+				controller.deleteOrganizzatoreRicordato();
 			}
 		});
 		logoutLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -217,7 +212,7 @@ public class HomeOrganizzatore {
 		benvenutoTxt.setForeground(new Color(255, 255, 255));
 		benvenutoTxt.setOpaque(false);
 		benvenutoTxt.setEditable(false);
-		benvenutoTxt.setText("Benvenuto Mario Rossi!\r\n\r\n");
+		benvenutoTxt.setText("Benvenuto "+nome+"!");
 		benvenutoTxt.setBounds(433, 173, 311, 131);
 		frame.getContentPane().add(benvenutoTxt);
 		

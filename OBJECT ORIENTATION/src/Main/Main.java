@@ -4,7 +4,6 @@ package Main;
 import Controller.Controller;
 import GUI.Home;
 import GUI.HomeOrganizzatore;
-import Model.Utente;
 
 public class Main {
 
@@ -12,9 +11,9 @@ public class Main {
 		
 		Controller controller = new Controller();
 		
-		Utente verificaUtente = controller.ottieniOrganizzatoreLoggato();
+		String nome = controller.ottieniOrganizzatoreLoggato();
 		
-		if(verificaUtente.getEmail() == null)
+		if(nome.isEmpty())
 		{
 			Home home = new Home();	
 			home.frame.setVisible(true);
@@ -22,7 +21,8 @@ public class Main {
 		
 		else
 		{
-			HomeOrganizzatore homeOrganizzatore = new HomeOrganizzatore();
+			Home home = new Home();
+			HomeOrganizzatore homeOrganizzatore = new HomeOrganizzatore(home.frame, nome);
 			homeOrganizzatore.frame.setVisible(true);
 		}
 		

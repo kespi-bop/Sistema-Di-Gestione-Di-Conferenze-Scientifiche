@@ -1,7 +1,5 @@
 package GUI;
 
-import java.awt.EventQueue;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,8 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import javax.swing.border.LineBorder;
-
 import Controller.Controller;
 
 public class Home {
@@ -135,7 +131,7 @@ public class Home {
 		JButton loginButton = new JButton("login");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LoginOrganizzatore log = new LoginOrganizzatore(frame);
+				LoginOrganizzatore log = new LoginOrganizzatore(controller, frame);
 				log.frame.setVisible(true);
 				frame.setEnabled(false);	//non può essere toccata la finestra Home
 			}
