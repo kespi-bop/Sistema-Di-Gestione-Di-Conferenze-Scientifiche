@@ -22,26 +22,28 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 	
 	
 	@Override
-	public void getConferenzeAndProgrammiDB(ArrayList<String> listaTitoli, ArrayList<String> listaDate, ArrayList<String> listaSedi, String data, String sede) {
-		
+	public void getConferenzeAndProgrammiDB(ArrayList<Integer> listaCodici, ArrayList<String> listaTitoli, ArrayList<String> listaDate, 
+			 								ArrayList<String> listaSedi, String data, String sede)
+	{				
 		PreparedStatement leggiConferenze;
 		try {
 			if(data.isEmpty())
 			{
 				leggiConferenze = connection.prepareStatement(
-						"SELECT TitoloConferenza, DataProgramma, NomeSede\r\n"
+						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
 						+ "WHERE NomeSede = '"+sede+"';");
 			}
 			else
 			{
 				leggiConferenze = connection.prepareStatement(
-						"SELECT TitoloConferenza, DataProgramma, NomeSede\r\n"
+						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
 						+ "WHERE DataProgramma = '"+data+"' AND NomeSede = '"+sede+"';");
 			}
 		ResultSet rs = leggiConferenze.executeQuery();
 		while (rs.next()) {	
+			listaCodici.add(rs.getInt("CodProgramma"));
 			listaTitoli.add(rs.getString("TitoloConferenza"));
 			listaDate.add(rs.getString("DataProgramma"));
 			listaSedi.add(rs.getString("NomeSede"));

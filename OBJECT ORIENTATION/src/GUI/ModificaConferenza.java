@@ -84,7 +84,7 @@ public class ModificaConferenza {
 					{null, null},
 				},
 				new String[] {
-					"New column", "New column"
+					"New column", "New column", "New column"
 				}
 			) {
 				/**
@@ -92,7 +92,7 @@ public class ModificaConferenza {
 				 */
 				private static final long serialVersionUID = 1L;
 				boolean[] columnEditables = new boolean[] {
-					false, false
+					false, false, false
 				};
 				public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];

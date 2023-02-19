@@ -1,13 +1,8 @@
 package Model;
 
-import java.sql.Time;
 import java.util.ArrayList;
 
-public class Sessione {
-	private int codSessione;
-	private Time orarioInizioSessione;
-	private Time orarioFineSessione;
-	private String titoloSessione;
+public class Sessione extends Seduta{
 	private String descrizioneSessione;
 	public Programma sessioneInProgramma;//Chiave esterna
 	public Locazione luogoLocazione;//Chiave esterna
@@ -38,36 +33,14 @@ public class Sessione {
 	public Sessione(Organizzatore_Scientifico ref$Organizzatore_Scientifico) {
 		chairSessione.sessioniChair.add(this);
 	}
+	
 	//Metodi gets
-	public int getCodSessione() {
-		return codSessione;
-	}
-	public Time getOrarioInizioSessione(){
-		return orarioInizioSessione;
-	}
-	public Time getOrarioFineSessione(){
-		return orarioFineSessione;
-	}
-	public String getTitoloSessione(){
-		return titoloSessione;
-	}
 	public String getDescrizioneSessione(){
 		return descrizioneSessione;
 	}
 	
 	//Metodi sets
-	public void setCodSessione(int codSessione) {
-		this.codSessione=codSessione;
-	}
-	public void setOrarioInizioSessione(Time orarioInizioSessione) {
-	this.orarioInizioSessione=orarioInizioSessione;
-	}
-	public void setOrarioFineSessione(Time orarioFineSessione) {
-		this.orarioFineSessione=orarioFineSessione;
-	}
-	public void setTitoloSessione(String titoloSessione) {
-		this.titoloSessione=titoloSessione;
-	}
+
 	public void setDescrizioneSessione(String descrizioneSessione) {
 		this.descrizioneSessione=descrizioneSessione;
 	}

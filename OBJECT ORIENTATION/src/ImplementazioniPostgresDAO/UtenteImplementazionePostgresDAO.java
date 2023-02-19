@@ -73,7 +73,7 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO{
 	
 	public String getAccessDB(String email, String password)
 	{
-		String l= new String();
+		String l = new String();
 		String s = new String();
 		PreparedStatement verifyAccess;
 		try {
@@ -89,8 +89,8 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO{
 		while (rsl.next()) {	
 			l = rsl.getString("nome");
 		}
-		while (rsl.next()) {	
-			s = rsl.getString("nome");
+		while (rss.next()) {	
+			s = rss.getString("nome");
 		}
 		rsl.close();
 		rss.close();

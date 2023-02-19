@@ -157,6 +157,7 @@ public class LoginOrganizzatore {
 				//stringa restituita dal controllo Credenziali
 				String nomeLogin = controller.isCorrectCredenziali(textFieldEmail.getText(), passwordField.getText());
 				
+				System.out.println(nomeLogin);
 				//se la stringa è vuola(la select non trova alcuna corrispondenza) eseguo l'accesso
 				if(!nomeLogin.isEmpty())
 				{

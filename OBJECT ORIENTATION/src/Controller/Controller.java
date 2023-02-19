@@ -8,11 +8,15 @@ import java.util.Date;
 import javax.swing.JFrame;
 
 import DAO.ConferenzaDAO;
+import DAO.ProgrammaDAO;
 import DAO.SedeDAO;
+import DAO.SessioneDAO;
 import DAO.UtenteDAO;
 import GUI.*;
 import ImplementazioniPostgresDAO.ConferenzaImplementazionePostgresDAO;
+import ImplementazioniPostgresDAO.ProgrammaImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.SedeImplementazionePostgresDAO;
+import ImplementazioniPostgresDAO.SessioneImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.UtenteImplementazionePostgresDAO;
 import Model.*;
 
@@ -45,16 +49,16 @@ public class Controller {
 		frame.dispose();
 	}
 	
-	public void visualizzaFrameProgrammi(Controller controller, JFrame frameVisualizzaConferenza, Object programma)
+	public void visualizzaFrameProgrammi(Controller controller, JFrame frameVisualizzaConferenza, String CodProgramma)
 	{
-		VisualizzaProgrammi elencoProgrammi = new VisualizzaProgrammi(controller, frameVisualizzaConferenza, programma);
+		VisualizzaProgrammi elencoProgrammi = new VisualizzaProgrammi(controller, frameVisualizzaConferenza, CodProgramma);
 		elencoProgrammi.frame.setVisible(true);
 		frameVisualizzaConferenza.setEnabled(false);
 	}
 	
-	public void visualizzaFrameDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, Object descrizione)
+	public void visualizzaFrameDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, String titoloSessione, String descrizione)
 	{
-		VisualizzaDescrizione descrizioneSessione = new VisualizzaDescrizione(controller, frameVisualizzaProgrammi, descrizione);
+		VisualizzaDescrizione descrizioneSessione = new VisualizzaDescrizione(controller, frameVisualizzaProgrammi, titoloSessione, descrizione);
 		descrizioneSessione.frame.setVisible(true);
 		frameVisualizzaProgrammi.setEnabled(false);
 		
@@ -115,20 +119,23 @@ public class Controller {
 		return listaSedi.getSedeDB();
 	}
 
-	public void ottieniConferenzeConProgrammi(ArrayList<String> listaTitoli, ArrayList<String> listaDate, ArrayList<String> listaSedi, String data, String sede)
+	public void ottieniConferenzeConProgrammi(ArrayList<Integer> listaCodici, ArrayList<String> listaTitoli, 
+											  ArrayList<String> listaDate, ArrayList<String> listaSedi, String data, String sede)
 	{
 		ConferenzaDAO listaConferenze = new ConferenzaImplementazionePostgresDAO();
-		listaConferenze.getConferenzeAndProgrammiDB(listaTitoli, listaDate, listaSedi, data, sede);	
+		listaConferenze.getConferenzeAndProgrammiDB(listaCodici, listaTitoli, listaDate, listaSedi, data, sede);	
 	}
 	
-	public ArrayList<Sessione> ottieniSessioni(int codProgramma)
+	public ArrayList<Seduta> ottieniSedute(String codProgramma)
 	{
-		return null;
+		ProgrammaDAO listaSedute = new ProgrammaImplementazionePostgresDAO();
+		return listaSedute.getSeduteDB(codProgramma);
 	}
 	
-	public ArrayList<String> ottieniDescrizione(int CodSessione)
+	public String ottieniDescrizione(String codSessione)
 	{
-		return null;
+		SessioneDAO descrizione = new SessioneImplementazionePostgresDAO();
+		return descrizione.getDescrizioneDB(codSessione);
 	}
 	
 	public ArrayList<Object> ottieniRiepilogoKS(int mese, int anno)

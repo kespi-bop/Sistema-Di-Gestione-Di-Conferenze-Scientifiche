@@ -2,7 +2,7 @@ package Model;
 
 import java.sql.Time;
 
-public class Evento_Sociale {
+public class Evento_Sociale extends Seduta{
 	private int codEvento; //Chiave primaria
 	private String tipoEvento;
 	private Time orarioInizioEvento;

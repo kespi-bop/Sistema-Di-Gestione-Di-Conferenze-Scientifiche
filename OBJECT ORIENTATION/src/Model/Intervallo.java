@@ -2,7 +2,7 @@ package Model;
 
 import java.sql.Time;
 
-public class Intervallo {
+public class Intervallo extends Seduta{
 	private int codIntervallo= 0;
 	private String tipoIntervallo;
 	private Time orarioInizioIntervallo;

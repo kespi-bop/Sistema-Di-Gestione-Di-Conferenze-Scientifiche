@@ -7,15 +7,19 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.Controller;
+import Model.Seduta;
+import Model.Sessione;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
@@ -33,14 +37,14 @@ public class VisualizzaProgrammi {
 	private JPanel panel;
 
 
-	public VisualizzaProgrammi(Controller controller, JFrame frameVisualizzaConferenza, Object programma) {
-		initialize(controller, frameVisualizzaConferenza, programma);
+	public VisualizzaProgrammi(Controller controller, JFrame frameVisualizzaConferenza, String  CodProgramma) {
+		initialize(controller, frameVisualizzaConferenza, CodProgramma);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final Controller controller, final JFrame frameVisualizzaConferenza, Object programma) {
+	private void initialize(final Controller controller, final JFrame frameVisualizzaConferenza, String  CodProgramma) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -62,16 +66,18 @@ public class VisualizzaProgrammi {
 		programmiVisualizzatiPanel.setBackground(new Color(0, 0, 0));
 		
 		table = new JTable();
+		table.setFocusable(false);
+		table.getTableHeader().setReorderingAllowed(false); 
+		table.setGridColor(new Color(0, 0, 0));
+		table.setForeground(new Color(255, 255, 255));
 		table.setSelectionBackground(new Color(126, 87, 194));
 		table.setRequestFocusEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null},
-			},
+			new Object[][]{},
 			new String[] {
-				"New column", "New column"
+				"CodSessione","Titolo", "Inizio", "Fine",
 			}
 		) {
 			/**
@@ -79,7 +85,7 @@ public class VisualizzaProgrammi {
 			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
-				false, false
+				false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -92,6 +98,17 @@ public class VisualizzaProgrammi {
 		programmiVisualizzatiPanel.setViewportView(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
+		
+		ArrayList<Seduta> listaSedute = controller.ottieniSedute(CodProgramma);
+		
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		if(listaSedute!=null)
+			for(int i = 0;i<listaSedute.size(); i++)
+				//riempiamo il model che mostrerà i valori sullo schermo
+				model.addRow(new Object[] {listaSedute.get(i).getCodSeduta(), listaSedute.get(i).getTitolo(), 
+						listaSedute.get(i).getOrarioInizio(), listaSedute.get(i).getOrarioFine()});
+		
+		
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -144,9 +161,20 @@ public class VisualizzaProgrammi {
 	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
 	               JTable target = (JTable)me.getSource();
 	               int row = target.getSelectedRow(); // seleziona riga
-	               int column = target.getSelectedColumn(); // seleziona colonna
 	               //se la zona clickata è una sessione, allora eseguo la riga seguente:
-	               controller.visualizzaFrameDescrizione(controller, frame, table.getValueAt(row, column));  //passo il valore della Sessione cliccata
+	               try
+	               {
+	            	   String titoloSessione = target.getValueAt(row, 1).toString();
+	            	   String codSessione = target.getValueAt(row, 0).toString();
+	            	   if(Integer.parseInt(codSessione) >= 0)
+	            	   controller.visualizzaFrameDescrizione(controller, frame, titoloSessione, controller.ottieniDescrizione(codSessione));  //passo il valore della Sessione cliccata
+	               }
+	               catch(NullPointerException e)
+	               {
+	            	   JOptionPane.showMessageDialog(null,"Intervalli ed Eventi non hanno descrizioni!","ERROR:404", JOptionPane.ERROR_MESSAGE);
+	               }
+	               
+	               
 	            }
 	         }
 	      });

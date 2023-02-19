@@ -15,6 +15,7 @@ import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import Controller.Controller;
 import javax.swing.border.LineBorder;
+import javax.swing.JScrollPane;
 
 public class VisualizzaDescrizione {
 
@@ -22,18 +23,19 @@ public class VisualizzaDescrizione {
 	public JFrame frame;
 	private JLabel dragFrame;
 	private JLabel signature;
-	private JLabel lblNewLabel;
+	private JLabel titoloSessioneLabel;
 	private JPanel panel;
+	private JScrollPane scrollPane;
 
 
-	public VisualizzaDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, Object descrizione) {
-		initialize(controller, frameVisualizzaProgrammi, descrizione);
+	public VisualizzaDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, String titoloSessione,String descrizione) {
+		initialize(controller, frameVisualizzaProgrammi, titoloSessione, descrizione);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Controller controller, final JFrame frameVisualizzaProgrammi, Object descrizione) {
+	private void initialize(Controller controller, final JFrame frameVisualizzaProgrammi, String titoloSessione, String descrizione) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
@@ -75,19 +77,26 @@ public class VisualizzaDescrizione {
 		signature.setForeground(new Color(71, 72, 75));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		
-		lblNewLabel = new JLabel("Descrizione di ");
-		lblNewLabel.setBounds(47, 263, 425, 14);
-		panel.add(lblNewLabel);
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel.setForeground(new Color(71, 72, 75));
+		titoloSessioneLabel = new JLabel("");
+		titoloSessioneLabel.setBounds(47, 263, 425, 14);
+		panel.add(titoloSessioneLabel);
+		titoloSessioneLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		titoloSessioneLabel.setForeground(new Color(126, 87, 194));
+		titoloSessioneLabel.setText("Descrizione di "+titoloSessione);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(47, 55, 425, 203);
-		panel.add(textPane);
-		textPane.setEditable(false);
-		textPane.setSelectionColor(new Color(126, 87, 194));
-		textPane.setBackground(new Color(32, 33, 35));
-		textPane.setForeground(new Color(255, 255, 255));
+		scrollPane = new JScrollPane();
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 0));
+		scrollPane.setBounds(47, 55, 425, 203);
+		panel.add(scrollPane);
+		
+		JTextPane textDescrizionePane = new JTextPane();
+		textDescrizionePane.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPane.setViewportView(textDescrizionePane);
+		textDescrizionePane.setEditable(false);
+		textDescrizionePane.setSelectionColor(new Color(126, 87, 194));
+		textDescrizionePane.setBackground(new Color(32, 33, 35));
+		textDescrizionePane.setForeground(new Color(255, 255, 255));
+		textDescrizionePane.setText(descrizione);
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {

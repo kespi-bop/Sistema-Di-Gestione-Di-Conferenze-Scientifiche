@@ -72,7 +72,7 @@ public class VisualizzaConferenza {
 		table = new JTable();
 		table.setForeground(new Color(255, 255, 255));
 		table.setGridColor(new Color(0, 0, 0));
-		
+		table.getTableHeader().setReorderingAllowed(false); 
 		
 		
 		table.addMouseListener(new MouseAdapter() {
@@ -80,8 +80,7 @@ public class VisualizzaConferenza {
 	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
 	               JTable target = (JTable)me.getSource();
 	               int row = target.getSelectedRow(); // seleziona riga
-	               int column = target.getSelectedColumn(); // seleziona colonna
-	              controller.visualizzaFrameProgrammi(controller, frame, table.getValueAt(row, column));  //passo il valore del Programma cliccato
+	               controller.visualizzaFrameProgrammi(controller, frame, table.getValueAt(row, 0).toString());  //passo il valore del Programma cliccato
 	            }
 	         }
 	      });
@@ -94,9 +93,21 @@ public class VisualizzaConferenza {
 			new Object[][] {
 			},
 			new String[] {
-				"Titolo Conferenza", "Data Programma", "Sede"
+				"CodProgramma","Titolo Conferenza", "Data Programma", "Sede"
 			}
-		));
+			
+		){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		scrollPane.setViewportView(table);
@@ -182,6 +193,7 @@ public class VisualizzaConferenza {
 				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 				dtm.setRowCount(0);
 				
+				ArrayList<Integer> listaCodici = new ArrayList<Integer>();
 				ArrayList<String> listaTitoli = new ArrayList<String>();
 				ArrayList<String> listaDate = new ArrayList<String>();
 				ArrayList<String> listaSedi = new ArrayList<String>();
@@ -193,13 +205,13 @@ public class VisualizzaConferenza {
 					sedeSelezionata = sedeSelezionata.replace("'","''");
 				}
 				
-				controller.ottieniConferenzeConProgrammi(listaTitoli, listaDate, listaSedi, dateTextField.getText(), sedeSelezionata);
+				controller.ottieniConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateTextField.getText(), sedeSelezionata);
 				
 				DefaultTableModel model = (DefaultTableModel)table.getModel();
 				if(listaDate!=null)
 					for(int i = 0;i<listaDate.size(); i++)
 						//riempiamo il model che mostrerà i valori sullo schermo
-						model.addRow(new Object[] {listaTitoli.get(i),listaDate.get(i), listaSedi.get(i)});
+						model.addRow(new Object[] {listaCodici.get(i), listaTitoli.get(i),listaDate.get(i), listaSedi.get(i)});
 			}
 		});
 		aggiornaListaConferenzeButton.setBounds(373, 103, 88, 26);
