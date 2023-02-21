@@ -13,11 +13,7 @@ public class Intervento {
 	public Intervento() {
 		
 	}
-	
-	public Intervento(Sessione ref$Sessione) {
-		interventoInSessione=ref$Sessione;
-		ref$Sessione.interventiSessione.add(this);
-	}
+
 	
 	public Intervento(Partecipante ref$Partecipante) {
 		partecipanteIntervenuto=ref$Partecipante;

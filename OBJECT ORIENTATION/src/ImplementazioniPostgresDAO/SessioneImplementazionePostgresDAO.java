@@ -42,4 +42,24 @@ public class SessioneImplementazionePostgresDAO implements SessioneDAO{
 		return descrizione;
 	}
 
+	@Override
+	public ArrayList<String> getKeynoteDB() {
+		
+		ArrayList<String> listaKS = new ArrayList<String>();
+		PreparedStatement leggiKS;
+		try {
+			leggiKS = connection.prepareStatement(
+					"SELECT emailP FROM PARTECIPANTE;");
+			ResultSet rs = leggiKS.executeQuery();
+			while (rs.next()) {	
+				listaKS.add(rs.getString("emailP"));
+			}
+			rs.close();
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		return listaKS;
+	}
+
 }

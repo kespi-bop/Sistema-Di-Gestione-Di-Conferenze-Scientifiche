@@ -8,35 +8,50 @@ public class Sessione extends Seduta{
 	public Locazione luogoLocazione;//Chiave esterna
 	public Partecipante KSpresente=null;//Chiave esterna 
 	public Organizzatore_Scientifico chairSessione=null;//Chiave esterna
+	
 	//Costruttori
-	public ArrayList<Intervento> interventiSessione= new ArrayList<Intervento>();
 	public Sessione() {
 	}
+	
 	public Sessione(Programma ref$Programma) {
 		sessioneInProgramma=ref$Programma;
 		ref$Programma.sessioniProgrammate.add(this);
 	}
-	public Sessione(Intervento ref$Intervento) {
-		interventiSessione.add(ref$Intervento);
-		ref$Intervento.interventoInSessione=this;
-	}
-	
+
 	public Sessione (Locazione ref$Locazione) {
 		luogoLocazione=ref$Locazione;
 		ref$Locazione.sessioniAccolte.add(this);
 	}
 	
 	public Sessione(Partecipante ref$KS$Partecipante) {
-		KSpresente=ref$KS$Partecipante;
+		KSpresente = ref$KS$Partecipante;
 		ref$KS$Partecipante.partecipantiKS.add(this);
 	}
 	public Sessione(Organizzatore_Scientifico ref$Organizzatore_Scientifico) {
-		chairSessione.sessioniChair.add(this);
+		chairSessione = ref$Organizzatore_Scientifico;
+		ref$Organizzatore_Scientifico.sessioniChair.add(this);
+	}
+	
+	public Sessione(Locazione ref$Locazione, Partecipante ref$KS$Partecipante, Organizzatore_Scientifico ref$Organizzatore_Scientifico)
+	{
+		this.luogoLocazione = ref$Locazione;
+		ref$Locazione.sessioniAccolte.add(this);
+		
+		this.KSpresente = ref$KS$Partecipante;
+		ref$KS$Partecipante.partecipantiKS.add(this);
+		
+		this.chairSessione = ref$Organizzatore_Scientifico;
+		ref$Organizzatore_Scientifico.sessioniChair.add(this);
 	}
 	
 	//Metodi gets
 	public String getDescrizioneSessione(){
 		return descrizioneSessione;
+	}
+	
+	@Override
+	public Locazione getLocazione() {
+		return luogoLocazione;
 	}
 	
 	//Metodi sets

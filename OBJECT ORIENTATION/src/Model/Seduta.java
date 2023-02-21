@@ -1,14 +1,17 @@
 package Model;
 
-import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Seduta {
 	private Integer codSeduta;
-	private Time orarioInizio;
-	private Time orarioFine;
+	private Date orarioInizio;
+	private Date orarioFine;
+	SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
 	private String titolo;
 	public Programma sedutaInProgramma;//Chiave esterna
 	public Partecipante KSpresente = null;//Chiave esterna 
+	public Locazione locazione = null;
 	
 	//Costruttori
 	
@@ -16,11 +19,11 @@ public class Seduta {
 	}
 	
 	//Metodi gets
-	public Time getOrarioInizio(){
+	public Date getOrarioInizio(){
 		return orarioInizio;
 	}
 	
-	public Time getOrarioFine(){
+	public Date getOrarioFine(){
 		return orarioFine;
 	}
 	
@@ -31,13 +34,18 @@ public class Seduta {
 	public Integer getCodSeduta() {
 		return codSeduta;
 	}
+	
+	public Locazione getLocazione()
+	{
+		return locazione;
+	}
 
 	//Metodi sets
-	public void setOrarioInizio(Time orarioInizio) {
+	public void setOrarioInizio(Date orarioInizio) {
 	this.orarioInizio = orarioInizio;
 	}
 	
-	public void setOrarioFine(Time orarioFine) {
+	public void setOrarioFine(Date orarioFine) {
 		this.orarioFine = orarioFine;
 	}
 	
@@ -48,4 +56,6 @@ public class Seduta {
 	public void setCodSeduta(Integer codSeduta) {
 		this.codSeduta = codSeduta;
 	}
+	
+	
 }

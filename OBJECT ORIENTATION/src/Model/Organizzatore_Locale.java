@@ -1,24 +1,19 @@
 package Model;
 
+import java.util.ArrayList;
+
 public class Organizzatore_Locale extends Utente{
-	private String emailL; //formato email
 	private String titolo;
 	private String nome;
 	private String cognome;
 	public Ente appartenenzaEnteOL;//Chiave esterna
+	public ArrayList<Conferenza> organizzatoreLConferenze = new ArrayList<Conferenza>();
 	//Costruttori
 	public Organizzatore_Locale() {
 		
 	}
-	public Organizzatore_Locale(Ente ref$Ente) {
-		appartenenzaEnteOL=ref$Ente;
-		ref$Ente.listaOrganizzatoriLocaleEnte.add(this);
-	}
-	
+
 	//Metodi gets
-	public String getemailL() {
-		return emailL;
-	}
 	public String getTitolo() {
 		return titolo;
 	}
@@ -30,10 +25,6 @@ public class Organizzatore_Locale extends Utente{
 	}
 	
 	//Metodi sets
-	@Override
-	public void setEmail(String emailL) {
-		this.emailL = emailL;
-	}
 	public void setTitolo(String titolo) {
 		this.titolo = titolo;
 	}

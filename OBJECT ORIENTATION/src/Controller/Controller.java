@@ -8,15 +8,19 @@ import java.util.Date;
 import javax.swing.JFrame;
 
 import DAO.ConferenzaDAO;
+import DAO.OrganizzatoreDAO;
 import DAO.ProgrammaDAO;
 import DAO.SedeDAO;
 import DAO.SessioneDAO;
+import DAO.SponsorDAO;
 import DAO.UtenteDAO;
 import GUI.*;
 import ImplementazioniPostgresDAO.ConferenzaImplementazionePostgresDAO;
+import ImplementazioniPostgresDAO.OrganizzatoreImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.ProgrammaImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.SedeImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.SessioneImplementazionePostgresDAO;
+import ImplementazioniPostgresDAO.SponsorImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.UtenteImplementazionePostgresDAO;
 import Model.*;
 
@@ -71,9 +75,12 @@ public class Controller {
 		frameHome.setEnabled(false);	//non può essere toccata la finestra HomeOrganizzatore
 	}
 	
-	public void vediCreazioneProgramma(Controller controller, JFrame frameCreazioneConferenza, JFrame frameHome)
+	public void vediCreazioneProgramma(Controller controller, JFrame frameCreazioneConferenza, JFrame frameHome, 
+									   Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
+									   ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici, ArrayList<Pubblicità> listaPubblicità)
 	{
-		AggiuntaProgrammi creazioneProgramma = new AggiuntaProgrammi(controller, frameCreazioneConferenza, frameHome);
+		AggiuntaProgrammi creazioneProgramma = new AggiuntaProgrammi(controller, frameCreazioneConferenza, frameHome, conferenzaCreata, 
+																	listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 		creazioneProgramma.frame.setVisible(true);
 		frameCreazioneConferenza.setEnabled(false);
 	}
@@ -143,19 +150,22 @@ public class Controller {
 		return null;		
 	}
 	
-	public ArrayList<Sponsor> ottieniAllSponsor()
+	public ArrayList<String> ottieniAllSponsor()
 	{
-		return null;	
+		SponsorDAO listaSponsor = new SponsorImplementazionePostgresDAO();
+		return listaSponsor.getListaSponsorDB();
 	}
 	
-	public ArrayList<Organizzatore_Locale> ottieniAllOrganizzatoriL()
+	public ArrayList<String> ottieniAllOrganizzatoriL()
 	{
-		return null;
+		OrganizzatoreDAO listaOrganizzatoriL = new OrganizzatoreImplementazionePostgresDAO();
+		return listaOrganizzatoriL.getOrganizzatoriLDB();
 	}
 	
-	public ArrayList<Organizzatore_Scientifico> ottieniAllOrganizzatoriS()
+	public ArrayList<String> ottieniAllOrganizzatoriS()
 	{
-		return null;
+		OrganizzatoreDAO listaOrganizzatoriS = new OrganizzatoreImplementazionePostgresDAO();
+		return listaOrganizzatoriS.getOrganizzatoriSDB();
 	}
 	
 	public ArrayList<Conferenza> ottieniConferenze()
@@ -202,4 +212,33 @@ public class Controller {
 		UtenteDAO u = new UtenteImplementazionePostgresDAO();
 		u.eliminaPasswordDB();
 	}
+
+	public ArrayList<String> ottieniLocazioni(Sede sede) {
+		SedeDAO s = new SedeImplementazionePostgresDAO();
+		return s.getLocazioniDB(sede);
+	}
+
+	public Sessione creaSessionedaFrame(String Titolo, Date timeInizio, Date timeFine, String nomeLocazione, String ks,
+			String chair, String descrizione) 
+	{
+		Locazione locazioneSessione = new Locazione();
+		locazioneSessione.setNomeLocazione(nomeLocazione);
+		Partecipante ksSessione = new Partecipante();
+		ksSessione.setemailP(ks);
+		Organizzatore_Scientifico chairSessione = new Organizzatore_Scientifico();
+		chairSessione.setEmail(chair);
+		Sessione sessioneNuova = new Sessione(locazioneSessione, ksSessione, chairSessione);
+		sessioneNuova.setTitolo(Titolo);
+		sessioneNuova.setOrarioInizio(timeInizio);
+		sessioneNuova.setOrarioFine(timeFine);	
+		sessioneNuova.setDescrizioneSessione(descrizione);		
+		
+		return sessioneNuova;
+	}
+
+	public ArrayList<String> ottieniAllKS() {
+		SessioneDAO s = new SessioneImplementazionePostgresDAO();
+		return s.getKeynoteDB();
+	}
 }
+

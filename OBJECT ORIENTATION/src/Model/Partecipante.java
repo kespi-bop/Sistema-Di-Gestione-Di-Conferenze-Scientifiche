@@ -9,25 +9,23 @@ public class Partecipante {
 	private String cognome;
 	public Ente entePartecipante;//Chiave esterna
 	
+	public ArrayList<Sessione> sessioniPartecipate = new ArrayList<Sessione>();
 	//Costruttori
 	ArrayList<Intervento> interventiPartecipante = new ArrayList<Intervento>();
 	ArrayList<Sessione> partecipantiKS = new ArrayList<Sessione>();
 	public Partecipante() {
 	}
+	
+
 	//Trasposizione delle entità intervento-partecipante (1..*,1)
-	public Partecipante(Intervento ref$Intervento) {
+	public Partecipante(Intervento ref$Intervento,Sessione ref$Sessione$KS) {
 		interventiPartecipante.add(ref$Intervento);
 		ref$Intervento.partecipanteIntervenuto=this;
-	}
-	//Trasposizione delle entità sessione-partecipante (1..*,0..1)
-	public Partecipante(Sessione ref$Sessione$KS) {
+		
 		partecipantiKS.add(ref$Sessione$KS);
 		ref$Sessione$KS.KSpresente=this;
 	}
-	public Partecipante(Ente ref$Ente) {
-		entePartecipante=ref$Ente;
-		ref$Ente.partecipantiIscritti.add(this);
-	}
+
 	//Metodi gets
 	public String getemailP() {
 		return emailP;
@@ -43,7 +41,7 @@ public class Partecipante {
 	}
 	//Metodi sets
 	
-	public void setemailL(String emailP) {
+	public void setemailP(String emailP) {
 		this.emailP = emailP;
 	}
 	public void setTitolo(String titolo) {

@@ -9,10 +9,15 @@ public class Ente {
 	public ArrayList<Organizzatore_Locale> listaOrganizzatoriLocaleEnte = new ArrayList<Organizzatore_Locale>();
 	
 	public ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientificoEnte = new ArrayList<Organizzatore_Scientifico>();
+	
+	public ArrayList<Conferenza> listaConferenzeAmministrate = new ArrayList<Conferenza>();
+	
+	public ArrayList<Conferenza> conferenzeAmministrate = new ArrayList<Conferenza>();
 	//Costruttori
 	public Ente() {
 		
 	}
+
 	//Trasposizione Partecipante-Ente (0..*,1)
 	public Ente(Partecipante ref$Partecipante) {
 		partecipantiIscritti.add(ref$Partecipante);
