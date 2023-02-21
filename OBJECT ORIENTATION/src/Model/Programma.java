@@ -41,7 +41,7 @@ public class Programma {
 	public int getCodProgramma() {
 		return codProgramma;
 	}
-	public Date DataProgramma() {
+	public Date getDataProgramma() {
 		return dataProgramma;
 	}
 	

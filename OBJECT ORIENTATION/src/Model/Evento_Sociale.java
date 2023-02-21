@@ -38,9 +38,7 @@ public class Evento_Sociale extends Seduta{
 	public void setCodEvento(int codEvento) {
 		this.codEvento = codEvento;
 	}
-	public void setTipoEvento(String tipoEvento) {
-		this.tipoEvento = tipoEvento;
-	}
+	
 	public void setOrarioInizioEvento(Time orarioInizioEvento) {
 		this.orarioInizioEvento = orarioInizioEvento;
 	}

@@ -583,10 +583,12 @@ public class CreazioneConferenza {
 				DefaultTableModel modelL = (DefaultTableModel)table_2.getModel();
 				DefaultTableModel modelS = (DefaultTableModel)table_1.getModel();
 				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				
 				if(textFieldTitolo.getText().isEmpty() || dateInizioField.getText().isEmpty() || dateFineField.getText().isEmpty()
 				   || modelL.getRowCount() == 0 || modelS.getRowCount() == 0)	
 				{
 					JOptionPane.showMessageDialog(null,"Riempi tutti i campi contrassegnati da *!","ERROR:410", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 				
 				else
@@ -647,14 +649,14 @@ public class CreazioneConferenza {
 							String spesa = model.getValueAt(count, 1).toString();
 							spesa = spesa.substring(0,spesa.length()-1);
 							pubblicità.setSpesa(Double.parseDouble(spesa));
-							listaPubblicità.add(pubblicità);
-							
-							controller.vediCreazioneProgramma(controller, frame, frameHome, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
-						}			
+							listaPubblicità.add(pubblicità);					
+						}		
+						controller.vediCreazioneProgramma(controller, frame, frameHome, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 					}
 					else
 					{
 						JOptionPane.showMessageDialog(null,"Date NON conformi!","ERROR:411", JOptionPane.ERROR_MESSAGE);
+						return;
 					}
 					
 				}

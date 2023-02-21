@@ -49,6 +49,14 @@ public class Sessione extends Seduta{
 		return descrizioneSessione;
 	}
 	
+	public Organizzatore_Scientifico getChair() {
+		return chairSessione;
+	}
+	
+	public Partecipante getKeynoteSpeaker() {
+		return KSpresente;
+	}
+	
 	@Override
 	public Locazione getLocazione() {
 		return luogoLocazione;

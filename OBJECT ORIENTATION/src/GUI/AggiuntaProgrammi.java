@@ -584,7 +584,7 @@ public class AggiuntaProgrammi {
 						}
 						else
 						{
-							if( s.getLocazione().getNomeLocazione().compareTo(comboBox.getSelectedItem().toString()) == 0 )
+							if( (s.getLocazione().getNomeLocazione().compareTo(comboBox.getSelectedItem().toString())) == 0 )
 							{
 								if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
 										|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
@@ -670,7 +670,8 @@ public class AggiuntaProgrammi {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frameCreazioneConferenza.dispose();
-				controller.tornaAllaHome(controller, frame, frameHome);
+				controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
+				controller.tornaAllaHome(controller, frame, frameHome);				
 			}
 		});
 		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -717,8 +718,8 @@ public class AggiuntaProgrammi {
 	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
 	               JTable target = (JTable)me.getSource();
 	               int row = target.getSelectedRow(); // seleziona riga
-	               ((DefaultTableModel)table.getModel()).removeRow(row); //elimino il la riga con doppio click
-	               listaProgrammi.remove(row);	        
+	               ((DefaultTableModel)table_1.getModel()).removeRow(row); //elimino il la riga con doppio click      
+	               listaProgrammi.remove(row);	                
 	            }
 	         }
 	      });
@@ -731,26 +732,58 @@ public class AggiuntaProgrammi {
 		btnAggiungiProgramma.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				
+				DefaultTableModel model = (DefaultTableModel)table_1.getModel();
 				Programma programmaNuovo = new Programma();
 				for(Seduta s: listaSedute)
 				{
 					if(!(s.getLocazione() == null))
 						listaSessioni.add((Sessione)s);
 
-					else if(s.getTitolo().compareTo("Cena") == 0 || s.getTitolo().compareTo("Gita") == 0)
+					else if((s.getTitolo().compareTo("Cena") == 0) || (s.getTitolo().compareTo("Gita") == 0))
 						listaEventi.add((Evento_Sociale)s);
 
 					else
 						listaIntervalli.add((Intervallo)s);					
 				}
+				//casto la data inserita al tipo Date di java
+				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+				Date dataProgramma = new Date();
+				try {
+					dataProgramma = sf.parse(formattedTextField.getText());
+				} catch (ParseException e1) {
+					System.out.println("Data non conforme alla conferenza!");
+				}
+				
+				if(table_1.getRowCount() != 0)
+				{
+					for(Programma p: listaProgrammi)
+					{
+						if(p.getDataProgramma().equals(dataProgramma))
+						{
+							JOptionPane.showMessageDialog(null,"Data non disponibile!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+					}
+				}
+				
+				if(table.getRowCount()<1)
+				{
+					JOptionPane.showMessageDialog(null,"Devi aggiungere delle sedute!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+					return;
+				}			
+				programmaNuovo.setDataProgramma(dataProgramma);
 				programmaNuovo.sessioniProgrammate = listaSessioni;
 				programmaNuovo.eventiProgrammati = listaEventi;
 				programmaNuovo.intervalliProgrammati = listaIntervalli;
 				listaProgrammi.add(programmaNuovo);
+				model.addRow(new Object[] {sf.format(programmaNuovo.getDataProgramma())});
 				//dopo aver aggiunto il programma rimuovo le ArrayList occupate
 				listaSessioni.removeAll(listaSessioni);
 				listaEventi.removeAll(listaEventi);
 				listaIntervalli.removeAll(listaIntervalli);		
+				listaSedute.removeAll(listaSedute);
 				//ripulisco la tabella
 				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 				dtm.setRowCount(0);

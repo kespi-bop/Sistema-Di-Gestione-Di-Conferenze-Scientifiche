@@ -173,9 +173,10 @@ public class Controller {
 		return null;
 	}
 	
-	public void commitCreazioneConferenza()
+	public void commitCreazioneConferenza(Conferenza conferenzaNuova, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità)
 	{
-		
+		ConferenzaDAO conferenzaCreata= new ConferenzaImplementazionePostgresDAO();
+		conferenzaCreata.commitCreateDB(conferenzaNuova, listaProgrammi, listaPubblicità);
 	}
 	
 	public void commitModificaConferenza()
