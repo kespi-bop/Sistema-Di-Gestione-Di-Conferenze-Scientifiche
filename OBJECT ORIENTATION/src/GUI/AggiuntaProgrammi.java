@@ -495,6 +495,7 @@ public class AggiuntaProgrammi {
 		final JComboBox<String> comboBox_1 = new JComboBox<String>();
 		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
 		ArrayList<String> listaKS = controller.ottieniAllKS();
+		comboBox_1.addItem("");
 		for(String ks: listaKS)
 		{
 				comboBox_1.addItem(ks);
@@ -833,21 +834,7 @@ public class AggiuntaProgrammi {
 		lblFormatoDataYyyymmdd_1_1_1.setForeground(new Color(71, 72, 75));
 		lblFormatoDataYyyymmdd_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 120, 174, 14);
-		panel.add(lblFormatoDataYyyymmdd_1_1_1);
-		
-	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		panel.add(lblFormatoDataYyyymmdd_1_1_1);	
 		
 	}
 }

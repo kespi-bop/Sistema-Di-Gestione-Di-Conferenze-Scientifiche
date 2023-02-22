@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
 import Controller.Controller;
+import Model.Conferenza;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
@@ -34,14 +37,14 @@ public class CancellaConferenza {
 	private JPanel panel;
 
 	
-	public CancellaConferenza(Controller controller, JFrame frameHome) {
-		initialize(controller, frameHome);
+	public CancellaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
+		initialize(controller, frameHome, listaConferenze);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final Controller controller, final JFrame frameHome) {
+	private void initialize(final Controller controller, final JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
@@ -64,23 +67,25 @@ public class CancellaConferenza {
 		
 		table = new JTable();
 		table.setSelectionBackground(new Color(126, 87, 194));
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		table.setForeground(Color.WHITE);
+		table.setGridColor(new Color(0, 0, 0));
 		table.setRequestFocusEnabled(false);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null},
 			},
 			new String[] {
-				"New column", "New column"
+				"Titolo Conferenza", "Data Inizio", "Data Fine"
 			}
-		) {
+		){
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
-				false, false
+				false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -89,8 +94,18 @@ public class CancellaConferenza {
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		scrollPane.setViewportView(table);
+		table.getTableHeader().setReorderingAllowed(false); 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
+		
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		//riempio il model che mostrerà i valori sullo schermo
+		for(int i = 0;i<listaConferenze.size(); i++)
+		{		
+			model.addRow(new Object[] {listaConferenze.get(i).getTitoloConferenza(), sf.format(listaConferenze.get(i).getDataInizio()), sf.format(listaConferenze.get(i).getDataFine())});
+		}
+		
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -123,8 +138,9 @@ public class CancellaConferenza {
 		panel.add(ConfermaCancellazioneButton);
 		ConfermaCancellazioneButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(controller, frame, frameHome);
+			public void mouseClicked(MouseEvent e) {				
+				controller.commitCancellaConferenza(listaConferenze.get(table.getSelectedRow() ));
+				model.removeRow(table.getSelectedRow());
 			}
 		});
 		ConfermaCancellazioneButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

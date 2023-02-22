@@ -21,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 import Controller.Controller;
 
 import javax.swing.ListSelectionModel;
-import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -159,6 +158,7 @@ public class VisualizzaConferenza {
 		sedeLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		
 		final JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.addItem("");
 		comboBox.setForeground(new Color(255, 255, 255));
 		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBox.setFocusable(false);
@@ -192,7 +192,7 @@ public class VisualizzaConferenza {
 				//ripulisco la tabella
 				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 				dtm.setRowCount(0);
-				
+	
 				ArrayList<Integer> listaCodici = new ArrayList<Integer>();
 				ArrayList<String> listaTitoli = new ArrayList<String>();
 				ArrayList<String> listaDate = new ArrayList<String>();
@@ -212,6 +212,9 @@ public class VisualizzaConferenza {
 					for(int i = 0;i<listaDate.size(); i++)
 						//riempiamo il model che mostrerà i valori sullo schermo
 						model.addRow(new Object[] {listaCodici.get(i), listaTitoli.get(i),listaDate.get(i), listaSedi.get(i)});
+				
+				//ripulisco l'inserimento della data
+				dateTextField.setText("");
 			}
 		});
 		aggiornaListaConferenzeButton.setBounds(373, 103, 88, 26);

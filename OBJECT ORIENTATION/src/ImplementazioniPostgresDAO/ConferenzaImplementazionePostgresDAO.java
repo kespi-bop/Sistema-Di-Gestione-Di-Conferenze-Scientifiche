@@ -11,6 +11,7 @@ import java.util.Date;
 import DAO.ConferenzaDAO;
 import Database.ConnessioneDatabase;
 import Model.Conferenza;
+import Model.Ente;
 import Model.Evento_Sociale;
 import Model.Intervallo;
 import Model.Organizzatore_Locale;
@@ -40,10 +41,27 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		try {
 			if(data.isEmpty())
 			{
-				leggiConferenze = connection.prepareStatement(
+				if(sede.isEmpty())
+				{
+					leggiConferenze = connection.prepareStatement(
+							"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
+							+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n");
+				}
+				else
+				{
+					leggiConferenze = connection.prepareStatement(
 						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
 						+ "WHERE NomeSede = '"+sede+"';");
+				}
+				
+			}
+			else if(sede.isEmpty())
+			{
+				leggiConferenze = connection.prepareStatement(
+						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
+						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
+						+ "WHERE DataProgramma = '"+data+"';");
 			}
 			else
 			{
@@ -227,7 +245,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 
 
 	@Override
-	public String getConflictConferenza(Date dataInizio, Date dataFine, String nomeSede) {
+	public String getConflictConferenzaDB(Date dataInizio, Date dataFine, String nomeSede) {
 		PreparedStatement leggiConferenzaConflitto;
 		String sedeTrovata = new String();
 		try {	
@@ -248,6 +266,105 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			}
 			
 			return sedeTrovata;
+	}
+
+
+	@Override
+	public ArrayList<Conferenza> getConferenzeDB() {
+		
+		PreparedStatement leggiConferenzaConflitto;
+		ArrayList<Conferenza> listaConferenze = new ArrayList<Conferenza>();
+		try {		
+			leggiConferenzaConflitto = connection.prepareStatement(
+					"SELECT CodConferenza,TitoloConferenza, DataInizio, DataFine FROM CONFERENZA");			
+			ResultSet rs = leggiConferenzaConflitto.executeQuery();
+			while (rs.next()) {	
+				Conferenza conferenza = new Conferenza();
+				conferenza.setCodConferenza(rs.getInt("CodConferenza"));
+				conferenza.setTitoloConferenza(rs.getString("TitoloConferenza"));
+				conferenza.setDataInizio(rs.getDate("DataInizio"));
+				conferenza.setDataFine(rs.getDate("DataFine"));
+				listaConferenze.add(conferenza);
+			}
+			rs.close();
+			connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return listaConferenze;
+	}
+
+
+	@Override
+	public void removeConferenzaDB(Conferenza conferenza) {
+		PreparedStatement cancellaConferenza;
+		try {
+			cancellaConferenza = connection.prepareStatement(""
+					+ "DELETE FROM CONFERENZA WHERE\r\n"
+					+ "CodConferenza = "+conferenza.getCodConferenza()+";");
+			cancellaConferenza.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	@Override
+	public ArrayList<Integer> getRiepilogoKSDB(ArrayList<Ente> istituzioni, String mese, String anno) {
+		
+		ArrayList<Integer> numeroKS = new ArrayList<Integer>();
+		
+		PreparedStatement leggiIstituzioni;
+		try {	
+				
+				if(!(mese.isEmpty()))
+				{
+					leggiIstituzioni = connection.prepareStatement(
+							"SELECT istituzione_di_afferenza, count(keynoteSpeaker) FROM PARTECIPANTE NATURAL JOIN(\r\n"
+							+ "SELECT DISTINCT KeynoteSpeaker FROM SESSIONE NATURAL JOIN PROGRAMMA\r\n"
+							+ "WHERE extract(year from DataProgramma) = "+anno+" AND extract(month from DataProgramma) = "+mese+"\r\n"
+							+ "AND (KeyNoteSpeaker is not null)) AS T\r\n"
+							+ "WHERE emailp = KeynoteSpeaker\r\n"
+							+ "GROUP BY istituzione_di_afferenza;");			
+					ResultSet rs = leggiIstituzioni.executeQuery();
+					
+					while (rs.next()) {	
+						Ente e = new Ente();
+						e.setNomeIstituzione(rs.getString("istituzione_di_afferenza"));
+						istituzioni.add(e);
+						numeroKS.add(rs.getInt(2));
+					}
+					rs.close();
+				}
+				
+				else
+				{
+					leggiIstituzioni = connection.prepareStatement(
+							"SELECT istituzione_di_afferenza, count(keynoteSpeaker) FROM PARTECIPANTE NATURAL JOIN(\r\n"
+							+ "SELECT DISTINCT KeynoteSpeaker FROM SESSIONE NATURAL JOIN PROGRAMMA\r\n"
+							+ "WHERE extract(year from DataProgramma) = "+anno+"\r\n"
+							+ "AND (KeyNoteSpeaker is not null)) AS T\r\n"
+							+ "WHERE emailp = KeynoteSpeaker\r\n"
+							+ "GROUP BY istituzione_di_afferenza;");			
+					ResultSet rs = leggiIstituzioni.executeQuery();
+					
+					while (rs.next()) {	
+						Ente e = new Ente();
+						e.setNomeIstituzione(rs.getString("istituzione_di_afferenza"));
+						istituzioni.add(e);
+						numeroKS.add(rs.getInt(2));
+					}
+					rs.close();
+				}
+				
+			connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return numeroKS;
+		
 	}
 
 }

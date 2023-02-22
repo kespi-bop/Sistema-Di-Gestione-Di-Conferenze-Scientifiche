@@ -657,6 +657,7 @@ public class CreazioneConferenza {
 							pubblicità.setSpesa(Double.parseDouble(spesa));
 							listaPubblicità.add(pubblicità);					
 						}		
+						
 						controller.vediCreazioneProgramma(controller, frame, frameHome, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 					}
 					else

@@ -169,7 +169,7 @@ public class HomeOrganizzatore {
 		cancellaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.vediCancellaConferenza(controller, frame);
+				controller.vediCancellaConferenza(controller, frame, controller.ottieniConferenze());
 			}
 		});
 		cancellaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

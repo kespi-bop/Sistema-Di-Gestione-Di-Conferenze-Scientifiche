@@ -38,7 +38,7 @@ public class Ente {
 		return nomeIstituzione;
 	}
 	//Metodi sets
-	public void getNomeIstituzione(String nomeIstituzione) {
+	public void setNomeIstituzione(String nomeIstituzione) {
 		this.nomeIstituzione = nomeIstituzione;
 	}
 }

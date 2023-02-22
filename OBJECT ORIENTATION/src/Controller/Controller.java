@@ -113,9 +113,9 @@ public class Controller {
 		frameAzioniDiModifica.setEnabled(false);
 	}
 	
-	public void vediCancellaConferenza(Controller controller, JFrame frameHome)
+	public void vediCancellaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze)
 	{
-		CancellaConferenza elencoConferenzeCancellabili = new CancellaConferenza(controller, frameHome);
+		CancellaConferenza elencoConferenzeCancellabili = new CancellaConferenza(controller, frameHome, listaConferenze);
 		elencoConferenzeCancellabili.frame.setVisible(true);
 		frameHome.setEnabled(false);
 	}
@@ -145,9 +145,10 @@ public class Controller {
 		return descrizione.getDescrizioneDB(codSessione);
 	}
 	
-	public ArrayList<Object> ottieniRiepilogoKS(int mese, int anno)
-	{
-		return null;		
+	public ArrayList<Integer> ottieniRiepilogoKS(ArrayList<Ente> istituzioni, String  mese, String anno)
+	{		
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();		
+		return c.getRiepilogoKSDB(istituzioni, mese, anno);
 	}
 	
 	public ArrayList<String> ottieniAllSponsor()
@@ -169,8 +170,9 @@ public class Controller {
 	}
 	
 	public ArrayList<Conferenza> ottieniConferenze()
-	{
-		return null;
+	{	
+		ConferenzaDAO listaConferenze = new ConferenzaImplementazionePostgresDAO();
+		return listaConferenze.getConferenzeDB();	
 	}
 	
 	public void commitCreazioneConferenza(Conferenza conferenzaNuova, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità)
@@ -184,9 +186,10 @@ public class Controller {
 		
 	}
 	
-	public void commitCancellaConferenza()
+	public void commitCancellaConferenza(Conferenza conferenza)
 	{
-		
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		c.removeConferenzaDB(conferenza);
 	}
 	
 	//metodi di login
@@ -244,7 +247,7 @@ public class Controller {
 
 	public String ottieniConferenzaConflitto(Date dataInizio, Date dataFine, String nomeSede) {
 		ConferenzaDAO c= new ConferenzaImplementazionePostgresDAO();
-		return c.getConflictConferenza(dataInizio, dataFine, nomeSede);
+		return c.getConflictConferenzaDB(dataInizio, dataFine, nomeSede);
 	}
 }
 
