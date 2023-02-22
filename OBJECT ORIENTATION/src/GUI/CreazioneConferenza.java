@@ -619,6 +619,12 @@ public class CreazioneConferenza {
 					}
 					conferenzaCreata.setDataFine(dateTimeFine);
 					
+					if(!(controller.ottieniConferenzaConflitto(conferenzaCreata.getDataInizio(),conferenzaCreata.getDataFine(),sedeSessione.getNomeSede()).isEmpty()))
+					{
+						JOptionPane.showMessageDialog(null,"Errore! La sede ospita già una conferenza!","ERROR:411", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					
 					if(dateTimeInizio.before(dateTimeFine) || dateTimeInizio.equals(dateTimeFine))
 					{
 						ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali = new ArrayList<Organizzatore_Locale>();
@@ -670,10 +676,6 @@ public class CreazioneConferenza {
 		costruisciProgrammaButton.setBackground(new Color(57, 113, 177));
 		costruisciProgrammaButton.setBounds(398, 725, 165, 36);
 		panel.add(costruisciProgrammaButton);
-		
-		
-		
-		
-		
+	
 	}
 }

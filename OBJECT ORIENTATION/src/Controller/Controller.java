@@ -241,5 +241,10 @@ public class Controller {
 		SessioneDAO s = new SessioneImplementazionePostgresDAO();
 		return s.getKeynoteDB();
 	}
+
+	public String ottieniConferenzaConflitto(Date dataInizio, Date dataFine, String nomeSede) {
+		ConferenzaDAO c= new ConferenzaImplementazionePostgresDAO();
+		return c.getConflictConferenza(dataInizio, dataFine, nomeSede);
+	}
 }
 

@@ -77,6 +77,8 @@ public class AggiuntaProgrammi {
 	private void initialize(final Controller controller, final JFrame frameCreazioneConferenza, final JFrame frameHome,
 			 				final Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
 			 				ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici, ArrayList<Pubblicità> listaPubblicità) {
+		conferenzaCreata.setOrganizzatoriLocali(listaOrganizzatoriLocali);
+		conferenzaCreata.setOrganizzatoriScientifici(listaOrganizzatoriScientifici);
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 600, 880);
@@ -457,7 +459,7 @@ public class AggiuntaProgrammi {
 						Evento_Sociale eventoNuovo = new Evento_Sociale();
 						eventoNuovo.setOrarioInizio(timeInizio);
 						eventoNuovo.setOrarioFine(timeFine);
-						eventoNuovo.setTitolo(comboBoxIntervallo.getSelectedItem().toString());
+						eventoNuovo.setTitolo(comboBoxEvento.getSelectedItem().toString());
 						listaSedute.add(eventoNuovo);
 					}
 					catch(NullPointerException exception)
@@ -571,7 +573,7 @@ public class AggiuntaProgrammi {
 				{
 					for(Seduta s: listaSedute)
 					{		
-						if(s.getLocazione() == null)
+						if(!(s instanceof Sessione))
 						{
 							if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
 								|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
@@ -622,7 +624,7 @@ public class AggiuntaProgrammi {
 					{
 						model.addRow(new Object[] {textFieldTitolo.getText(), orarioInizio.getText(), orarioFine.getText(), comboBox.getSelectedItem().toString(), 
 									 			   comboBox_1.getSelectedItem().toString(), comboBox_2.getSelectedItem().toString(), editorPane.getText()});
-
+						
 						Sessione sessioneNuova = controller.creaSessionedaFrame(textFieldTitolo.getText(), timeInizio, timeFine, comboBox.getSelectedItem().toString(), 
 									 			   comboBox_1.getSelectedItem().toString(), comboBox_2.getSelectedItem().toString(), editorPane.getText());
 
@@ -693,6 +695,7 @@ public class AggiuntaProgrammi {
 		panel.add(scrollPane_2);
 		
 		table_1 = new JTable();
+		table_1.setForeground(Color.WHITE);
 		table_1.getTableHeader().setReorderingAllowed(false); 
 		table_1.setModel(new DefaultTableModel(
 				new Object[][] {
@@ -733,20 +736,6 @@ public class AggiuntaProgrammi {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
-				
-				DefaultTableModel model = (DefaultTableModel)table_1.getModel();
-				Programma programmaNuovo = new Programma();
-				for(Seduta s: listaSedute)
-				{
-					if(!(s.getLocazione() == null))
-						listaSessioni.add((Sessione)s);
-
-					else if((s.getTitolo().compareTo("Cena") == 0) || (s.getTitolo().compareTo("Gita") == 0))
-						listaEventi.add((Evento_Sociale)s);
-
-					else
-						listaIntervalli.add((Intervallo)s);					
-				}
 				//casto la data inserita al tipo Date di java
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 				Date dataProgramma = new Date();
@@ -754,6 +743,29 @@ public class AggiuntaProgrammi {
 					dataProgramma = sf.parse(formattedTextField.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
+				}
+				
+				//nel caso in cui la data del programma non rientra nella data della conferenza
+				if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
+				{
+					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					return;
+				}	
+				
+							
+				DefaultTableModel model = (DefaultTableModel)table_1.getModel();
+				Programma programmaNuovo = new Programma();
+				for(Seduta s: listaSedute)
+				{
+					if(s instanceof Sessione)
+						listaSessioni.add((Sessione)s);
+
+					else if(s instanceof Evento_Sociale)
+						listaEventi.add((Evento_Sociale)s);				
+
+					else
+
+						listaIntervalli.add((Intervallo)s);
 				}
 				
 				if(table_1.getRowCount() != 0)
@@ -774,9 +786,9 @@ public class AggiuntaProgrammi {
 					return;
 				}			
 				programmaNuovo.setDataProgramma(dataProgramma);
-				programmaNuovo.sessioniProgrammate = listaSessioni;
-				programmaNuovo.eventiProgrammati = listaEventi;
-				programmaNuovo.intervalliProgrammati = listaIntervalli;
+				programmaNuovo.sessioniProgrammate = new ArrayList<Sessione>(listaSessioni);
+				programmaNuovo.eventiProgrammati = new ArrayList<Evento_Sociale>(listaEventi);
+				programmaNuovo.intervalliProgrammati = new ArrayList<Intervallo>(listaIntervalli);
 				listaProgrammi.add(programmaNuovo);
 				model.addRow(new Object[] {sf.format(programmaNuovo.getDataProgramma())});
 				//dopo aver aggiunto il programma rimuovo le ArrayList occupate

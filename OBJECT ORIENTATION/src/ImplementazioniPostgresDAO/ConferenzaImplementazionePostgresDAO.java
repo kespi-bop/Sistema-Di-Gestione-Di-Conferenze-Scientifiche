@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import DAO.ConferenzaDAO;
 import Database.ConnessioneDatabase;
 import Model.Conferenza;
@@ -84,7 +86,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			
 			//TABELLA CONFERENZA
 			//estraggo il codice conferenza più alto e lo incremento così da poterlo usare per la nuova conferenza
-			estraiCodice = connection.prepareStatement("SELECT Max(CodConferenza) FROM CONFERENZA;");
+			estraiCodice = connection.prepareStatement("SELECT Max(CodConferenza) FROM CONFERENZA LIMIT 1;");
 			ResultSet rsCodConferenza = estraiCodice.executeQuery();
 			
 			while(rsCodConferenza.next())
@@ -108,15 +110,19 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			
 			//TABELLA PROGRAMMA
 			//estraggo il codice Programma più alto e lo incremento così da poterlo usare per la nuova conferenza
-			estraiCodice = connection.prepareStatement("SELECT Max(CodProgramma) FROM PROGRAMMA;");
+			estraiCodice = connection.prepareStatement("SELECT Max(CodProgramma) FROM PROGRAMMA LIMIT 1;");
 			ResultSet rsCodProgramma = estraiCodice.executeQuery();
+			Integer codProgrammaIncrement = 0;
 			
 			while(rsCodProgramma.next())
+					codProgrammaIncrement = rsCodProgramma.getInt(1);
+			
+			for(Programma p : listaProgrammi)
 			{
-				int a = 0;
-				listaProgrammi.get(a).setCodProgramma(rsCodProgramma.getInt(1) + (a + 1));	
-				a++;
+				++codProgrammaIncrement;
+				p.setCodProgramma(codProgrammaIncrement);				
 			}
+			
 			for(Programma p : listaProgrammi)
 			{
 				riempiProgramma = connection.prepareStatement("INSERT INTO PROGRAMMA(DataProgramma,CodConferenza,CodProgramma)\r\n"
@@ -127,7 +133,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			
 			//TABELLA INTERVALLO
 			//estraggo il codice Intervallo più alto e lo incremento così da poterlo usare per la nuova conferenza
-			estraiCodice = connection.prepareStatement("SELECT Max(CodIntervallo) FROM INTERVALLO;");
+			estraiCodice = connection.prepareStatement("SELECT Max(CodIntervallo) FROM INTERVALLO LIMIT 1;");
 			ResultSet rsCodIntervallo = estraiCodice.executeQuery();
 			Integer codiceIntervalloIncrement = null;
 			
@@ -140,7 +146,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 				for(Intervallo i: p.intervalliProgrammati) 
 				{
 					riempiIntervallo = connection.prepareStatement("INSERT INTO INTERVALLO(CodIntervallo,TipoIntervallo,OrarioInizioIntervallo,OrarioFineIntervallo,CodProgramma)\r\n"
-							+ "VALUES("+codiceIntervalloIncrement+",'"+i.getTipoIntervallo()+"','"+sfTime.format(i.getOrarioInizio())+"','"+sfTime.format(i.getOrarioFine())+"','"+p.getCodProgramma()+"');");
+							+ "VALUES("+codiceIntervalloIncrement+",'"+i.getTitolo()+"','"+sfTime.format(i.getOrarioInizio())+"','"+sfTime.format(i.getOrarioFine())+"','"+p.getCodProgramma()+"');");
 					riempiIntervallo.executeUpdate();
 					codiceIntervalloIncrement++;
 				}
@@ -149,7 +155,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			
 			//TABELLA EVENTO_SOCIALE
 			//estraggo il codice Intervallo più alto e lo incremento così da poterlo usare per la nuova conferenza
-			estraiCodice = connection.prepareStatement("SELECT Max(CodIntervallo) FROM INTERVALLO;");
+			estraiCodice = connection.prepareStatement("SELECT Max(CodIntervallo) FROM INTERVALLO LIMIT 1;");
 			ResultSet rsCodEvento = estraiCodice.executeQuery();
 			Integer codiceEventoIncrement = null;
 			
@@ -160,8 +166,8 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			{
 				for(Evento_Sociale e: p.eventiProgrammati) 
 				{
-					riempiEvento = connection.prepareStatement("INSERT INTO INTERVALLO(CodIntervallo,TipoIntervallo,OrarioInizioIntervallo,OrarioFineIntervallo,CodProgramma)\r\n"
-							+ "VALUES("+codiceEventoIncrement+",'"+e.getTipoEvento()+"','"+sfTime.format(e.getOrarioInizio())+"','"+sfTime.format(e.getOrarioFine())+"','"+p.getCodProgramma()+"');");
+					riempiEvento = connection.prepareStatement("INSERT INTO EVENTO_SOCIALE(CodEvento,TipoEvento,OrarioInizioEvento,OrarioFineEvento,CodProgramma)\r\n"
+							+ "VALUES("+codiceEventoIncrement+",'"+e.getTitolo()+"','"+sfTime.format(e.getOrarioInizio())+"','"+sfTime.format(e.getOrarioFine())+"','"+p.getCodProgramma()+"');");
 					riempiEvento.executeUpdate();
 					codiceIntervalloIncrement++;
 				}
@@ -173,7 +179,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			for(Organizzatore_Scientifico s: conferenzaCreata.getOrganizzatoriScientifici())
 			{
 				riempiOrganizzare_S = connection.prepareStatement("INSERT INTO ORGANIZZARE_S(CodConferenza,emailS)\r\n"
-						+ "VALUES("+conferenzaCreata.getCodConferenza()+", "+s.getEmail()+")");
+						+ "VALUES("+conferenzaCreata.getCodConferenza()+", '"+s.getEmail()+"')");
 				riempiOrganizzare_S.executeUpdate();
 			}
 			
@@ -189,17 +195,21 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			
 			//TABELLA SESSIONE
 			//estraggo il codice Sessione più alto e lo incremento così da poterlo usare per la nuova conferenza
-			estraiCodice = connection.prepareStatement("SELECT Max(CodSessione) FROM SESSIONE;");
+			estraiCodice = connection.prepareStatement("SELECT Max(CodSessione) FROM SESSIONE LIMIT 1;");
 			ResultSet rsCodSessione = estraiCodice.executeQuery();
-			Integer codiceSessioneIncrement = null; rsCodSessione.getInt(1);
+			Integer codiceSessioneIncrement = null;
 			while(rsCodSessione.next())
 				codiceSessioneIncrement = rsCodSessione.getInt(1);
 			for(Programma p: listaProgrammi)
 			{
-				for(Sessione s: p.sessioniProgrammate) 
+				for(Sessione s: p.sessioniProgrammate)
 				{
+					//sostituisco i valori che contengono ' con '' per poter eseguire la Query SQL
+					if(s.getLocazione().getNomeLocazione().contains("'"))
+						s.getLocazione().setNomeLocazione(s.getLocazione().getNomeLocazione().replace("'", "''"));
+					
 					riempiSessione = connection.prepareStatement("INSERT INTO SESSIONE(CodSessione, OrarioInizioSessione, OrarioFineSessione, TitoloSessione, Chair, KeynoteSpeaker, CodProgramma, NomeLocazione)\r\n"
-							+ "VALUES("+codiceSessioneIncrement+",'"+sf.format(s.getOrarioInizio())+"','"+sf.format(s.getOrarioFine())+"','"+s.getTitolo()+"','"+s.getChair().getEmail()+"',\r\n"
+							+ "VALUES("+codiceSessioneIncrement+",'"+sfTime.format(s.getOrarioInizio())+"','"+sfTime.format(s.getOrarioFine())+"','"+s.getTitolo()+"','"+s.getChair().getEmail()+"',\r\n"
 							+ "'"+s.getKeynoteSpeaker().getemailP()+"',"+p.getCodProgramma()+",'"+s.getLocazione().getNomeLocazione()+"');");
 					riempiSessione.executeUpdate();
 					codiceSessioneIncrement++;
@@ -213,6 +223,31 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			e.printStackTrace();
 		}
 		
+	}
+
+
+	@Override
+	public String getConflictConferenza(Date dataInizio, Date dataFine, String nomeSede) {
+		PreparedStatement leggiConferenzaConflitto;
+		String sedeTrovata = new String();
+		try {	
+			leggiConferenzaConflitto = connection.prepareStatement(
+						"SELECT TitoloConferenza FROM CONFERENZA WHERE\r\n"
+						+ "( ( (('"+dataInizio+"'>= dataInizio) AND ('"+dataInizio+"' <= dataFine)) OR\r\n"
+						+ "	(('"+dataFine+"'>= dataInizio) AND ('"+dataFine+"'<= dataFine)) OR\r\n"
+						+ "	(('"+dataInizio+"'<dataInizio) AND	('"+dataFine+"'>dataFine))	) AND\r\n"
+						+ " NomeSede = '"+nomeSede.replace("'","''")+"');");			
+			ResultSet rs = leggiConferenzaConflitto.executeQuery();
+			while (rs.next()) {	
+				sedeTrovata = rs.getString("TitoloConferenza");
+			}
+			rs.close();
+			connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return sedeTrovata;
 	}
 
 }
