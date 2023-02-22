@@ -25,7 +25,6 @@ import Model.Ente;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
@@ -81,6 +80,7 @@ public class RiepilogoKeynoteSpeaker {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getTableHeader().setReorderingAllowed(false); 
+		table.setGridColor(new Color(0,0,0));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {		},
 			new String[] {

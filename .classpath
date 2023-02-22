@@ -19,6 +19,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="jgoodies-common-1.8.0.jar" sourcepath="jgoodies-common-1.8.0-sources.jar"/>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="C:/Users/gianf/Desktop/PROGETTO OO-DB/DATABASE DB/postgresql-42.5.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianf/git/Progetto-Object-Orientation-Database/postgresql-42.5.4.jar"/>
 	<classpathentry kind="output" path="OBJECT ORIENTATION/bin"/>
 </classpath>

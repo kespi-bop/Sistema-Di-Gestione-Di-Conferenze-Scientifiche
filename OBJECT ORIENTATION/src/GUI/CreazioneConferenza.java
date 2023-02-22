@@ -279,6 +279,7 @@ public class CreazioneConferenza {
 		
 		table = new JTable();
 		table.setForeground(new Color(255, 255, 255));
+		table.setGridColor(new Color(0,0,0));
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
