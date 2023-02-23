@@ -27,14 +27,18 @@ import javax.swing.border.LineBorder;
 
 public class CancellaConferenza {
 
-	private int mouseX, mouseY;
 	public JFrame frame;
+	private SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+	private DefaultTableModel model;
+	private Integer mouseX, mouseY;	
 	private JTable table;
+	private JLabel exitLabel;
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JScrollPane scrollPane;
 	private JButton ConfermaCancellazioneButton;
 	private JPanel panel;
+	private Image imgExit;
 
 	
 	public CancellaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
@@ -45,12 +49,15 @@ public class CancellaConferenza {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize(final Controller controller, final JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
+		
+		//SWING COMPONENTS
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
-		
-		
+		frame.setBackground(new Color(32, 33, 35));
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
 		panel.setBackground(new Color(32, 33, 35));
@@ -92,63 +99,58 @@ public class CancellaConferenza {
 			}
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		scrollPane.setViewportView(table);
+		table.getColumnModel().getColumn(1).setResizable(false);		
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
+		model = (DefaultTableModel)table.getModel();
+		scrollPane.setViewportView(table);
+		//riempio la tabella
+		RiempiTabellaConferenze(listaConferenze);
 		
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		//riempio il model che mostrerà i valori sullo schermo
-		for(int i = 0;i<listaConferenze.size(); i++)
-		{		
-			model.addRow(new Object[] {listaConferenze.get(i).getTitoloConferenza(), sf.format(listaConferenze.get(i).getDataInizio()), sf.format(listaConferenze.get(i).getDataFine())});
-		}
+		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 416, 44);
+		panel.add(dragFrame);
 		
-		
-		//definisco il pulsante di uscita
-		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
-		
-		JLabel exitLabel = new JLabel("");
+		imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();	
+		exitLabel = new JLabel("");
 		exitLabel.setBounds(423, 11, 17, 21);
-		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		exitLabel.setIcon(new ImageIcon(imgExit));
+		panel.add(exitLabel);
+		
+		signature = new JLabel("Duminuco&Grieco.Company©");
+		signature.setBounds(275, 267, 165, 33);			
+		signature.setForeground(new Color(56, 57, 59));
+		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
+		panel.add(signature);
+		
+		ConfermaCancellazioneButton = new JButton("conferma");
+		ConfermaCancellazioneButton.setBounds(318, 245, 97, 26);
+		ConfermaCancellazioneButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		ConfermaCancellazioneButton.setForeground(Color.WHITE);
+		ConfermaCancellazioneButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		ConfermaCancellazioneButton.setFocusPainted(false);
+		ConfermaCancellazioneButton.setBorder(null);
+		ConfermaCancellazioneButton.setBackground(new Color(57, 113, 177));				
+		panel.add(ConfermaCancellazioneButton);
+		
+		
+			
+		
+		
+		//PULSANTI & LISTNERS
+		
+		//pulsante di uscita	
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				controller.tornaAllaHome(controller, frame, frameHome);
 			}
 		});
-		exitLabel.setIcon(new ImageIcon(imgExit));
+			
 		
-		//trascino la finestra undecorated
-		dragFrame = new JLabel("");
-		dragFrame.setBounds(0, 0, 416, 44);
-		panel.add(dragFrame);
-		
-		signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setBounds(275, 267, 165, 33);
-		panel.add(signature);
-		signature.setForeground(new Color(56, 57, 59));
-		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		
-		ConfermaCancellazioneButton = new JButton("conferma");
-		ConfermaCancellazioneButton.setBounds(318, 245, 97, 26);
-		panel.add(ConfermaCancellazioneButton);
-		ConfermaCancellazioneButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {				
-				controller.commitCancellaConferenza(listaConferenze.get(table.getSelectedRow() ));
-				model.removeRow(table.getSelectedRow());
-			}
-		});
-		ConfermaCancellazioneButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		ConfermaCancellazioneButton.setForeground(Color.WHITE);
-		ConfermaCancellazioneButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		ConfermaCancellazioneButton.setFocusPainted(false);
-		ConfermaCancellazioneButton.setBorder(null);
-		ConfermaCancellazioneButton.setBackground(new Color(57, 113, 177));
+		//trascina finestra undecorated
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -159,14 +161,31 @@ public class CancellaConferenza {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mouseX = e.getX();
-				mouseY = e.getY();			}
+				mouseY = e.getY();			
+			}
+		});	
+			
+		
+		//commit della cancellazione della conferenza
+		ConfermaCancellazioneButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {				
+				controller.commitCancellaConferenza(listaConferenze.get(table.getSelectedRow() ));
+				model.removeRow(table.getSelectedRow());
+			}
 		});
-		
-		
-		
-		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
 	}
+
+	
+	//RIEMPIE LA JTABLE
+	private void RiempiTabellaConferenze(ArrayList<Conferenza> listaConferenze) {		
+		//riempio il model che mostrerà i valori sullo schermo
+		for(int i = 0;i<listaConferenze.size(); i++)
+		{		
+			model.addRow(new Object[] {listaConferenze.get(i).getTitoloConferenza(), sf.format(listaConferenze.get(i).getDataInizio()), sf.format(listaConferenze.get(i).getDataFine())});
+		}	
+	}
+
 
 }

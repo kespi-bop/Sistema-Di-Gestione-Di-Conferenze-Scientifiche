@@ -52,17 +52,64 @@ import java.text.Format;
 
 public class AggiuntaProgrammi {
 
-	private int mouseX, mouseY;
+	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
+	JFormattedTextField formattedTextFieldData = new JFormattedTextField(format);
+	private DefaultTableModel model;
+	private Programma programmaNuovo;
+	private Date dataProgramma;
+	private Integer mouseX, mouseY;
 	public JFrame frame;
+	private JLabel as;
 	private JTextField orarioFine;
-	private JTable table;
+	private JTable tableSessioniAggiunte;
 	private JTextField orarioInizio;
-	private JTable table_1;
+	private JTable tableProgrammiAggiunti;
+	private JLabel exitLabel;
+	private JLabel lblChair; 
+	private JLabel lblFormatoDataYyyymmdd_1_1;
+	private JLabel lblListaDeiProgrammi;
+	private JLabel lblFormatoDataYyyymmdd;
+	private JButton creaConferenzaButton;
+	private JLabel dragFrame;
+	private JPanel panel;
+	private JLabel locazioneLabel;
+	private JLabel OrarioFineLabel;
+	private JLabel orarioInizioLabel;
+	private JLabel dataProgrammaLabel;
+	private JLabel descrizioneLabel;
+	private JLabel lblFormatoDataYyyymmdd_1_1_1;
+	private JLabel signature;
+	private JScrollPane scrollPane_1;
+	private JScrollPane scrollPane_2;
+	private JLabel lblTipointervallo;
+	private JSeparator separator_1_1;
+	private JSeparator separator_1_2;
+	private JLabel lblEvento;
+	private JButton aggiungiIntervalloButton;
+	private JButton aggiungiEventoButton;
+	private JScrollPane scrollPane;
+	private JEditorPane editorPaneDescrizione;
+	private JFormattedTextField textFieldTitolo;
+	private JLabel titoloLabel;
+	private JSeparator separator_1_2_1;
+	private JSeparator separator_1_1_1;
+	private JButton btnAggiungiProgramma;
+	private JButton aggiungiSessioneButton;
+	private JLabel keynoteSpekaerLabel;
+	private ArrayList<String> listaKS;
+	private JComboBox<String> comboBoxLocazione;
+	private JComboBox<String> comboBoxChair;
+	private JComboBox<String> comboBoxKS;
+	private JComboBox<String> comboBoxEvento;
+	private JComboBox<String> comboBoxIntervallo;
+	private ArrayList<String> listaLocazioni;
 	private ArrayList<Programma> listaProgrammi = new ArrayList<Programma>();
 	private ArrayList<Seduta> listaSedute = new ArrayList<Seduta>();
 	private ArrayList<Sessione> listaSessioni = new ArrayList<Sessione>();
 	private ArrayList<Evento_Sociale> listaEventi = new ArrayList<Evento_Sociale>();
 	private ArrayList<Intervallo> listaIntervalli = new ArrayList<Intervallo>();
+	private Image imgExit;
 
 	
 	public AggiuntaProgrammi(Controller controller, JFrame frameCreazioneConferenza, JFrame frameHomeOrganizzatore,
@@ -77,6 +124,7 @@ public class AggiuntaProgrammi {
 	private void initialize(final Controller controller, final JFrame frameCreazioneConferenza, final JFrame frameHome,
 			 				final Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
 			 				ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici, ArrayList<Pubblicità> listaPubblicità) {
+		
 		conferenzaCreata.setOrganizzatoriLocali(listaOrganizzatoriLocali);
 		conferenzaCreata.setOrganizzatoriScientifici(listaOrganizzatoriScientifici);
 		frame = new JFrame();
@@ -85,81 +133,60 @@ public class AggiuntaProgrammi {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 0, 600, 880);
 		frame.getContentPane().add(panel);
 		
-		//definisco il pulsante di uscita
-		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
-				
-		JLabel exitLabel = new JLabel("");
+		imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();		
+		exitLabel = new JLabel("");
 		exitLabel.setBounds(573, 11, 17, 21);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		exitLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				frameHome.setVisible(true);
-				frameCreazioneConferenza.setVisible(true);		
-				frameCreazioneConferenza.setEnabled(true);
-			}
-		});
+		
 		panel.setLayout(null);
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		panel.add(exitLabel);
 		
-		//trascino la finestra undecorated
-		JLabel dragFrame = new JLabel("");
+		dragFrame = new JLabel("");
 		dragFrame.setBounds(0, 0, 563, 32);
-		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
-			}
-		});
-		dragFrame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();			}
-		});
-		panel.add(dragFrame);
+		panel.add(dragFrame);	
 		
-		JLabel dataProgrammaLabel = new JLabel("Data");
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(150, 285, 356, 88);
+		panel.add(scrollPane);
+		
+		dataProgrammaLabel = new JLabel("Data");
 		dataProgrammaLabel.setBounds(74, 78, 48, 14);
 		dataProgrammaLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		dataProgrammaLabel.setForeground(new Color(57, 113, 177));
 		dataProgrammaLabel.setBackground(new Color(57, 113, 177));
 		
-		JLabel orarioInizioLabel = new JLabel("Orario inizio");
+		orarioInizioLabel = new JLabel("Orario inizio");
 		orarioInizioLabel.setBounds(74, 121, 66, 14);
 		orarioInizioLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		orarioInizioLabel.setForeground(new Color(57, 113, 177));
 		
-		JLabel OrarioFineLabel = new JLabel("Orario fine");
+		OrarioFineLabel = new JLabel("Orario fine");
 		OrarioFineLabel.setBounds(74, 158, 66, 14);
 		OrarioFineLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		OrarioFineLabel.setForeground(new Color(57, 113, 177));
 		
-		JLabel locazioneLabel = new JLabel("Locazione*");
+		locazioneLabel = new JLabel("Locazione*");
 		locazioneLabel.setBounds(74, 189, 60, 14);
 		locazioneLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		locazioneLabel.setForeground(new Color(57, 113, 177));
 		
-		JLabel descrizioneLabel = new JLabel("Descrizione*");
+		descrizioneLabel = new JLabel("Descrizione*");
 		descrizioneLabel.setBounds(74, 294, 71, 14);
 		descrizioneLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		descrizioneLabel.setForeground(new Color(57, 113, 177));
 		
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		final JFormattedTextField formattedTextField = new JFormattedTextField(format);
-		formattedTextField.setForeground(new Color(255, 255, 255));
-		formattedTextField.setBackground(new Color(32, 33, 35));
-		formattedTextField.setBorder(null);
-		formattedTextField.setBounds(150, 80, 154, 20);
-		panel.add(formattedTextField);
+		formattedTextFieldData.setForeground(new Color(255, 255, 255));
+		formattedTextFieldData.setBackground(new Color(32, 33, 35));
+		formattedTextFieldData.setBorder(null);
+		formattedTextFieldData.setBounds(150, 80, 154, 20);
+		panel.add(formattedTextFieldData);
 		
 		orarioFine = new JTextField();
 		orarioFine.setBounds(150, 155, 154, 20);
@@ -182,10 +209,12 @@ public class AggiuntaProgrammi {
 		orarioInizio.setBackground(new Color(32, 33, 35));
 		panel.add(orarioInizio);
 		
-		JLabel as = new JLabel("Attenzione! Per aggiungere una sessione, riempire i campi contrassegnati da *");
+		as = new JLabel("Attenzione! Per aggiungere una sessione, riempire i campi contrassegnati da *");
 		as.setBounds(29, 524, 497, 14);
 		as.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		as.setForeground(new Color(70, 71, 74));
+		panel.add(as);
+		
 		panel.add(dataProgrammaLabel);
 		panel.add(orarioInizioLabel);
 		panel.add(OrarioFineLabel);
@@ -193,14 +222,14 @@ public class AggiuntaProgrammi {
 		panel.add(descrizioneLabel);
 		panel.add(orarioFine);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBackground(new Color(32, 33, 35));
 		scrollPane_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane_1.setBounds(29, 389, 544, 131);
 		panel.add(scrollPane_1);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
+		tableSessioniAggiunte = new JTable();
+		tableSessioniAggiunte.setModel(new DefaultTableModel(
 			new Object[][] {
 			},
 			new String[] {
@@ -218,63 +247,44 @@ public class AggiuntaProgrammi {
 				return columnEditables[column];
 			}
 		});
+		tableSessioniAggiunte.getTableHeader().setReorderingAllowed(false);
+		tableSessioniAggiunte.setSelectionBackground(new Color(126, 87, 194));
+		tableSessioniAggiunte.setForeground(new Color(255,255,255));
+		tableSessioniAggiunte.setBackground(new Color(32, 33, 35));
+		tableSessioniAggiunte.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableSessioniAggiunte.getTableHeader().setReorderingAllowed(false); 
+		scrollPane_1.setViewportView(tableSessioniAggiunte);
 		
-		table.addMouseListener(new MouseAdapter() {
-	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               ((DefaultTableModel)table.getModel()).removeRow(row); //elimino il la riga con doppio click
-	               listaSedute.remove(row);
-	            }
-	         }
-	      });
-		scrollPane_1.setViewportView(table);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setSelectionBackground(new Color(126, 87, 194));
-		table.setForeground(new Color(255,255,255));
-		table.setBackground(new Color(32, 33, 35));
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.getTableHeader().setReorderingAllowed(false); 
-		panel.add(as);
-		
-		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
+		signature = new JLabel("Duminuco&Grieco.Company©");
 		signature.setBounds(425, 847, 165, 33);
 		signature.setForeground(new Color(56, 57, 59));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		panel.add(signature);
 		
-		JSeparator separator_1_1 = new JSeparator();
+		separator_1_1 = new JSeparator();
 		separator_1_1.setBounds(150, 101, 154, 8);
 		panel.add(separator_1_1);
 		
-		JSeparator separator_1_2 = new JSeparator();
+		separator_1_2 = new JSeparator();
 		separator_1_2.setBounds(150, 178, 154, 8);
 		panel.add(separator_1_2);
 		
-		final JComboBox<String> comboBox = new JComboBox<String>();
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		ArrayList<String> listaLocazioni = controller.ottieniLocazioni(conferenzaCreata.ospitaConferenza);
-		for(String s: listaLocazioni)
-		{
-			comboBox.addItem(s);
-		}
-		comboBox.setForeground(Color.WHITE);
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		comboBox.setFocusable(false);
-		comboBox.setBorder(null);
-		comboBox.setBackground(new Color(32, 33, 35));
-		comboBox.setBounds(150, 185, 154, 21);
-		panel.add(comboBox);
+		comboBoxLocazione = new JComboBox<String>();	
+		comboBoxLocazione.setForeground(Color.WHITE);
+		comboBoxLocazione.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		comboBoxLocazione.setFocusable(false);
+		comboBoxLocazione.setBorder(null);
+		comboBoxLocazione.setBackground(new Color(32, 33, 35));
+		comboBoxLocazione.setBounds(150, 185, 154, 21);
+		panel.add(comboBoxLocazione);
 		
-
-		JLabel lblTipointervallo = new JLabel("Intervallo");
+		lblTipointervallo = new JLabel("Intervallo");
 		lblTipointervallo.setForeground(new Color(57, 113, 177));
 		lblTipointervallo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblTipointervallo.setBounds(327, 189, 72, 14);
 		panel.add(lblTipointervallo);
 		
-		final JComboBox<String> comboBoxIntervallo = new JComboBox<String>();
+		comboBoxIntervallo = new JComboBox<String>();
 		comboBoxIntervallo.setForeground(Color.WHITE);
 		comboBoxIntervallo.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxIntervallo.setFocusable(false);
@@ -285,13 +295,13 @@ public class AggiuntaProgrammi {
 		comboBoxIntervallo.addItem("Pranzo");
 		panel.add(comboBoxIntervallo);
 		
-		JLabel lblEvento = new JLabel("Evento");
+		lblEvento = new JLabel("Evento");
 		lblEvento.setForeground(new Color(57, 113, 177));
 		lblEvento.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblEvento.setBounds(327, 221, 72, 14);
 		panel.add(lblEvento);
 		
-		final JComboBox<String> comboBoxEvento = new JComboBox<String>();
+		comboBoxEvento = new JComboBox<String>();
 		comboBoxEvento.setForeground(Color.WHITE);
 		comboBoxEvento.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxEvento.setFocusable(false);
@@ -302,7 +312,257 @@ public class AggiuntaProgrammi {
 		comboBoxEvento.setBounds(409, 217, 154, 21);
 		panel.add(comboBoxEvento);
 		
-		final JButton aggiungiIntervalloButton = new JButton("aggiungi intevallo");
+		aggiungiIntervalloButton = new JButton("aggiungi intevallo");	
+		aggiungiIntervalloButton.setBounds(39, 549, 143, 50);
+		aggiungiIntervalloButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		aggiungiIntervalloButton.setForeground(Color.WHITE);
+		aggiungiIntervalloButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		aggiungiIntervalloButton.setFocusPainted(false);
+		aggiungiIntervalloButton.setBorder(null);
+		aggiungiIntervalloButton.setBackground(new Color(126, 87, 194));
+		panel.add(aggiungiIntervalloButton);
+		
+		aggiungiEventoButton = new JButton("aggiungi \r\nevento");	
+		aggiungiEventoButton.setBounds(421, 549, 142, 50);
+		aggiungiEventoButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		aggiungiEventoButton.setForeground(Color.WHITE);
+		aggiungiEventoButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		aggiungiEventoButton.setFocusPainted(false);
+		aggiungiEventoButton.setBorder(null);
+		aggiungiEventoButton.setBackground(new Color(126, 87, 194));
+		panel.add(aggiungiEventoButton);
+		
+		editorPaneDescrizione = new JEditorPane();	
+		editorPaneDescrizione.setSelectionColor(new Color(126, 87, 194));
+		editorPaneDescrizione.setForeground(Color.WHITE);
+		editorPaneDescrizione.setDisabledTextColor(Color.WHITE);
+		editorPaneDescrizione.setCaretColor(Color.WHITE);
+		editorPaneDescrizione.setBorder(null);
+		editorPaneDescrizione.setBackground(new Color(32, 33, 35));
+		scrollPane.setViewportView(editorPaneDescrizione);		
+		
+		comboBoxKS = new JComboBox<String>();
+		comboBoxKS.addItem("");		
+		comboBoxKS.setForeground(Color.WHITE);
+		comboBoxKS.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		comboBoxKS.setFocusable(false);
+		comboBoxKS.setBorder(null);
+		comboBoxKS.setBackground(new Color(32, 33, 35));
+		comboBoxKS.setBounds(150, 218, 154, 21);
+		panel.add(comboBoxKS);
+		
+		comboBoxChair = new JComboBox<String>();	
+		comboBoxChair.setForeground(Color.WHITE);
+		comboBoxChair.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		comboBoxChair.setFocusable(false);
+		comboBoxChair.setBorder(null);
+		comboBoxChair.setBackground(new Color(32, 33, 35));
+		comboBoxChair.setBounds(150, 253, 154, 21);
+		panel.add(comboBoxChair);
+		
+		textFieldTitolo = new JFormattedTextField((Format) null);
+		textFieldTitolo.setForeground(Color.WHITE);
+		textFieldTitolo.setBorder(null);
+		textFieldTitolo.setBackground(new Color(32, 33, 35));
+		textFieldTitolo.setBounds(150, 27, 154, 20);
+		panel.add(textFieldTitolo);
+		
+		titoloLabel = new JLabel("Titolo*");
+		titoloLabel.setForeground(new Color(57, 113, 177));
+		titoloLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		titoloLabel.setBackground(new Color(57, 113, 177));
+		titoloLabel.setBounds(74, 30, 48, 14);
+		panel.add(titoloLabel);
+		
+		separator_1_1_1 = new JSeparator();
+		separator_1_1_1.setBounds(150, 48, 154, 8);
+		panel.add(separator_1_1_1);
+			
+		aggiungiSessioneButton = new JButton("aggiungi sessione");
+		aggiungiSessioneButton.setBounds(232, 549, 142, 50);
+		aggiungiSessioneButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		aggiungiSessioneButton.setForeground(Color.WHITE);
+		aggiungiSessioneButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		aggiungiSessioneButton.setFocusPainted(false);
+		aggiungiSessioneButton.setBorder(null);
+		aggiungiSessioneButton.setBackground(new Color(126, 87, 194));
+		panel.add(aggiungiSessioneButton);
+		
+		lblListaDeiProgrammi = new JLabel("Lista dei programmi aggiunti alla conferenza");
+		lblListaDeiProgrammi.setForeground(new Color(70, 71, 74));
+		lblListaDeiProgrammi.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblListaDeiProgrammi.setBounds(29, 759, 497, 14);
+		panel.add(lblListaDeiProgrammi);
+		
+		lblFormatoDataYyyymmdd = new JLabel("yyyy-MM-dd");
+		lblFormatoDataYyyymmdd.setForeground(new Color(71, 72, 75));
+		lblFormatoDataYyyymmdd.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblFormatoDataYyyymmdd.setBounds(150, 56, 174, 14);
+		panel.add(lblFormatoDataYyyymmdd);
+		
+		lblFormatoDataYyyymmdd_1_1 = new JLabel("(HH:mm)");
+		lblFormatoDataYyyymmdd_1_1.setForeground(new Color(71, 72, 75));
+		lblFormatoDataYyyymmdd_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblFormatoDataYyyymmdd_1_1.setBounds(25, 158, 174, 14);
+		panel.add(lblFormatoDataYyyymmdd_1_1);
+		
+		lblFormatoDataYyyymmdd_1_1_1 = new JLabel("(HH:mm)");
+		lblFormatoDataYyyymmdd_1_1_1.setForeground(new Color(71, 72, 75));
+		lblFormatoDataYyyymmdd_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 120, 174, 14);
+		panel.add(lblFormatoDataYyyymmdd_1_1_1);
+		
+		keynoteSpekaerLabel = new JLabel("Keynote*");
+		keynoteSpekaerLabel.setBounds(74, 221, 66, 14);
+		keynoteSpekaerLabel.setForeground(new Color(57, 113, 177));
+		keynoteSpekaerLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		panel.add(keynoteSpekaerLabel);
+		
+		separator_1_2_1 = new JSeparator();
+		separator_1_2_1.setBounds(150, 141, 154, 2);
+		panel.add(separator_1_2_1);
+		
+		lblChair = new JLabel("Chair*");
+		lblChair.setBounds(74, 253, 60, 14);
+		lblChair.setForeground(new Color(57, 113, 177));
+		lblChair.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		panel.add(lblChair);
+		
+		creaConferenzaButton = new JButton("CREA CONFERENZA");	
+		creaConferenzaButton.setForeground(Color.WHITE);
+		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		creaConferenzaButton.setFocusPainted(false);
+		creaConferenzaButton.setBorder(null);
+		creaConferenzaButton.setBackground(new Color(57, 113, 177));
+		creaConferenzaButton.setBounds(398, 805, 165, 36);
+		panel.add(creaConferenzaButton);
+		
+		scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBorder(new LineBorder(new Color(130, 135, 144), 0));
+		scrollPane_2.setBounds(29, 624, 131, 124);
+		panel.add(scrollPane_2);
+		
+		tableProgrammiAggiunti = new JTable();
+		tableProgrammiAggiunti.setForeground(Color.WHITE);
+		tableProgrammiAggiunti.getTableHeader().setReorderingAllowed(false); 
+		tableProgrammiAggiunti.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Data"
+				}
+			){
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});				
+		tableProgrammiAggiunti.setSelectionBackground(new Color(126, 87, 194));
+		tableProgrammiAggiunti.setBorder(new LineBorder(new Color(0, 0, 0)));
+		tableProgrammiAggiunti.setBackground(new Color(32, 33, 35));
+		scrollPane_2.setViewportView(tableProgrammiAggiunti);
+		
+		btnAggiungiProgramma = new JButton("aggiungi programma");	
+		btnAggiungiProgramma.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAggiungiProgramma.setForeground(Color.WHITE);
+		btnAggiungiProgramma.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		btnAggiungiProgramma.setFocusPainted(false);
+		btnAggiungiProgramma.setBorder(null);
+		btnAggiungiProgramma.setBackground(new Color(126, 87, 194));
+		btnAggiungiProgramma.setBounds(39, 805, 165, 36);
+		panel.add(btnAggiungiProgramma);
+		
+		
+		
+		
+		
+		
+		//PULSANTI & LISTNERS
+			
+		//pulsante di uscita
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				TornaAlFramePrecedente(frame, frameHome, frameCreazioneConferenza);		
+			}
+		});
+		
+		
+		//rimuovo righe di Programmi
+		tableProgrammiAggiunti.addMouseListener(new MouseAdapter() {
+			@Override
+	         public void mouseClicked(MouseEvent me) { 
+	        	 RimuoviRigaProgramma(me);           
+	         }
+	      });
+		
+		
+		btnAggiungiProgramma.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+							
+				AggiungiProgramma(conferenzaCreata, formattedTextFieldData.getText(), tableSessioniAggiunte.getRowCount(), tableProgrammiAggiunti.getRowCount(), 
+						listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);	
+				}
+		});
+		
+		
+		creaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CommitCreazione(controller, conferenzaCreata, frameCreazioneConferenza, frameHome, listaProgrammi, listaPubblicità);
+							
+			}
+		});
+		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		creaConferenzaButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameCreazioneConferenza.dispose();
+				controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
+				controller.tornaAllaHome(controller, frame, frameHome);	
+			}
+		});
+		
+		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
+			}
+		});
+		dragFrame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();			}
+		});
+		
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
+		listaLocazioni = controller.ottieniLocazioni(conferenzaCreata.ospitaConferenza);
+		for(String s: listaLocazioni)
+		{
+			comboBoxLocazione.addItem(s);
+		}
+		
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata	
+		for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici)
+		{
+				comboBoxChair.addItem(chair.getEmail().toString());
+		}
+		
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
+		listaKS = controller.ottieniAllKS();
+		
+		for(String ks: listaKS)
+		{
+				comboBoxKS.addItem(ks);
+		}
+				
 		aggiungiIntervalloButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -311,7 +571,7 @@ public class AggiuntaProgrammi {
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 				Date dataProgramma = new Date();
 				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
+					dataProgramma = sf.parse(formattedTextFieldData.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
 				}
@@ -328,10 +588,10 @@ public class AggiuntaProgrammi {
 					System.out.println("Orario non conforme!");
 				}
 				
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
 				
 				//controllo se non ci sono altre sessioni in corso
-				if(table.getRowCount() != 0)
+				if(tableSessioniAggiunte.getRowCount() != 0)
 				{
 					for(Seduta s: listaSedute)
 					{
@@ -349,7 +609,7 @@ public class AggiuntaProgrammi {
 				
 				
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextField.getText().isEmpty())
+				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
@@ -382,24 +642,16 @@ public class AggiuntaProgrammi {
 				
 			}
 		});
-		aggiungiIntervalloButton.setBounds(39, 549, 143, 50);
-		aggiungiIntervalloButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		aggiungiIntervalloButton.setForeground(Color.WHITE);
-		aggiungiIntervalloButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		aggiungiIntervalloButton.setFocusPainted(false);
-		aggiungiIntervalloButton.setBorder(null);
-		aggiungiIntervalloButton.setBackground(new Color(126, 87, 194));
-		panel.add(aggiungiIntervalloButton);
 		
-		JButton aggiungiOrganizzatoreLButton = new JButton("aggiungi \r\nevento");
-		aggiungiOrganizzatoreLButton.addMouseListener(new MouseAdapter() {
+		
+		aggiungiEventoButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//casto la data inserita al tipo Date di java
 				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 				Date dataProgramma = new Date();
 				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
+					dataProgramma = sf.parse(formattedTextFieldData.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
 				}
@@ -416,10 +668,10 @@ public class AggiuntaProgrammi {
 					System.out.println("Orario non conforme!");
 				}
 				
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
 				
 				//controllo se non ci sono altre sessioni in corso
-				if(table.getRowCount() != 0)
+				if(tableSessioniAggiunte.getRowCount() != 0)
 				{
 					for(Seduta s: listaSedute)
 					{
@@ -437,7 +689,7 @@ public class AggiuntaProgrammi {
 				
 				
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextField.getText().isEmpty())
+				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
@@ -470,94 +722,23 @@ public class AggiuntaProgrammi {
 				
 			}
 		});
-		aggiungiOrganizzatoreLButton.setBounds(421, 549, 142, 50);
-		aggiungiOrganizzatoreLButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		aggiungiOrganizzatoreLButton.setForeground(Color.WHITE);
-		aggiungiOrganizzatoreLButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		aggiungiOrganizzatoreLButton.setFocusPainted(false);
-		aggiungiOrganizzatoreLButton.setBorder(null);
-		aggiungiOrganizzatoreLButton.setBackground(new Color(126, 87, 194));
-		panel.add(aggiungiOrganizzatoreLButton);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(150, 285, 356, 88);
-		panel.add(scrollPane);
-		
-		final JEditorPane editorPane = new JEditorPane();
-		scrollPane.setViewportView(editorPane);
-		editorPane.setSelectionColor(new Color(126, 87, 194));
-		editorPane.setForeground(Color.WHITE);
-		editorPane.setDisabledTextColor(Color.WHITE);
-		editorPane.setCaretColor(Color.WHITE);
-		editorPane.setBorder(null);
-		editorPane.setBackground(new Color(32, 33, 35));
-		
-		final JComboBox<String> comboBox_1 = new JComboBox<String>();
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		ArrayList<String> listaKS = controller.ottieniAllKS();
-		comboBox_1.addItem("");
-		for(String ks: listaKS)
-		{
-				comboBox_1.addItem(ks);
-		}
-		comboBox_1.setForeground(Color.WHITE);
-		comboBox_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		comboBox_1.setFocusable(false);
-		comboBox_1.setBorder(null);
-		comboBox_1.setBackground(new Color(32, 33, 35));
-		comboBox_1.setBounds(150, 218, 154, 21);
-		panel.add(comboBox_1);
-		
-		final JComboBox<String> comboBox_2 = new JComboBox<String>();
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata	
-		for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici)
-		{
-				comboBox_2.addItem(chair.getEmail().toString());
-		}
-		comboBox_2.setForeground(Color.WHITE);
-		comboBox_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		comboBox_2.setFocusable(false);
-		comboBox_2.setBorder(null);
-		comboBox_2.setBackground(new Color(32, 33, 35));
-		comboBox_2.setBounds(150, 253, 154, 21);
-		panel.add(comboBox_2);
-		
-		final JFormattedTextField textFieldTitolo = new JFormattedTextField((Format) null);
-		textFieldTitolo.setForeground(Color.WHITE);
-		textFieldTitolo.setBorder(null);
-		textFieldTitolo.setBackground(new Color(32, 33, 35));
-		textFieldTitolo.setBounds(150, 27, 154, 20);
-		panel.add(textFieldTitolo);
-		
-		JLabel titoloLabel = new JLabel("Titolo*");
-		titoloLabel.setForeground(new Color(57, 113, 177));
-		titoloLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		titoloLabel.setBackground(new Color(57, 113, 177));
-		titoloLabel.setBounds(74, 30, 48, 14);
-		panel.add(titoloLabel);
-		
-		JSeparator separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setBounds(150, 48, 154, 8);
-		panel.add(separator_1_1_1);
 		
 		
-		JButton aggiungiOrganizzatoreSButton = new JButton("aggiungi sessione");
-		aggiungiOrganizzatoreSButton.addMouseListener(new MouseAdapter() {
+		aggiungiSessioneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				
 				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
+				dataProgramma = new Date();
 				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
+					dataProgramma = format.parse(formattedTextFieldData.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
 				}
 				
 				
 				//casto l'orario iniziale e finale a DataTime per poterli confrontare
-				SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
+				
 				Date timeFine = new Date();
 				Date timeInizio = new Date();
 				try {
@@ -567,10 +748,10 @@ public class AggiuntaProgrammi {
 					System.out.println("Orario non conforme!");
 				}
 				
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
 				
 				//controllo se non ci sono altre sessioni in corso
-				if(table.getRowCount() != 0)
+				if(tableSessioniAggiunte.getRowCount() != 0)
 				{
 					for(Seduta s: listaSedute)
 					{		
@@ -587,7 +768,7 @@ public class AggiuntaProgrammi {
 						}
 						else
 						{
-							if( (s.getLocazione().getNomeLocazione().compareTo(comboBox.getSelectedItem().toString())) == 0 )
+							if( (s.getLocazione().getNomeLocazione().compareTo(comboBoxLocazione.getSelectedItem().toString())) == 0 )
 							{
 								if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
 										|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
@@ -605,7 +786,7 @@ public class AggiuntaProgrammi {
 				
 				
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextField.getText().isEmpty())
+				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
@@ -623,11 +804,11 @@ public class AggiuntaProgrammi {
 				{
 					try
 					{
-						model.addRow(new Object[] {textFieldTitolo.getText(), orarioInizio.getText(), orarioFine.getText(), comboBox.getSelectedItem().toString(), 
-									 			   comboBox_1.getSelectedItem().toString(), comboBox_2.getSelectedItem().toString(), editorPane.getText()});
+						model.addRow(new Object[] {textFieldTitolo.getText(), orarioInizio.getText(), orarioFine.getText(), comboBoxLocazione.getSelectedItem().toString(), 
+									 			   comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), editorPaneDescrizione.getText()});
 						
-						Sessione sessioneNuova = controller.creaSessionedaFrame(textFieldTitolo.getText(), timeInizio, timeFine, comboBox.getSelectedItem().toString(), 
-									 			   comboBox_1.getSelectedItem().toString(), comboBox_2.getSelectedItem().toString(), editorPane.getText());
+						Sessione sessioneNuova = controller.creaSessionedaFrame(textFieldTitolo.getText(), timeInizio, timeFine, comboBoxLocazione.getSelectedItem().toString(), 
+									 			   comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), editorPaneDescrizione.getText());
 
 						listaSedute.add(sessioneNuova);
 					}
@@ -639,202 +820,171 @@ public class AggiuntaProgrammi {
 				
 			}
 		});
-		aggiungiOrganizzatoreSButton.setBounds(232, 549, 142, 50);
-		aggiungiOrganizzatoreSButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		aggiungiOrganizzatoreSButton.setForeground(Color.WHITE);
-		aggiungiOrganizzatoreSButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		aggiungiOrganizzatoreSButton.setFocusPainted(false);
-		aggiungiOrganizzatoreSButton.setBorder(null);
-		aggiungiOrganizzatoreSButton.setBackground(new Color(126, 87, 194));
-		panel.add(aggiungiOrganizzatoreSButton);
-		
-		JLabel keynoteSpekaerLabel = new JLabel("Keynote*");
-		keynoteSpekaerLabel.setBounds(74, 221, 66, 14);
-		keynoteSpekaerLabel.setForeground(new Color(57, 113, 177));
-		keynoteSpekaerLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		panel.add(keynoteSpekaerLabel);
-		
-		JSeparator separator_1_2_1 = new JSeparator();
-		separator_1_2_1.setBounds(150, 141, 154, 2);
-		panel.add(separator_1_2_1);
 		
 		
-		
-		
-		
-		JLabel lblChair = new JLabel("Chair*");
-		lblChair.setBounds(74, 253, 60, 14);
-		lblChair.setForeground(new Color(57, 113, 177));
-		lblChair.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		panel.add(lblChair);
-		
-		JButton creaConferenzaButton = new JButton("CREA CONFERENZA");
-		creaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frameCreazioneConferenza.dispose();
-				controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
-				controller.tornaAllaHome(controller, frame, frameHome);				
-			}
-		});
-		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		creaConferenzaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		creaConferenzaButton.setForeground(Color.WHITE);
-		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		creaConferenzaButton.setFocusPainted(false);
-		creaConferenzaButton.setBorder(null);
-		creaConferenzaButton.setBackground(new Color(57, 113, 177));
-		creaConferenzaButton.setBounds(398, 805, 165, 36);
-		panel.add(creaConferenzaButton);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBorder(new LineBorder(new Color(130, 135, 144), 0));
-		scrollPane_2.setBounds(29, 624, 131, 124);
-		panel.add(scrollPane_2);
-		
-		table_1 = new JTable();
-		table_1.setForeground(Color.WHITE);
-		table_1.getTableHeader().setReorderingAllowed(false); 
-		table_1.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"Data"
-				}
-			){
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
-		
-		table_1.addMouseListener(new MouseAdapter() {
+		tableSessioniAggiunte.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               ((DefaultTableModel)table_1.getModel()).removeRow(row); //elimino il la riga con doppio click      
-	               listaProgrammi.remove(row);	                
-	            }
+	        	 RimuoviRigaSessione(me);
 	         }
-	      });
-		scrollPane_2.setViewportView(table_1);
-		table_1.setSelectionBackground(new Color(126, 87, 194));
-		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table_1.setBackground(new Color(32, 33, 35));
+	    });
 		
-		JButton btnAggiungiProgramma = new JButton("aggiungi programma");
-		btnAggiungiProgramma.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
-				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
-				} catch (ParseException e1) {
-					System.out.println("Data non conforme alla conferenza!");
-				}
-				
-				//nel caso in cui la data del programma non rientra nella data della conferenza
-				if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
-				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-					return;
-				}	
-				
-							
-				DefaultTableModel model = (DefaultTableModel)table_1.getModel();
-				Programma programmaNuovo = new Programma();
-				for(Seduta s: listaSedute)
-				{
-					if(s instanceof Sessione)
-						listaSessioni.add((Sessione)s);
+}
+	
+	private void AggiungiProgramma(Conferenza conferenzaCreata, String dataTesto, int numeroRigheSessioni, int numeroRigheProgrammi, 
+			ArrayList<Programma> listaProgrammi, Programma programmaNuovo, ArrayList<Sessione> listaSessioni, ArrayList<Evento_Sociale> listaEventi, ArrayList<Intervallo> listaIntervalli) {
+		
+		if(isNuovoProgrammaIdoneo(conferenzaCreata, dataTesto, numeroRigheProgrammi, numeroRigheSessioni))
+		{
+			IstanziaSeduteSpecializzate();
+			
+			IstanziaNuovoProgramma(listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);
+			
+			RipulisciLeArrayList();
+			
+			RipulisciTabellaProgrammi();
+		}				
+	}
 
-					else if(s instanceof Evento_Sociale)
-						listaEventi.add((Evento_Sociale)s);				
+	private boolean isNuovoProgrammaIdoneo(Conferenza conferenzaCreata, String dataTesto, int numeroRigheProgrammi, int numeroRigheSessioni) {
 
-					else
+		//se tutti e tre i vincoli sono soddisfatti allora posso eseguire la creazione di nuove conferenze
+		return (isDataIdonea(conferenzaCreata, dataTesto)) && (isDataApenaAggiuntaIdonea(numeroRigheProgrammi, listaProgrammi)) && isProgrammaConSedute(numeroRigheSessioni);
+	}
 
-						listaIntervalli.add((Intervallo)s);
-				}
-				
-				if(table_1.getRowCount() != 0)
+	private void RipulisciTabellaProgrammi() {
+		//ripulisco la tabella
+		DefaultTableModel dtm = (DefaultTableModel) tableSessioniAggiunte.getModel();
+		dtm.setRowCount(0);
+	}
+
+	private void RipulisciLeArrayList() {
+		//dopo aver aggiunto il programma rimuovo le ArrayList occupate
+		listaSessioni.removeAll(listaSessioni);
+		listaEventi.removeAll(listaEventi);
+		listaIntervalli.removeAll(listaIntervalli);		
+		listaSedute.removeAll(listaSedute);
+	}
+
+	
+
+	private void IstanziaNuovoProgramma(ArrayList<Programma> listaProgrammi, Programma programmaNuovo,
+			ArrayList<Sessione> listaSessioni, ArrayList<Evento_Sociale> listaEventi,
+			ArrayList<Intervallo> listaIntervalli) {
+
+		programmaNuovo = new Programma();
+		programmaNuovo.setDataProgramma(dataProgramma);
+		programmaNuovo.sessioniProgrammate = new ArrayList<Sessione>(listaSessioni);
+		programmaNuovo.eventiProgrammati = new ArrayList<Evento_Sociale>(listaEventi);
+		programmaNuovo.intervalliProgrammati = new ArrayList<Intervallo>(listaIntervalli);
+		listaProgrammi.add(programmaNuovo);
+		AggiungiProgrammaAllaTable(programmaNuovo);	
+	}
+	
+	private void AggiungiProgrammaAllaTable(Programma programmaNuovo) {
+		model = (DefaultTableModel)tableProgrammiAggiunti.getModel();
+		model.addRow(new Object[] {format.format(programmaNuovo.getDataProgramma())});
+	}
+
+	//IMPEDISCE DI CREARE CONFERENZE SENZA SESSIONI
+	private boolean isProgrammaConSedute(int rowCount) {
+		if(rowCount < 1)
+		{
+			JOptionPane.showMessageDialog(null,"Devi aggiungere delle sedute!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}	
+		return true;
+	}
+
+	//IMPEDISCO DI CREARE PROGRAMMI CON LA STESSA DATA
+	private boolean isDataApenaAggiuntaIdonea(int rowCount, ArrayList<Programma> listaProgrammi) {
+		if(rowCount != 0)
+		{
+			for(Programma p: listaProgrammi)
+			{
+				if(p.getDataProgramma().equals(dataProgramma))
 				{
-					for(Programma p: listaProgrammi)
-					{
-						if(p.getDataProgramma().equals(dataProgramma))
-						{
-							JOptionPane.showMessageDialog(null,"Data non disponibile!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-					}
+					JOptionPane.showMessageDialog(null,"Data non disponibile!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+					return false;
 				}
-				
-				if(table.getRowCount()<1)
-				{
-					JOptionPane.showMessageDialog(null,"Devi aggiungere delle sedute!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-					return;
-				}			
-				programmaNuovo.setDataProgramma(dataProgramma);
-				programmaNuovo.sessioniProgrammate = new ArrayList<Sessione>(listaSessioni);
-				programmaNuovo.eventiProgrammati = new ArrayList<Evento_Sociale>(listaEventi);
-				programmaNuovo.intervalliProgrammati = new ArrayList<Intervallo>(listaIntervalli);
-				listaProgrammi.add(programmaNuovo);
-				model.addRow(new Object[] {sf.format(programmaNuovo.getDataProgramma())});
-				//dopo aver aggiunto il programma rimuovo le ArrayList occupate
-				listaSessioni.removeAll(listaSessioni);
-				listaEventi.removeAll(listaEventi);
-				listaIntervalli.removeAll(listaIntervalli);		
-				listaSedute.removeAll(listaSedute);
-				//ripulisco la tabella
-				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-				dtm.setRowCount(0);
-				}
-		});
-		btnAggiungiProgramma.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnAggiungiProgramma.setForeground(Color.WHITE);
-		btnAggiungiProgramma.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnAggiungiProgramma.setFocusPainted(false);
-		btnAggiungiProgramma.setBorder(null);
-		btnAggiungiProgramma.setBackground(new Color(126, 87, 194));
-		btnAggiungiProgramma.setBounds(39, 805, 165, 36);
-		panel.add(btnAggiungiProgramma);
+			}
+		}
+		return true;
+	}
+
+	//CHIEDE AL DB DI CREARE LA CONFERENZA E POI TORNA ALLA HOME
+	private void CommitCreazione(Controller controller, Conferenza conferenzaCreata, JFrame frameCreazioneConferenza, JFrame frameHome, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
+		frameCreazioneConferenza.dispose();
+		controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
+		controller.tornaAllaHome(controller, frame, frameHome);	
+	}
+
+	//ISTANZIA SESSIONI, EVENTI E INTERVALLI
+	private void IstanziaSeduteSpecializzate() {
+		//istanzia le varie sedute in base alla loro specializzazione	
+		for(Seduta s: listaSedute)
+		{
+			if(s instanceof Sessione)
+				listaSessioni.add((Sessione)s);
+
+			else if(s instanceof Evento_Sociale)
+				listaEventi.add((Evento_Sociale)s);				
+
+			else
+				listaIntervalli.add((Intervallo)s);
+		}
+	}
+
+	
+	//CONTROLLA SE LA DATA PROGRAMMA E' CONFORME ALLA DATA CONFERENZA
+	private boolean isDataIdonea(Conferenza conferenzaCreata, String stringaConferenza) {
+		//casto la data inserita al tipo Date di java
+		DateFromStringa(dataProgramma, stringaConferenza);
+		//nel caso in cui la data del programma non rientra nella data della conferenza
+		if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
+		{
+			JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	
+	//CONVERTE UNA STRINGA IN DATA
+	private void DateFromStringa(Date dataProgramma, String dataStringa) {
+		try {
+			dataProgramma = format.parse(dataStringa);
+		} catch (ParseException e1) {
+			System.out.println("Data non conforme alla conferenza!");
+		}
+	}
+
+	
+	//RIMUOVO UNA SESSIONE SE L'HO AGGIUNTA PER SBAGLIO
+	private void RimuoviRigaSessione(MouseEvent me) {
+		if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+	           JTable target = (JTable)me.getSource();
+	           int row = target.getSelectedRow(); // seleziona riga
+	           ((DefaultTableModel)tableSessioniAggiunte.getModel()).removeRow(row); //elimino il la riga con doppio click
+	           listaSedute.remove(row);
+	        }
+	}
+	
 		
-		
-		JLabel lblListaDeiProgrammi = new JLabel("Lista dei programmi aggiunti alla conferenza");
-		lblListaDeiProgrammi.setForeground(new Color(70, 71, 74));
-		lblListaDeiProgrammi.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblListaDeiProgrammi.setBounds(29, 759, 497, 14);
-		panel.add(lblListaDeiProgrammi);
-		
-		JLabel lblFormatoDataYyyymmdd = new JLabel("yyyy-MM-dd");
-		lblFormatoDataYyyymmdd.setForeground(new Color(71, 72, 75));
-		lblFormatoDataYyyymmdd.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd.setBounds(150, 56, 174, 14);
-		panel.add(lblFormatoDataYyyymmdd);
-		
-		JLabel lblFormatoDataYyyymmdd_1_1 = new JLabel("(HH:mm)");
-		lblFormatoDataYyyymmdd_1_1.setForeground(new Color(71, 72, 75));
-		lblFormatoDataYyyymmdd_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd_1_1.setBounds(25, 158, 174, 14);
-		panel.add(lblFormatoDataYyyymmdd_1_1);
-		
-		JLabel lblFormatoDataYyyymmdd_1_1_1 = new JLabel("(HH:mm)");
-		lblFormatoDataYyyymmdd_1_1_1.setForeground(new Color(71, 72, 75));
-		lblFormatoDataYyyymmdd_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 120, 174, 14);
-		panel.add(lblFormatoDataYyyymmdd_1_1_1);	
-		
+	//RIMUOVO UN PROGRAMMA SE L'HO AGGIUNTO PER SBAGLIO
+	private void RimuoviRigaProgramma(MouseEvent me) {
+		if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+            JTable target = (JTable)me.getSource();
+            int row = target.getSelectedRow(); // seleziona riga
+            ((DefaultTableModel)tableProgrammiAggiunti.getModel()).removeRow(row); //elimino il la riga con doppio click      
+            listaProgrammi.remove(row);	                
+         }
+	}
+
+	//TORNO AL FRAME PRECEDENTE(chiudo questo)
+	private void TornaAlFramePrecedente(JFrame thisframe, JFrame frameHome, JFrame frameCreazioneConferenza) {
+		thisframe.dispose();
+		frameHome.setVisible(true);
+		frameCreazioneConferenza.setVisible(true);		
+		frameCreazioneConferenza.setEnabled(true);
 	}
 }

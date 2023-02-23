@@ -52,7 +52,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 					leggiConferenze = connection.prepareStatement(
 						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
-						+ "WHERE NomeSede = '"+sede+"';");
+						+ "WHERE NomeSede = '"+sede.replace("'","''")+"';");
 				}
 				
 			}
@@ -68,7 +68,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 				leggiConferenze = connection.prepareStatement(
 						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
-						+ "WHERE DataProgramma = '"+data+"' AND NomeSede = '"+sede+"';");
+						+ "WHERE DataProgramma = '"+data+"' AND NomeSede = '"+sede.replace("'","''")+"';");
 			}
 			
 		ResultSet rs = leggiConferenze.executeQuery();
@@ -221,16 +221,24 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			for(Programma p: listaProgrammi)
 			{
 				for(Sessione s: p.sessioniProgrammate)
-				{
-					//sostituisco i valori che contengono ' con '' per poter eseguire la Query SQL
-					if(s.getLocazione().getNomeLocazione().contains("'"))
-						s.getLocazione().setNomeLocazione(s.getLocazione().getNomeLocazione().replace("'", "''"));
+				{	
+					if(s.getKeynoteSpeaker().getemailP().isEmpty())
+					{
+						riempiSessione = connection.prepareStatement("INSERT INTO SESSIONE(CodSessione, OrarioInizioSessione, OrarioFineSessione, TitoloSessione, Chair, CodProgramma, NomeLocazione)\r\n"
+								+ "VALUES("+codiceSessioneIncrement+",'"+sfTime.format(s.getOrarioInizio())+"','"+sfTime.format(s.getOrarioFine())+"','"+s.getTitolo()+"','"+s.getChair().getEmail()+"',\r\n"
+								+""+p.getCodProgramma()+",'"+s.getLocazione().getNomeLocazione().replace("'", "''")+"');");
+						riempiSessione.executeUpdate();
+						codiceSessioneIncrement++;
+					}
+					else
+					{
+						riempiSessione = connection.prepareStatement("INSERT INTO SESSIONE(CodSessione, OrarioInizioSessione, OrarioFineSessione, TitoloSessione, Chair, KeynoteSpeaker, CodProgramma, NomeLocazione)\r\n"
+								+ "VALUES("+codiceSessioneIncrement+",'"+sfTime.format(s.getOrarioInizio())+"','"+sfTime.format(s.getOrarioFine())+"','"+s.getTitolo()+"','"+s.getChair().getEmail()+"',\r\n"
+								+ "'"+s.getKeynoteSpeaker().getemailP()+"',"+p.getCodProgramma()+",'"+s.getLocazione().getNomeLocazione().replace("'", "''")+"');");
+						riempiSessione.executeUpdate();
+						codiceSessioneIncrement++;
+					}
 					
-					riempiSessione = connection.prepareStatement("INSERT INTO SESSIONE(CodSessione, OrarioInizioSessione, OrarioFineSessione, TitoloSessione, Chair, KeynoteSpeaker, CodProgramma, NomeLocazione)\r\n"
-							+ "VALUES("+codiceSessioneIncrement+",'"+sfTime.format(s.getOrarioInizio())+"','"+sfTime.format(s.getOrarioFine())+"','"+s.getTitolo()+"','"+s.getChair().getEmail()+"',\r\n"
-							+ "'"+s.getKeynoteSpeaker().getemailP()+"',"+p.getCodProgramma()+",'"+s.getLocazione().getNomeLocazione()+"');");
-					riempiSessione.executeUpdate();
-					codiceSessioneIncrement++;
 				}
 			}
 			

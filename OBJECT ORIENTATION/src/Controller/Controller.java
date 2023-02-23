@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JFrame;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import DAO.ConferenzaDAO;
 import DAO.OrganizzatoreDAO;
@@ -28,10 +30,10 @@ public class Controller {
 	
 	Utente utente;
 	
-	//costruttore
+	//COSTRUTTORE
 	public Controller() {}
 	
-	//metodi chiamata dei Frame
+	//METODI VISUALIZZAZIONE DEI FRAME
 	public void visualizzaFrameRiepilogoKS(Controller controller, JFrame frame)
 	{
 		RiepilogoKeynoteSpeaker elencoPercentualiKS = new RiepilogoKeynoteSpeaker(controller, frame);
@@ -120,6 +122,8 @@ public class Controller {
 		frameHome.setEnabled(false);
 	}
 	
+	
+	//METODI RICHIESTA QUERY AL DATABASE
 	public ArrayList<String> ottieniSedi()
 	{
 		SedeDAO listaSedi = new SedeImplementazionePostgresDAO();
@@ -255,6 +259,11 @@ public class Controller {
 	public void ottieniProgrammi(Conferenza conferenza) {
 		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
 		c.getProgrammiDB(conferenza);		
+	}
+
+	public void RipulisciTabella(TableModel model) {
+		DefaultTableModel dtm = (DefaultTableModel) model;
+		dtm.setRowCount(0);
 	}
 }
 

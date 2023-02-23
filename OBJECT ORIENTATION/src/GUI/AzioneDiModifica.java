@@ -126,8 +126,16 @@ public class AzioneDiModifica {
 		cancelProgrammaLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e){
-				updateConferenza.programmiConferenza.remove(table.getSelectedRow());
-				model.removeRow(table.getSelectedRow());
+				if (table.getSelectionModel().isSelectionEmpty()) {
+				    // Non è stata selezionata nessuna cella
+					JOptionPane.showMessageDialog(null,"Seleziona un programma!","ERROR:415", JOptionPane.ERROR_MESSAGE);
+					return;
+				} else {
+				    // È stata selezionata almeno una cella
+					updateConferenza.programmiConferenza.remove(table.getSelectedRow());
+					model.removeRow(table.getSelectedRow());
+				}
+				
 			}
 		});
 		cancelProgrammaLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
