@@ -113,7 +113,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 			riempiConferenza = connection.prepareStatement("INSERT INTO CONFERENZA(CodConferenza, TitoloConferenza, DataInizio, DataFine, Descrizione, NomeSede)"
 					+ "VALUES("+conferenzaCreata.getCodConferenza()+",'"+conferenzaCreata.getTitoloConferenza()+"','"+sf.format(conferenzaCreata.getDataInizio())+"',"
-					+ "'"+sf.format(conferenzaCreata.getDataFine())+"','"+conferenzaCreata.getDescrizione()+"','"+conferenzaCreata.ospitaConferenza.getNomeSede()+"');\r\n");
+					+ "'"+sf.format(conferenzaCreata.getDataFine())+"','"+conferenzaCreata.getDescrizione()+"','"+conferenzaCreata.ospitaConferenza.getNomeSede().replace("'", "''")+"');\r\n");
 			
 			riempiConferenza.executeUpdate();;
 			
@@ -365,6 +365,30 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			
 			return numeroKS;
 		
+	}
+
+
+	@Override
+	public void getProgrammiDB(Conferenza conferenza) {
+	
+		PreparedStatement leggiProgrammi;
+		try {	
+				
+			leggiProgrammi = connection.prepareStatement(
+						"SELECT DataProgramma FROM PROGRAMMA WHERE CodConferenza = "+conferenza.getCodConferenza()+";");			
+				ResultSet rs = leggiProgrammi.executeQuery();
+				
+				while (rs.next()) {	
+					Programma p = new Programma();
+					p.setDataProgramma(rs.getDate("DataProgramma"));
+					conferenza.programmiConferenza.add(p);				
+				}
+				rs.close();	
+				connection.close();		
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+					
 	}
 
 }

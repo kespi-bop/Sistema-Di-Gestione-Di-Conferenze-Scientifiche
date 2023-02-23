@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -16,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
 import Controller.Controller;
+import Model.Conferenza;
 
 import java.awt.Font;
 import javax.swing.JScrollPane;
@@ -36,14 +39,14 @@ public class ModificaConferenza {
 	private JPanel panel;
 
 	
-	public ModificaConferenza(Controller controller, JFrame frameHome) {
-		initialize(controller, frameHome);
+	public ModificaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
+		initialize(controller, frameHome, listaConferenze);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(final Controller controller, final JFrame frameHome) {
+	private void initialize(final Controller controller, final JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
@@ -70,8 +73,8 @@ public class ModificaConferenza {
 	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
 	               JTable target = (JTable)me.getSource();
 	               int row = target.getSelectedRow(); // seleziona riga
-	               int column = target.getSelectedColumn(); // seleziona colonna
-	               controller.vediAzioniDiModifica(controller, frame, frameHome, table.getValueAt(row, column));  //passo il valore del Programma cliccato
+	               controller.ottieniProgrammi(listaConferenze.get(row));
+	               controller.vediAzioniDiModifica(controller, frame, frameHome, listaConferenze.get(row));  //passo il valore del Programma cliccato
 	            }
 	         }
 	      });
@@ -80,11 +83,9 @@ public class ModificaConferenza {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionBackground(new Color(126, 87, 194));
 		table.setModel(new DefaultTableModel(
-				new Object[][] {
-					{null, null},
-				},
+				new Object[][] {},
 				new String[] {
-					"New column", "New column", "New column"
+					"Nome Conferenza", "Data Inizio", "Data Fine"
 				}
 			) {
 				/**
@@ -99,8 +100,20 @@ public class ModificaConferenza {
 				}
 			});
 		scrollPane.setViewportView(table);
+		table.getTableHeader().setReorderingAllowed(false); 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		table.setForeground(new Color(255, 255, 255));
 		table.setBackground(new Color(32, 33, 35));
+		
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		//riempio il model che mostrerà i valori sullo schermo
+		for(int i = 0;i<listaConferenze.size(); i++)
+		{		
+			model.addRow(new Object[] {listaConferenze.get(i).getTitoloConferenza(), sf.format(listaConferenze.get(i).getDataInizio()), sf.format(listaConferenze.get(i).getDataFine())});
+		}
+		
+		
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();

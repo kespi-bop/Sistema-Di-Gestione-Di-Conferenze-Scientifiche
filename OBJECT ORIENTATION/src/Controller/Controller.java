@@ -85,23 +85,23 @@ public class Controller {
 		frameCreazioneConferenza.setEnabled(false);
 	}
 	
-	public void vediModificaConferenza(Controller controller, JFrame frameHome)
+	public void vediModificaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze)
 	{
-		ModificaConferenza modificaConferenza = new ModificaConferenza(controller, frameHome);
+		ModificaConferenza modificaConferenza = new ModificaConferenza(controller, frameHome, listaConferenze);
 		modificaConferenza.frame.setVisible(true);
 		frameHome.setEnabled(false);
 	}
 	
-	public void vediAzioniDiModifica(Controller controller,JFrame frameModificaConferenza, JFrame frameHome, Object programma)
+	public void vediAzioniDiModifica(Controller controller,JFrame frameModificaConferenza, JFrame frameHome, Conferenza updateConferenza)
 	{
-		AzioneDiModifica scegliModifica = new AzioneDiModifica(controller, frameModificaConferenza, frameHome, programma);
+		AzioneDiModifica scegliModifica = new AzioneDiModifica(controller, frameModificaConferenza, frameHome, updateConferenza);
 		scegliModifica.frame.setVisible(true);
 		frameModificaConferenza.setEnabled(false);
 	}
 	
-	public void vediCreazioneProgrammaEdit(Controller controller, JFrame frameAzioniDiModifica)
+	public void vediCreazioneProgrammaEdit(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine)
 	{
-		AggiungiProgrammiEdit aggiungiProgrammi = new AggiungiProgrammiEdit(controller, frameAzioniDiModifica);
+		AggiungiProgrammiEdit aggiungiProgrammi = new AggiungiProgrammiEdit(controller, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
 		aggiungiProgrammi.frame.setVisible(true);
 		frameAzioniDiModifica.setEnabled(false);
 	}
@@ -217,6 +217,8 @@ public class Controller {
 		u.eliminaPasswordDB();
 	}
 
+	
+	
 	public ArrayList<String> ottieniLocazioni(Sede sede) {
 		SedeDAO s = new SedeImplementazionePostgresDAO();
 		return s.getLocazioniDB(sede);
@@ -248,6 +250,11 @@ public class Controller {
 	public String ottieniConferenzaConflitto(Date dataInizio, Date dataFine, String nomeSede) {
 		ConferenzaDAO c= new ConferenzaImplementazionePostgresDAO();
 		return c.getConflictConferenzaDB(dataInizio, dataFine, nomeSede);
+	}
+
+	public void ottieniProgrammi(Conferenza conferenza) {
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		c.getProgrammiDB(conferenza);		
 	}
 }
 

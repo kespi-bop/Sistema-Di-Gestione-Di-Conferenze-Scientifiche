@@ -28,4 +28,7 @@ public interface ConferenzaDAO {
 	/*ritorna per parametro l'array del numero di KS per ogni Conferenza
 	 * e per riferimento l'array delle istituzioni*/
 	ArrayList<Integer> getRiepilogoKSDB(ArrayList<Ente> istituzioni, String mese, String anno);
+
+	//vado a settare in conferenza i vari programmi
+	void getProgrammiDB(Conferenza conferenza);
 }

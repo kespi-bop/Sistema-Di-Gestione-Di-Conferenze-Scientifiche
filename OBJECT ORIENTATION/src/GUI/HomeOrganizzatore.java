@@ -16,9 +16,12 @@ import javax.swing.JTextPane;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import Controller.Controller;
+import Model.Conferenza;
 
 public class HomeOrganizzatore {
 	
@@ -125,7 +128,8 @@ public class HomeOrganizzatore {
 		modificaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.vediModificaConferenza(controller, frame);
+				ArrayList<Conferenza> listaConferenze = controller.ottieniConferenze();
+				controller.vediModificaConferenza(controller, frame, listaConferenze);
 			}
 		});
 		
