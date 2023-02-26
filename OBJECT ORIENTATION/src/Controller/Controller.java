@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 import DAO.ConferenzaDAO;
+import DAO.Organizzare_S_DAO;
 import DAO.OrganizzatoreDAO;
 import DAO.ProgrammaDAO;
 import DAO.SedeDAO;
@@ -18,6 +19,7 @@ import DAO.SponsorDAO;
 import DAO.UtenteDAO;
 import GUI.*;
 import ImplementazioniPostgresDAO.ConferenzaImplementazionePostgresDAO;
+import ImplementazioniPostgresDAO.Organizzare_S_ImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.OrganizzatoreImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.ProgrammaImplementazionePostgresDAO;
 import ImplementazioniPostgresDAO.SedeImplementazionePostgresDAO;
@@ -123,6 +125,7 @@ public class Controller {
 	}
 	
 	
+	
 	//METODI RICHIESTA QUERY AL DATABASE
 	public ArrayList<String> ottieniSedi()
 	{
@@ -185,9 +188,10 @@ public class Controller {
 		conferenzaCreata.commitCreateDB(conferenzaNuova, listaProgrammi, listaPubblicità);
 	}
 	
-	public void commitModificaConferenza()
+	public void commitModificaConferenza(String titolo, String descrizione, Conferenza updateConferenza)
 	{
-		
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		c.commitUpdateDB(titolo, descrizione, updateConferenza);
 	}
 	
 	public void commitCancellaConferenza(Conferenza conferenza)
@@ -264,6 +268,27 @@ public class Controller {
 	public void RipulisciTabella(TableModel model) {
 		DefaultTableModel dtm = (DefaultTableModel) model;
 		dtm.setRowCount(0);
+	}
+
+	public ArrayList<String> ottieniAllPossibiliChair(Conferenza updateConferenza) {
+		Organizzare_S_DAO s = new Organizzare_S_ImplementazionePostgresDAO();
+		return s.getAllPossibleChair(updateConferenza.getCodConferenza());
+	}
+
+	public void commitAggiungiProgramma(String dataProgramma, Conferenza updateConferenza, ArrayList<Intervallo> listaIntervalli, ArrayList<Sessione> listaSessioni,
+			ArrayList<Evento_Sociale> listaEventi) {
+		ConferenzaDAO p = new ConferenzaImplementazionePostgresDAO();
+		p.commitAddProgramma(dataProgramma, updateConferenza, listaIntervalli, listaSessioni, listaEventi);
+	}
+
+	public void commitCancellaProgramma(String codProgramma) {
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		c.commitDeleteProgramDB(codProgramma);
+	}
+
+	public ArrayList<String> ottieniAnniConferenze() {
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		return c.getAnniConferenze();
 	}
 }
 

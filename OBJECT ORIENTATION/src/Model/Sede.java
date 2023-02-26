@@ -14,7 +14,7 @@ public class Sede {
 	//Trasposizione delle entità conferenza-sede (1..*,1)
 	public Sede(Conferenza ref$Conferenza) {
 		sediConferenza.add(ref$Conferenza);
-		ref$Conferenza.ospitaConferenza=this;
+		ref$Conferenza.sedeOspitante=this;
 	}
 	
 	//Trasposizione delle entità locazione-sede (1..*,1)

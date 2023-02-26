@@ -58,6 +58,8 @@ public class AggiuntaProgrammi {
 	private DefaultTableModel model;
 	private Programma programmaNuovo;
 	private Date dataProgramma;
+	private Date timeFine;
+	private Date timeInizio;
 	private Integer mouseX, mouseY;
 	public JFrame frame;
 	private JLabel as;
@@ -97,13 +99,11 @@ public class AggiuntaProgrammi {
 	private JButton btnAggiungiProgramma;
 	private JButton aggiungiSessioneButton;
 	private JLabel keynoteSpekaerLabel;
-	private ArrayList<String> listaKS;
 	private JComboBox<String> comboBoxLocazione;
 	private JComboBox<String> comboBoxChair;
 	private JComboBox<String> comboBoxKS;
 	private JComboBox<String> comboBoxEvento;
 	private JComboBox<String> comboBoxIntervallo;
-	private ArrayList<String> listaLocazioni;
 	private ArrayList<Programma> listaProgrammi = new ArrayList<Programma>();
 	private ArrayList<Seduta> listaSedute = new ArrayList<Seduta>();
 	private ArrayList<Sessione> listaSessioni = new ArrayList<Sessione>();
@@ -150,7 +150,20 @@ public class AggiuntaProgrammi {
 		
 		dragFrame = new JLabel("");
 		dragFrame.setBounds(0, 0, 563, 32);
-		panel.add(dragFrame);	
+		panel.add(dragFrame);		
+		//Trascino Frame Undecorated
+		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
+			}
+		});
+		dragFrame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();			}
+		});
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(150, 285, 356, 88);
@@ -277,6 +290,7 @@ public class AggiuntaProgrammi {
 		comboBoxLocazione.setBackground(new Color(32, 33, 35));
 		comboBoxLocazione.setBounds(150, 185, 154, 21);
 		panel.add(comboBoxLocazione);
+		RiempiComboBoxLocazione(controller, conferenzaCreata, comboBoxLocazione);
 		
 		lblTipointervallo = new JLabel("Intervallo");
 		lblTipointervallo.setForeground(new Color(57, 113, 177));
@@ -350,6 +364,7 @@ public class AggiuntaProgrammi {
 		comboBoxKS.setBackground(new Color(32, 33, 35));
 		comboBoxKS.setBounds(150, 218, 154, 21);
 		panel.add(comboBoxKS);
+		RiempiComboBoxKS(controller, comboBoxKS);
 		
 		comboBoxChair = new JComboBox<String>();	
 		comboBoxChair.setForeground(Color.WHITE);
@@ -359,6 +374,7 @@ public class AggiuntaProgrammi {
 		comboBoxChair.setBackground(new Color(32, 33, 35));
 		comboBoxChair.setBounds(150, 253, 154, 21);
 		panel.add(comboBoxChair);
+		RiempiComboBoxChair(listaOrganizzatoriScientifici, comboBoxChair);
 		
 		textFieldTitolo = new JFormattedTextField((Format) null);
 		textFieldTitolo.setForeground(Color.WHITE);
@@ -430,6 +446,7 @@ public class AggiuntaProgrammi {
 		
 		creaConferenzaButton = new JButton("CREA CONFERENZA");	
 		creaConferenzaButton.setForeground(Color.WHITE);
+		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		creaConferenzaButton.setFocusPainted(false);
 		creaConferenzaButton.setBorder(null);
@@ -452,9 +469,6 @@ public class AggiuntaProgrammi {
 					"Data"
 				}
 			){
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1L;
 				boolean[] columnEditables = new boolean[] {
 					false, false, false, false, false, false
@@ -502,91 +516,35 @@ public class AggiuntaProgrammi {
 	         }
 	      });
 		
-		
+		//riempi l'arrayList e la tabella di programmi aggiunti
 		btnAggiungiProgramma.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-							
+			public void mouseClicked(MouseEvent e) {	
+				if(formattedTextFieldData.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null,"Devi inserire una data!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
 				AggiungiProgramma(conferenzaCreata, formattedTextFieldData.getText(), tableSessioniAggiunte.getRowCount(), tableProgrammiAggiunti.getRowCount(), 
 						listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);	
 				}
 		});
 		
-		
+		//effettua la creazione della nuova conferenza passando i valori al DB
 		creaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CommitCreazione(controller, conferenzaCreata, frameCreazioneConferenza, frameHome, listaProgrammi, listaPubblicità);
-							
+				CommitCreazione(controller, conferenzaCreata, frameCreazioneConferenza, frameHome, listaProgrammi, listaPubblicità);							
 			}
 		});
-		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		creaConferenzaButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				frameCreazioneConferenza.dispose();
-				controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
-				controller.tornaAllaHome(controller, frame, frameHome);	
-			}
-		});
-		
-		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
-			}
-		});
-		dragFrame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();			}
-		});
-		
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		listaLocazioni = controller.ottieniLocazioni(conferenzaCreata.ospitaConferenza);
-		for(String s: listaLocazioni)
-		{
-			comboBoxLocazione.addItem(s);
-		}
-		
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata	
-		for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici)
-		{
-				comboBoxChair.addItem(chair.getEmail().toString());
-		}
-		
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		listaKS = controller.ottieniAllKS();
-		
-		for(String ks: listaKS)
-		{
-				comboBoxKS.addItem(ks);
-		}
 				
 		aggiungiIntervalloButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-								
-				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
-				try {
-					dataProgramma = sf.parse(formattedTextFieldData.getText());
-				} catch (ParseException e1) {
-					System.out.println("Data non conforme alla conferenza!");
-				}
-				
-				
-				//casto l'orario iniziale e finale a DataTime per poterli confrontare
-				SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
-				Date timeFine = new Date();
-				Date timeInizio = new Date();
-				try {
-					timeFine = tipoTempo.parse(orarioFine.getText());	
-					timeInizio = tipoTempo.parse(orarioInizio.getText());
-				} catch (ParseException e1) {
-					System.out.println("Orario non conforme!");
-				}
+						
+				CastaDataProgramma(formattedTextFieldData.getText());
+					
+				CastaOrariProgramma(orarioInizio.getText(), orarioFine.getText());
 				
 				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
 				
@@ -607,9 +565,13 @@ public class AggiuntaProgrammi {
 					}
 				}
 				
-				
+				//nel caso in cui una sessione non ha titolo
+				if(textFieldTitolo.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null,"Devi insrire un titolo alla sessione!","ERROR:420", JOptionPane.ERROR_MESSAGE);
+				}
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
+				else if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
@@ -621,6 +583,8 @@ public class AggiuntaProgrammi {
 				//nel caso in cui orario inizale >= orario finale
 				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
 				{
+					System.out.println(timeInizio);
+					System.out.println(timeFine);
 					JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}	
 				else
@@ -830,6 +794,50 @@ public class AggiuntaProgrammi {
 		
 }
 	
+	protected void CastaOrariProgramma(String orarioIniziale, String orarioFinale) {
+		//casto l'orario iniziale e finale a DataTime per poterli confrontare			
+		try {
+			timeFine = tipoTempo.parse(orarioFinale);	
+			timeInizio = tipoTempo.parse(orarioIniziale);
+		} catch (ParseException e1) {
+			System.out.println("Orario non conforme!");
+		}	
+	}
+
+	protected void CastaDataProgramma(String data) {
+		//casto la data inserita al tipo Date di java
+		try {
+			dataProgramma = format.parse(data);
+		} catch (ParseException e1) {
+			System.out.println("Data non conforme alla conferenza!");
+		}
+	}
+
+	private void RiempiComboBoxKS(Controller controller, JComboBox<String> comboBoxKS) {
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
+				for(String s: controller.ottieniAllKS())
+				{
+					comboBoxKS.addItem(s);
+				}
+	}
+
+	private void RiempiComboBoxChair(ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici,JComboBox<String> comboBoxChair) {
+		//riempio la ComboBox con i possibili chair
+				for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici)
+				{
+						comboBoxChair.addItem(chair.getEmail().toString());
+				}
+	}
+
+	private void RiempiComboBoxLocazione(Controller controller, Conferenza conferenzaCreata, JComboBox<String> comboBoxKS) {
+		//riempio la ComboBox chiedendo al DB quali i possibili KS
+				for(String ks: controller.ottieniLocazioni(conferenzaCreata.sedeOspitante))
+				{
+					comboBoxLocazione.addItem(ks);
+						
+				}
+	}
+
 	private void AggiungiProgramma(Conferenza conferenzaCreata, String dataTesto, int numeroRigheSessioni, int numeroRigheProgrammi, 
 			ArrayList<Programma> listaProgrammi, Programma programmaNuovo, ArrayList<Sessione> listaSessioni, ArrayList<Evento_Sociale> listaEventi, ArrayList<Intervallo> listaIntervalli) {
 		
@@ -841,17 +849,17 @@ public class AggiuntaProgrammi {
 			
 			RipulisciLeArrayList();
 			
-			RipulisciTabellaProgrammi();
+			RipulisciTabellaSessioni();
 		}				
 	}
 
 	private boolean isNuovoProgrammaIdoneo(Conferenza conferenzaCreata, String dataTesto, int numeroRigheProgrammi, int numeroRigheSessioni) {
 
 		//se tutti e tre i vincoli sono soddisfatti allora posso eseguire la creazione di nuove conferenze
-		return (isDataIdonea(conferenzaCreata, dataTesto)) && (isDataApenaAggiuntaIdonea(numeroRigheProgrammi, listaProgrammi)) && isProgrammaConSedute(numeroRigheSessioni);
+		return (isDataIdonea(conferenzaCreata, dataTesto)) && (isDataAppenaAggiuntaIdonea(numeroRigheProgrammi, listaProgrammi)) && isProgrammaConSedute(numeroRigheSessioni);
 	}
 
-	private void RipulisciTabellaProgrammi() {
+	private void RipulisciTabellaSessioni() {
 		//ripulisco la tabella
 		DefaultTableModel dtm = (DefaultTableModel) tableSessioniAggiunte.getModel();
 		dtm.setRowCount(0);
@@ -896,7 +904,7 @@ public class AggiuntaProgrammi {
 	}
 
 	//IMPEDISCO DI CREARE PROGRAMMI CON LA STESSA DATA
-	private boolean isDataApenaAggiuntaIdonea(int rowCount, ArrayList<Programma> listaProgrammi) {
+	private boolean isDataAppenaAggiuntaIdonea(int rowCount, ArrayList<Programma> listaProgrammi) {
 		if(rowCount != 0)
 		{
 			for(Programma p: listaProgrammi)

@@ -28,18 +28,23 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JEditorPane;
+import javax.swing.SwingConstants;
 
 public class AzioneDiModifica {
 
+	SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 	private int mouseX, mouseY;
 	public JFrame frame;
-	private JTextField textField;
 	private JTable table;
+	private JTextField titoloTextField;
+	
 
 	
 	public AzioneDiModifica(Controller controller,JFrame frameModificaConferenza, JFrame frameHome, Conferenza updateConferenza) {
@@ -53,7 +58,9 @@ public class AzioneDiModifica {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(null);	
+		frame.setBounds(100, 100, 590, 407);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -61,28 +68,28 @@ public class AzioneDiModifica {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel.setBounds(0, 0, 560, 407);
+		panel.setBounds(0, 0, 590, 407);
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JLabel exitLabel = new JLabel("");
-		exitLabel.setBounds(533, 11, 17, 21);
+		exitLabel.setBounds(563, 11, 17, 21);
 		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				updateConferenza.programmiConferenza.clear();
+				updateConferenza.programmiConferenza.removeAll(updateConferenza.programmiConferenza);
 				frameModificaConferenza.setEnabled(true);
 				frameModificaConferenza.setVisible(true);
-				frame.dispose();
-				
+				frame.dispose();			
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(38, 239, 131, 106);
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0), 0));
+		scrollPane.setBounds(133, 237, 185, 106);
 		panel.add(scrollPane);
 		
 		
@@ -91,12 +98,9 @@ public class AzioneDiModifica {
 			new Object[][] {
 			},
 			new String[] {
-				"Data Programma"
+				"CodProgramma", "Data Programma"
 			}
 		){
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false
@@ -108,20 +112,17 @@ public class AzioneDiModifica {
 		scrollPane.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false); 
 		table.setSelectionBackground(new Color(126, 87, 194));
+		table.setFocusable(false);
+		table.setGridColor(new Color(0, 0, 0));
 		table.setForeground(Color.WHITE);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
+
+		RiempiTableProgrammi(updateConferenza);
 		
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-		//riempio il model che mostrerà i valori sullo schermo
-		for(int i = 0;i< updateConferenza.programmiConferenza.size(); i++)
-		{		
-			model.addRow(new Object[] {sf.format(updateConferenza.programmiConferenza.get(i).getDataProgramma())});
-		}
-		
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		JButton cancelProgrammaLabel = new JButton("cancella programma");
-		cancelProgrammaLabel.setBounds(210, 244, 143, 38);
+		cancelProgrammaLabel.setBounds(339, 305, 143, 38);
 		panel.add(cancelProgrammaLabel);
 		cancelProgrammaLabel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -131,9 +132,11 @@ public class AzioneDiModifica {
 					JOptionPane.showMessageDialog(null,"Seleziona un programma!","ERROR:415", JOptionPane.ERROR_MESSAGE);
 					return;
 				} else {
-				    // È stata selezionata almeno una cella
+				    // È stata selezionata almeno una cella				
+					controller.commitCancellaProgramma((table.getValueAt(table.getSelectedRow(), 0).toString()));
 					updateConferenza.programmiConferenza.remove(table.getSelectedRow());
-					model.removeRow(table.getSelectedRow());
+					model.removeRow(table.getSelectedRow());	
+					JOptionPane.showMessageDialog(null,"Cancellazione eseguita con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
 				}
 				
 			}
@@ -145,81 +148,44 @@ public class AzioneDiModifica {
 		cancelProgrammaLabel.setBorder(null);
 		cancelProgrammaLabel.setBackground(new Color(126, 87, 194));
 		
-		JFormattedTextField dateInizioField = new JFormattedTextField((Format) null);
-		dateInizioField.setSelectionColor(new Color(126, 87, 194));
-		dateInizioField.setSelectedTextColor(Color.WHITE);
-		dateInizioField.setForeground(Color.WHITE);
-		dateInizioField.setDisabledTextColor(Color.WHITE);
-		dateInizioField.setCaretColor(Color.WHITE);
-		dateInizioField.setBorder(null);
-		dateInizioField.setBackground(new Color(32, 33, 35));
-		dateInizioField.setBounds(205, 119, 154, 20);
-		panel.add(dateInizioField);
-		
-		JFormattedTextField dateFineField = new JFormattedTextField((Format) null);
-		dateFineField.setSelectionColor(new Color(126, 87, 194));
-		dateFineField.setSelectedTextColor(Color.WHITE);
-		dateFineField.setForeground(Color.WHITE);
-		dateFineField.setDisabledTextColor(Color.WHITE);
-		dateFineField.setCaretColor(Color.WHITE);
-		dateFineField.setBorder(null);
-		dateFineField.setBackground(new Color(32, 33, 35));
-		dateFineField.setBounds(205, 148, 154, 20);
-		panel.add(dateFineField);
-		
 		JButton aggiungiProgrammaButton = new JButton("aggiungi programma");
-		aggiungiProgrammaButton.setBounds(210, 195, 143, 38);
+		aggiungiProgrammaButton.setBounds(339, 237, 143, 38);
 		panel.add(aggiungiProgrammaButton);
 		aggiungiProgrammaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				//converto la stringa di data passata in tipo Date		
-				Date dateTimeInizio = new Date();
-				try {
-					dateTimeInizio = sf.parse(dateInizioField.getText());
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-				
-				Date dateTimeFine = new Date();
-				try {
-					dateTimeFine = sf.parse(dateFineField.getText());
-				} catch (ParseException e1) {
-					e1.printStackTrace();
-				}
-				
-				
-				if(dateInizioField.getText().isEmpty() && dateFineField.getText().isEmpty())
-				{
+
 					controller.vediCreazioneProgrammaEdit(controller, frame, updateConferenza, updateConferenza.getDataInizio(), updateConferenza.getDataFine());
-				}
-				else if(dateFineField.getText().isEmpty())
-				{
-					controller.vediCreazioneProgrammaEdit(controller, frame, updateConferenza, updateConferenza.getDataInizio(), dateTimeFine);
-				}
-				else if(dateInizioField.getText().isEmpty())
-				{
-					controller.vediCreazioneProgrammaEdit(controller, frame, updateConferenza, dateTimeInizio, updateConferenza.getDataFine());
-				}
-				else
-				{	
-					controller.vediCreazioneProgrammaEdit(controller, frame, updateConferenza, dateTimeInizio, dateTimeFine);
-				}
 				
+					DefaultTableModel model = (DefaultTableModel) table.getModel();
+					model.setRowCount(0);
+					//riempio il model che mostrerà i valori sullo schermo
+					for(int i = 0;i< updateConferenza.programmiConferenza.size(); i++)
+					{		
+						model.addRow(new Object[] {updateConferenza.programmiConferenza.get(i).getCodProgramma(), sf.format(updateConferenza.programmiConferenza.get(i).getDataProgramma())});
+					}
+
 			}
 		});
-		//aggiungiProgrammaButton.addActionListener(new ActionListener() {
-			//AggiuntaProgrammi aggiungiProgramma = new AggiuntaProgrammi();
-			//}
-		//});
 		aggiungiProgrammaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiProgrammaButton.setForeground(Color.WHITE);
 		aggiungiProgrammaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		aggiungiProgrammaButton.setFocusPainted(false);
 		aggiungiProgrammaButton.setBorder(null);
 		aggiungiProgrammaButton.setBackground(new Color(126, 87, 194));
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(134, 89, 344, 79);
+		panel.add(scrollPane_1);	
+		
+		JEditorPane descrizionePane = new JEditorPane();
+		scrollPane_1.setViewportView(descrizionePane);
+		descrizionePane.setSelectionColor(new Color(126, 87, 194));
+		descrizionePane.setForeground(Color.WHITE);
+		descrizionePane.setDisabledTextColor(Color.WHITE);
+		descrizionePane.setCaretColor(Color.WHITE);
+		descrizionePane.setBorder(null);
+		descrizionePane.setBackground(new Color(32, 33, 35));
 		
 		
 		//trascino la finestra undecorated
@@ -228,14 +194,19 @@ public class AzioneDiModifica {
 		panel.add(dragFrame);
 		
 		JButton ConfermaModificaButton = new JButton("conferma");
-		ConfermaModificaButton.setBounds(221, 309, 125, 36);
+		ConfermaModificaButton.setBounds(396, 179, 84, 26);
 		panel.add(ConfermaModificaButton);
 		ConfermaModificaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				updateConferenza.programmiConferenza.clear();
 				frameModificaConferenza.dispose();
 				controller.tornaAllaHome(controller, frame, frameHome);
+				if (!titoloTextField.getText().isEmpty() || !descrizionePane.getText().isEmpty())
+				{
+					controller.commitModificaConferenza(titoloTextField.getText(), descrizionePane.getText(), updateConferenza);
+					JOptionPane.showMessageDialog(null,"Aggiornamento eseguito con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
+				}
+					
 			}
 		});
 		ConfermaModificaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -245,62 +216,62 @@ public class AzioneDiModifica {
 		ConfermaModificaButton.setBorder(null);
 		ConfermaModificaButton.setBackground(new Color(57, 113, 177));
 		
-		JLabel titoloLabel = new JLabel("Titolo");
-		titoloLabel.setBounds(136, 90, 48, 14);
-		panel.add(titoloLabel);
-		titoloLabel.setForeground(new Color(57, 113, 177));
-		titoloLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		titoloLabel.setBackground(new Color(57, 113, 177));
-		
-		textField = new JTextField();
-		textField.setBounds(205, 90, 154, 14);
-		panel.add(textField);
-		textField.setSelectionColor(new Color(126, 87, 194));
-		textField.setForeground(Color.WHITE);
-		textField.setDisabledTextColor(Color.WHITE);
-		textField.setColumns(10);
-		textField.setCaretColor(Color.WHITE);
-		textField.setBorder(null);
-		textField.setBackground(new Color(32, 33, 35));
-		
-		JSeparator separator_1_1 = new JSeparator();
-		separator_1_1.setBounds(205, 109, 154, 2);
-		panel.add(separator_1_1);
-		
-		JLabel dataInizioLabel = new JLabel("Data inizio");
-		dataInizioLabel.setBounds(136, 122, 66, 14);
-		panel.add(dataInizioLabel);
-		dataInizioLabel.setForeground(new Color(57, 113, 177));
-		dataInizioLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
-		JLabel dataFineLabel = new JLabel("Data fine");
-		dataFineLabel.setBounds(136, 154, 66, 14);
-		panel.add(dataFineLabel);
-		dataFineLabel.setForeground(new Color(57, 113, 177));
-		dataFineLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
-		JSeparator separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setBounds(205, 140, 154, 2);
-		panel.add(separator_1_1_1);
-		
-		JSeparator separator_1_1_2 = new JSeparator();
-		separator_1_1_2.setBounds(205, 171, 154, 2);
-		panel.add(separator_1_1_2);
-		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setBounds(385, 374, 165, 33);
+		signature.setBounds(415, 374, 165, 33);
 		panel.add(signature);
 		signature.setForeground(new Color(56, 57, 59));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
-		
-		
-		
-		
+			
 		JLabel lblListaDeiProgrammi = new JLabel("Lista dei programmi aggiunti alla conferenza");
 		lblListaDeiProgrammi.setForeground(new Color(70, 71, 74));
 		lblListaDeiProgrammi.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblListaDeiProgrammi.setBounds(38, 349, 497, 14);
+		lblListaDeiProgrammi.setBounds(133, 347, 497, 14);
 		panel.add(lblListaDeiProgrammi);
+		
+		titoloTextField = new JTextField();
+		titoloTextField.setSelectionColor(new Color(126, 87, 194));
+		titoloTextField.setForeground(Color.WHITE);
+		titoloTextField.setDisabledTextColor(Color.WHITE);
+		titoloTextField.setColumns(10);
+		titoloTextField.setCaretColor(Color.WHITE);
+		titoloTextField.setBorder(null);
+		titoloTextField.setBackground(new Color(32, 33, 35));
+		titoloTextField.setBounds(134, 55, 348, 20);
+		panel.add(titoloTextField);
+		
+		JSeparator separator_1_1 = new JSeparator();
+		separator_1_1.setBounds(134, 77, 348, 2);
+		panel.add(separator_1_1);
+		
+		JLabel lblTitolo = new JLabel("Titolo");
+		lblTitolo.setForeground(new Color(57, 113, 177));
+		lblTitolo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblTitolo.setBackground(new Color(57, 113, 177));
+		lblTitolo.setBounds(83, 58, 48, 14);
+		panel.add(lblTitolo);
+		
+		JLabel descrizioneLabel = new JLabel("Descrizione");
+		descrizioneLabel.setForeground(new Color(57, 113, 177));
+		descrizioneLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		descrizioneLabel.setBounds(53, 87, 71, 14);
+		panel.add(descrizioneLabel);
+		
+	
+	
+		
+		
+		Image imgRefresh = new ImageIcon(this.getClass().getResource("/refresh.png")).getImage();
+		JLabel refreshButton = new JLabel("");
+		refreshButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RiempiTableProgrammi(updateConferenza);
+			}
+		});
+		refreshButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		refreshButton.setBounds(307, 216, 22, 26);
+		panel.add(refreshButton);
+		refreshButton.setIcon(new ImageIcon(imgRefresh));
 		
 		
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
@@ -316,8 +287,15 @@ public class AzioneDiModifica {
 				mouseY = e.getY();			}
 		});
 		
-		
-		frame.setBounds(100, 100, 560, 407);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	void RiempiTableProgrammi(Conferenza updateConferenza) {
+		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		model.setRowCount(0);
+		//riempio il model che mostrerà i valori sullo schermo
+		for(int i = 0;i< updateConferenza.programmiConferenza.size(); i++)
+		{		
+			model.addRow(new Object[] {updateConferenza.programmiConferenza.get(i).getCodProgramma(), sf.format(updateConferenza.programmiConferenza.get(i).getDataProgramma())});
+		}	
 	}
 }

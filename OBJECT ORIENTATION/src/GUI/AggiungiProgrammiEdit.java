@@ -48,6 +48,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
+
+import org.postgresql.util.PSQLException;
+
 import java.text.Format;
 
 public class AggiungiProgrammiEdit {
@@ -57,22 +61,22 @@ public class AggiungiProgrammiEdit {
 	private JTextField orarioFine;
 	private JTable table;
 	private JTextField orarioInizio;
-	private JTable table_1;
 	private ArrayList<Programma> listaProgrammi = new ArrayList<Programma>();
 	private ArrayList<Seduta> listaSedute = new ArrayList<Seduta>();
 	private ArrayList<Sessione> listaSessioni = new ArrayList<Sessione>();
 	private ArrayList<Evento_Sociale> listaEventi = new ArrayList<Evento_Sociale>();
 	private ArrayList<Intervallo> listaIntervalli = new ArrayList<Intervallo>();
-
+	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private Date dataProgramma = null;
 	
 	public AggiungiProgrammiEdit(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
-		initialize(controller, frameAzioniDiModifica, dataInizio, dataFine);
+		initialize(controller, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Controller controller, JFrame frameAzioniDiModifica, Date dataInizio, Date dataFine) {
+	private void initialize(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 600, 880);
@@ -148,12 +152,12 @@ public class AggiungiProgrammiEdit {
 		descrizioneLabel.setForeground(new Color(57, 113, 177));
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		final JFormattedTextField formattedTextField = new JFormattedTextField(format);
-		formattedTextField.setForeground(new Color(255, 255, 255));
-		formattedTextField.setBackground(new Color(32, 33, 35));
-		formattedTextField.setBorder(null);
-		formattedTextField.setBounds(150, 80, 154, 20);
-		panel.add(formattedTextField);
+		final JFormattedTextField dataTextField = new JFormattedTextField(format);
+		dataTextField.setForeground(new Color(255, 255, 255));
+		dataTextField.setBackground(new Color(32, 33, 35));
+		dataTextField.setBorder(null);
+		dataTextField.setBounds(150, 80, 154, 20);
+		panel.add(dataTextField);
 		
 		orarioFine = new JTextField();
 		orarioFine.setBounds(150, 155, 154, 20);
@@ -225,6 +229,7 @@ public class AggiungiProgrammiEdit {
 	      });
 		scrollPane_1.setViewportView(table);
 		table.getTableHeader().setReorderingAllowed(false);
+		table.setGridColor(new Color(0, 0, 0));
 		table.setSelectionBackground(new Color(126, 87, 194));
 		table.setForeground(new Color(255,255,255));
 		table.setBackground(new Color(32, 33, 35));
@@ -248,7 +253,7 @@ public class AggiungiProgrammiEdit {
 		
 		final JComboBox<String> comboBox = new JComboBox<String>();
 		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		ArrayList<String> listaLocazioni = controller.ottieniLocazioni(conferenzaCreata.ospitaConferenza);
+		ArrayList<String> listaLocazioni = controller.ottieniLocazioni(updateConferenza.sedeOspitante);
 		for(String s: listaLocazioni)
 		{
 			comboBox.addItem(s);
@@ -300,12 +305,26 @@ public class AggiungiProgrammiEdit {
 		aggiungiIntervalloButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				
+				//controllo che la data che sto inserendo non vada in conflitto con quelle della conferenza	
+				try {
+					dataProgramma = format.parse(dataTextField.getText());
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}			
+				for(Programma p: updateConferenza.programmiConferenza)
+				{	
+					if(dataProgramma.equals(p.getDataProgramma()))
+					{
+						JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+						
+				}
 								
 				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
 				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
+					dataProgramma = format.parse(dataTextField.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
 				}
@@ -343,14 +362,14 @@ public class AggiungiProgrammiEdit {
 				
 				
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextField.getText().isEmpty())
+				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataTextField.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
 				//nel caso in cui la data del programma non rientra nella data della conferenza
-				else if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
+				else if(dataProgramma.before(updateConferenza.getDataInizio()) || dataProgramma.after(updateConferenza.getDataFine()))
 				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza!","ERROR:413", JOptionPane.ERROR_MESSAGE);
 				}			
 				//nel caso in cui orario inizale >= orario finale
 				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
@@ -390,15 +409,23 @@ public class AggiungiProgrammiEdit {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
 				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
+					dataProgramma = format.parse(dataTextField.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
 				}
 				
-				
+				//controllo che la data che sto inserendo non vada in conflitto con quelle della conferenza					
+				for(Programma p: updateConferenza.programmiConferenza)
+				{	
+					if(dataProgramma.equals(p.getDataProgramma()))
+					{
+						JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+						
+				}
+								
 				//casto l'orario iniziale e finale a DataTime per poterli confrontare
 				SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
 				Date timeFine = new Date();
@@ -431,14 +458,14 @@ public class AggiungiProgrammiEdit {
 				
 				
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextField.getText().isEmpty())
+				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataTextField.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
 				//nel caso in cui la data del programma non rientra nella data della conferenza
-				else if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
+				else if(dataProgramma.before(dataInizio) || dataProgramma.after(dataFine))
 				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza!","ERROR:413", JOptionPane.ERROR_MESSAGE);
 				}			
 				//nel caso in cui orario inizale >= orario finale
 				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
@@ -487,10 +514,8 @@ public class AggiungiProgrammiEdit {
 		editorPane.setBackground(new Color(32, 33, 35));
 		
 		final JComboBox<String> comboBox_1 = new JComboBox<String>();
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		ArrayList<String> listaKS = controller.ottieniAllKS();
-		comboBox_1.addItem("");
-		for(String ks: listaKS)
+		//riempio la ComboBox chiedendo al DB quali sono i KS 
+		for(String ks: controller.ottieniAllKS())
 		{
 				comboBox_1.addItem(ks);
 		}
@@ -503,10 +528,10 @@ public class AggiungiProgrammiEdit {
 		panel.add(comboBox_1);
 		
 		final JComboBox<String> comboBox_2 = new JComboBox<String>();
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata	
-		for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici)
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
+		for(String chair: controller.ottieniAllPossibiliChair(updateConferenza))
 		{
-				comboBox_2.addItem(chair.getEmail().toString());
+				comboBox_2.addItem(chair);
 		}
 		comboBox_2.setForeground(Color.WHITE);
 		comboBox_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -541,10 +566,8 @@ public class AggiungiProgrammiEdit {
 			public void mouseClicked(MouseEvent e) {
 				
 				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
 				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
+					dataProgramma = format.parse(dataTextField.getText());
 				} catch (ParseException e1) {
 					System.out.println("Data non conforme alla conferenza!");
 				}
@@ -562,6 +585,17 @@ public class AggiungiProgrammiEdit {
 				}
 				
 				DefaultTableModel model = (DefaultTableModel)table.getModel();
+				
+				//controllo che la data che sto inserendo non vada in conflitto con quelle della conferenza					
+				for(Programma p: updateConferenza.programmiConferenza)
+				{	
+					if(dataProgramma.equals(p.getDataProgramma()))
+					{
+						JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+						return;
+					}					
+				}
+				
 				
 				//controllo se non ci sono altre sessioni in corso
 				if(table.getRowCount() != 0)
@@ -597,16 +631,20 @@ public class AggiungiProgrammiEdit {
 					}
 				}
 				
-				
+				//nel caso in cui una sessione non ha titolo
+				if(textFieldTitolo.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null,"Devi insrire un titolo alla sessione!","ERROR:420", JOptionPane.ERROR_MESSAGE);
+				}
 				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextField.getText().isEmpty())
+				else if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataTextField.getText().isEmpty())
 				{
 					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
 				}
 				//nel caso in cui la data del programma non rientra nella data della conferenza
-				else if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
+				else if(dataProgramma.before(dataInizio) || dataProgramma.after(dataFine))
 				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza!","ERROR:415", JOptionPane.ERROR_MESSAGE);
 				}			
 				//nel caso in cui orario inizale >= orario finale
 				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
@@ -622,7 +660,6 @@ public class AggiungiProgrammiEdit {
 						
 						Sessione sessioneNuova = controller.creaSessionedaFrame(textFieldTitolo.getText(), timeInizio, timeFine, comboBox.getSelectedItem().toString(), 
 									 			   comboBox_1.getSelectedItem().toString(), comboBox_2.getSelectedItem().toString(), editorPane.getText());
-
 						listaSedute.add(sessioneNuova);
 					}
 					catch(NullPointerException exception)
@@ -651,24 +688,51 @@ public class AggiungiProgrammiEdit {
 		JSeparator separator_1_2_1 = new JSeparator();
 		separator_1_2_1.setBounds(150, 141, 154, 2);
 		panel.add(separator_1_2_1);
-		
-		
-		
-		
-		
+			
 		JLabel lblChair = new JLabel("Chair*");
 		lblChair.setBounds(74, 253, 60, 14);
 		lblChair.setForeground(new Color(57, 113, 177));
 		lblChair.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		panel.add(lblChair);
 		
-		JButton creaConferenzaButton = new JButton("CREA CONFERENZA");
+		JButton creaConferenzaButton = new JButton("AGGIUNGI PROGRAMMA");
 		creaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frameCreazioneConferenza.dispose();
-				controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
-				controller.tornaAllaHome(controller, frame, frameHome);				
+			
+				if(dataTextField.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(null,"Devi inserire una data!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				
+				try {
+					dataProgramma = format.parse(dataTextField.getText());
+				} catch (ParseException e1) {
+				}	
+				
+				//controllo che la data che sto inserendo non vada in conflitto con quelle della conferenza					
+				for(Programma p: updateConferenza.programmiConferenza)
+				{	
+					if(dataProgramma.equals(p.getDataProgramma()))
+					{
+						JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+						
+				}
+
+			
+				if(dataProgramma.after(dataFine) || dataProgramma.before(dataInizio))
+				{
+					JOptionPane.showMessageDialog(null,"Data non Conforme!","ERROR:414", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				IstanziaSeduteSpecializzate();	
+				controller.commitAggiungiProgramma(dataTextField.getText(),updateConferenza, listaIntervalli, listaSessioni, listaEventi);
+				
+				controller.tornaAllaHome(controller, frame, frameAzioniDiModifica);	
+				JOptionPane.showMessageDialog(null,"Programma aggiunto con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -681,138 +745,8 @@ public class AggiungiProgrammiEdit {
 		creaConferenzaButton.setFocusPainted(false);
 		creaConferenzaButton.setBorder(null);
 		creaConferenzaButton.setBackground(new Color(57, 113, 177));
-		creaConferenzaButton.setBounds(398, 805, 165, 36);
+		creaConferenzaButton.setBounds(398, 675, 165, 36);
 		panel.add(creaConferenzaButton);
-		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		scrollPane_2.setBorder(new LineBorder(new Color(130, 135, 144), 0));
-		scrollPane_2.setBounds(29, 624, 131, 124);
-		panel.add(scrollPane_2);
-		
-		table_1 = new JTable();
-		table_1.setForeground(Color.WHITE);
-		table_1.getTableHeader().setReorderingAllowed(false); 
-		table_1.setModel(new DefaultTableModel(
-				new Object[][] {
-				},
-				new String[] {
-					"Data"
-				}
-			){
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-				boolean[] columnEditables = new boolean[] {
-					false, false, false, false, false, false
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
-		
-		table_1.addMouseListener(new MouseAdapter() {
-	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               ((DefaultTableModel)table_1.getModel()).removeRow(row); //elimino il la riga con doppio click      
-	               listaProgrammi.remove(row);	                
-	            }
-	         }
-	      });
-		scrollPane_2.setViewportView(table_1);
-		table_1.setSelectionBackground(new Color(126, 87, 194));
-		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table_1.setBackground(new Color(32, 33, 35));
-		
-		
-		
-		JButton btnAggiungiProgramma = new JButton("aggiungi programma");
-		btnAggiungiProgramma.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
-				try {
-					dataProgramma = sf.parse(formattedTextField.getText());
-				} catch (ParseException e1) {
-					System.out.println("Data non conforme alla conferenza!");
-				}
-				
-				//nel caso in cui la data del programma non rientra nella data della conferenza
-				if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
-				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-					return;
-				}	
-				
-							
-				DefaultTableModel model = (DefaultTableModel)table_1.getModel();
-				Programma programmaNuovo = new Programma();
-				for(Seduta s: listaSedute)
-				{
-					if(s instanceof Sessione)
-						listaSessioni.add((Sessione)s);
-
-					else if(s instanceof Evento_Sociale)
-						listaEventi.add((Evento_Sociale)s);				
-
-					else
-
-						listaIntervalli.add((Intervallo)s);
-				}
-				
-				if(table_1.getRowCount() != 0)
-				{
-					for(Programma p: listaProgrammi)
-					{
-						if(p.getDataProgramma().equals(dataProgramma))
-						{
-							JOptionPane.showMessageDialog(null,"Data non disponibile!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-							return;
-						}
-					}
-				}
-				
-				if(table.getRowCount()<1)
-				{
-					JOptionPane.showMessageDialog(null,"Devi aggiungere delle sedute!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-					return;
-				}			
-				programmaNuovo.setDataProgramma(dataProgramma);
-				programmaNuovo.sessioniProgrammate = new ArrayList<Sessione>(listaSessioni);
-				programmaNuovo.eventiProgrammati = new ArrayList<Evento_Sociale>(listaEventi);
-				programmaNuovo.intervalliProgrammati = new ArrayList<Intervallo>(listaIntervalli);
-				listaProgrammi.add(programmaNuovo);
-				model.addRow(new Object[] {sf.format(programmaNuovo.getDataProgramma())});
-				//dopo aver aggiunto il programma rimuovo le ArrayList occupate
-				listaSessioni.removeAll(listaSessioni);
-				listaEventi.removeAll(listaEventi);
-				listaIntervalli.removeAll(listaIntervalli);		
-				listaSedute.removeAll(listaSedute);
-				//ripulisco la tabella
-				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-				dtm.setRowCount(0);
-				}
-		});
-		btnAggiungiProgramma.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnAggiungiProgramma.setForeground(Color.WHITE);
-		btnAggiungiProgramma.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		btnAggiungiProgramma.setFocusPainted(false);
-		btnAggiungiProgramma.setBorder(null);
-		btnAggiungiProgramma.setBackground(new Color(126, 87, 194));
-		btnAggiungiProgramma.setBounds(39, 805, 165, 36);
-		panel.add(btnAggiungiProgramma);
-		
-		
-		JLabel lblListaDeiProgrammi = new JLabel("Lista dei programmi aggiunti alla conferenza");
-		lblListaDeiProgrammi.setForeground(new Color(70, 71, 74));
-		lblListaDeiProgrammi.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblListaDeiProgrammi.setBounds(29, 759, 497, 14);
-		panel.add(lblListaDeiProgrammi);
 		
 		JLabel lblFormatoDataYyyymmdd = new JLabel("yyyy-MM-dd");
 		lblFormatoDataYyyymmdd.setForeground(new Color(71, 72, 75));
@@ -825,7 +759,7 @@ public class AggiungiProgrammiEdit {
 		lblFormatoDataYyyymmdd_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblFormatoDataYyyymmdd_1_1.setBounds(25, 158, 174, 14);
 		panel.add(lblFormatoDataYyyymmdd_1_1);
-		
+
 		JLabel lblFormatoDataYyyymmdd_1_1_1 = new JLabel("(HH:mm)");
 		lblFormatoDataYyyymmdd_1_1_1.setForeground(new Color(71, 72, 75));
 		lblFormatoDataYyyymmdd_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -833,4 +767,20 @@ public class AggiungiProgrammiEdit {
 		panel.add(lblFormatoDataYyyymmdd_1_1_1);	
 		
 	}
+	
+	//ISTANZIA SESSIONI, EVENTI E INTERVALLI
+		private void IstanziaSeduteSpecializzate() {
+			//istanzia le varie sedute in base alla loro specializzazione	
+			for(Seduta s: listaSedute)
+			{
+				if(s instanceof Sessione)
+					listaSessioni.add((Sessione)s);
+
+				else if(s instanceof Evento_Sociale)
+					listaEventi.add((Evento_Sociale)s);				
+
+				else
+					listaIntervalli.add((Intervallo)s);
+			}
+		}
 }

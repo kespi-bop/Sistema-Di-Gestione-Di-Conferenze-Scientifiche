@@ -303,7 +303,7 @@ public class VisualizzaConferenza {
 				model.addRow(new Object[] {listaCodici.get(i), listaTitoli.get(i),listaDate.get(i), listaSedi.get(i)});
 	}
 	
-	//RIPULISCE ILT TEXTFIELD
+	//RIPULISCE IL TEXTFIELD
 	private void RipulisciTextField(JFormattedTextField dateTextField) {
 		dateTextField.setText("");
 	}

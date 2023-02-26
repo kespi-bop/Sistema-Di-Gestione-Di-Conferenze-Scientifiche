@@ -78,7 +78,7 @@ public class ModificaConferenza {
 	            }
 	         }
 	      });
-		
+		table.setGridColor(new Color(0, 0, 0));
 		table.setRequestFocusEnabled(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionBackground(new Color(126, 87, 194));

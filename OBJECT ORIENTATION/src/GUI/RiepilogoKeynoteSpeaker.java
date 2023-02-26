@@ -38,8 +38,6 @@ public class RiepilogoKeynoteSpeaker {
 	private JLabel dragFrame;
 	private JLabel signature;
 	private JScrollPane riepilogoKSPanel;
-	private JFormattedTextField inserisciAnnoField;
-	private JSeparator separator_1;
 	private JLabel AnnoLabel;
 	private JButton aggiornaListaConferenzeButton_1;
 	private JComboBox<String> enumeraMese;
@@ -73,6 +71,19 @@ public class RiepilogoKeynoteSpeaker {
 		panel.add(riepilogoKSPanel);
 		riepilogoKSPanel.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		riepilogoKSPanel.setBackground(new Color(0, 0, 0));
+		
+
+		JComboBox<String> inserisciAnnoField = new JComboBox<String>();
+		inserisciAnnoField.setForeground(Color.WHITE);
+		inserisciAnnoField.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		inserisciAnnoField.setFocusable(false);
+		inserisciAnnoField.setBorder(null);
+		inserisciAnnoField.setBackground(new Color(32, 33, 35));
+		inserisciAnnoField.setBounds(123, 106, 109, 21);
+		panel.add(inserisciAnnoField);
+		ArrayList<String> anniConfrenze = controller.ottieniAnniConferenze();
+		for(String i: anniConfrenze)
+			inserisciAnnoField.addItem(i);
 		
 		table = new JTable();
 		table.setSelectionBackground(new Color(126, 87, 194));
@@ -149,22 +160,6 @@ public class RiepilogoKeynoteSpeaker {
 		backToHomeButton.setBorder(null);
 		backToHomeButton.setBackground(new Color(126, 87, 194));
 		
-		DateFormat format = new SimpleDateFormat("yyyy");
-		inserisciAnnoField = new JFormattedTextField(format);
-		inserisciAnnoField.setBounds(123, 107, 128, 20);
-		panel.add(inserisciAnnoField);
-		inserisciAnnoField.setSelectionColor(new Color(126, 87, 194));
-		inserisciAnnoField.setForeground(Color.WHITE);
-		inserisciAnnoField.setDisabledTextColor(Color.WHITE);
-		inserisciAnnoField.setColumns(10);
-		inserisciAnnoField.setCaretColor(Color.WHITE);
-		inserisciAnnoField.setBorder(null);
-		inserisciAnnoField.setBackground(new Color(32, 33, 35));
-		
-		separator_1 = new JSeparator();
-		separator_1.setBounds(123, 129, 109, 2);
-		panel.add(separator_1);
-		
 		AnnoLabel = new JLabel("Anno");
 		AnnoLabel.setBounds(47, 110, 66, 14);
 		panel.add(AnnoLabel);
@@ -175,19 +170,13 @@ public class RiepilogoKeynoteSpeaker {
 		aggiornaListaConferenzeButton_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				if(inserisciAnnoField.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"Inserisci un anno!","ERROR:415", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
+					
 				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
 				dtm.setRowCount(0);
 					
 				DefaultTableModel model = (DefaultTableModel)table.getModel();
 				ArrayList<Ente> istituzioni = new ArrayList<Ente>();
-				ArrayList<Integer> KSperEnte = controller.ottieniRiepilogoKS(istituzioni, enumeraMese.getSelectedItem().toString(), inserisciAnnoField.getText());
+				ArrayList<Integer> KSperEnte = controller.ottieniRiepilogoKS(istituzioni, enumeraMese.getSelectedItem().toString(), inserisciAnnoField.getSelectedItem().toString());
 				Integer sommaKS = 0;
 			
 				for(Integer i: KSperEnte)
@@ -226,6 +215,7 @@ public class RiepilogoKeynoteSpeaker {
 		panel.add(sedeLabel);
 		sedeLabel.setForeground(new Color(57, 113, 177));
 		sedeLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {

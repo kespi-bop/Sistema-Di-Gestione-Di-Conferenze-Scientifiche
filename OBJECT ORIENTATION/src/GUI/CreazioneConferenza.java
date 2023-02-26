@@ -680,4 +680,5 @@ public class CreazioneConferenza {
 		panel.add(costruisciProgrammaButton);
 	
 	}
+	
 }

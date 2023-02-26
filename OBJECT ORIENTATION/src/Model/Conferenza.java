@@ -7,7 +7,7 @@ public class Conferenza {
 	private String descrizione;
 	private String titoloConferenza;
 	private int codConferenza;
-	public Sede ospitaConferenza;//Chiave esterna
+	public Sede sedeOspitante;//Chiave esterna
 	private Date dataInizio;
 	private Date dataFine;
 	private ArrayList<Organizzatore_Locale> organizzatori_Locali;
@@ -15,8 +15,8 @@ public class Conferenza {
 
 	public ArrayList<Programma> programmiConferenza = new ArrayList<Programma>();
 	//Costruttori
-public Conferenza(Sede ref$Sede) {
-		ospitaConferenza=ref$Sede;
+	public Conferenza(Sede ref$Sede) {
+		sedeOspitante=ref$Sede;
 		ref$Sede.sediConferenza.add(this);
 	}
 
