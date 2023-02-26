@@ -528,7 +528,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 				if(!(descrizione.isEmpty()))
 				{
 					aggiornaDescrizione = connection.prepareStatement(
-							"UPDATE CONFERENZA SET TitoloConferenza = '"+descrizione+"' WHERE CodConferenza = "+updatedConferenza.getCodConferenza()+";");		
+							"UPDATE CONFERENZA SET Descrizione = '"+descrizione+"' WHERE CodConferenza = "+updatedConferenza.getCodConferenza()+";");		
 					aggiornaDescrizione.executeUpdate();
 				}				
 				

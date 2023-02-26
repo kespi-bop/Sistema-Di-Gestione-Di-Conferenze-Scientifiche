@@ -185,7 +185,8 @@ public class RiepilogoKeynoteSpeaker {
 				{
 					
 					double percentuale = ((double)KSperEnte.get(i) * 100.00)/(double)sommaKS;
-					model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentuale+"%"});
+					String percentualeString  = String.format("%.2f%%", percentuale);
+					model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentualeString});
 				}
 			}
 		});
