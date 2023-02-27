@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.ArrayList;
-
 public class Sessione extends Seduta{
 	private String descrizioneSessione;
 	public Programma sessioneInProgramma;//Chiave esterna
@@ -63,7 +61,6 @@ public class Sessione extends Seduta{
 	}
 	
 	//Metodi sets
-
 	public void setDescrizioneSessione(String descrizioneSessione) {
 		this.descrizioneSessione=descrizioneSessione;
 	}

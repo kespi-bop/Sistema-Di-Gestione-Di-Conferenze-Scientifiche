@@ -12,6 +12,7 @@ public class Sponsor {
 	//Costruttori
 	public Sponsor(){
 	}
+	
 	//Metodi gets
 	public String getPartitaIva() {
 		return partitaIva;

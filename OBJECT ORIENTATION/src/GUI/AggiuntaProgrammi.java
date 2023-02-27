@@ -11,28 +11,21 @@ import javax.swing.JTextField;
 import javax.swing.JEditorPane;
 import javax.swing.JTable;
 import java.awt.Color;
-import java.awt.Container;
-
 import javax.swing.JSeparator;
-import javax.swing.border.BevelBorder;
 import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
 
 import Controller.Controller;
 import Model.Conferenza;
 import Model.Evento_Sociale;
 import Model.Intervallo;
-import Model.Locazione;
 import Model.Organizzatore_Locale;
 import Model.Organizzatore_Scientifico;
-import Model.Partecipante;
 import Model.Programma;
 import Model.Pubblicità;
 import Model.Seduta;
@@ -41,7 +34,6 @@ import Model.Sessione;
 import javax.swing.JScrollPane;
 import javax.swing.JFormattedTextField;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

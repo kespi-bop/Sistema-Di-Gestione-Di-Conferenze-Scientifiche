@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,8 +14,6 @@ import java.awt.Cursor;
 
 import javax.swing.JTable;
 import javax.swing.JLabel;
-import javax.swing.border.EtchedBorder;
-
 import Controller.Controller;
 import Model.Conferenza;
 
@@ -25,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class ModificaConferenza {

@@ -1,7 +1,5 @@
 package Model;
 
-import java.sql.Time;
-
 public class Intervallo extends Seduta{
 	private int codIntervallo= 0;
 	private String tipoIntervallo;
@@ -22,8 +20,7 @@ public class Intervallo extends Seduta{
 		return tipoIntervallo;
 	}
 
-	
-	
+
 	//Metodi sets
 	public void setCodIntervallo(int codIntervallo) {
 		this.codIntervallo = codIntervallo;

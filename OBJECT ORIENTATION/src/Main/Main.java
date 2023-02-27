@@ -9,8 +9,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		Controller controller = new Controller();
-		
+		Controller controller = new Controller();	
 		String nome = controller.ottieniOrganizzatoreLoggato();
 		
 		if(nome.isEmpty())

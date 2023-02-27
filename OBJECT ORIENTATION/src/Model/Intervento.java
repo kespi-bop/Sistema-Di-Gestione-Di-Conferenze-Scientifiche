@@ -14,7 +14,6 @@ public class Intervento {
 		
 	}
 
-	
 	public Intervento(Partecipante ref$Partecipante) {
 		partecipanteIntervenuto=ref$Partecipante;
 		ref$Partecipante.interventiPartecipante.add(this);
@@ -38,8 +37,9 @@ public class Intervento {
 	{
 		return aabstract;
 	}
-	//Metodi sets
 	
+	
+	//Metodi sets
 	public void setCodIntervento(int codIntervento) {
 		this.codIntervento = codIntervento;
 	}

@@ -8,9 +8,6 @@ import java.util.ArrayList;
 
 import DAO.ProgrammaDAO;
 import Database.ConnessioneDatabase;
-import Model.Conferenza;
-import Model.Evento_Sociale;
-import Model.Intervallo;
 import Model.Seduta;
 import Model.Sessione;
 

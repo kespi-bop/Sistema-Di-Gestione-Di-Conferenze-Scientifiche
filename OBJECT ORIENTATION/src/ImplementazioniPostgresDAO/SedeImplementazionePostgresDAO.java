@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import DAO.SedeDAO;
 import Database.ConnessioneDatabase;
-import Model.Locazione;
 import Model.Sede;
 
 public class SedeImplementazionePostgresDAO implements SedeDAO{

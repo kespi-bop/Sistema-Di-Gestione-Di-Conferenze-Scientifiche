@@ -7,7 +7,6 @@ import Model.Conferenza;
 import Model.Ente;
 import Model.Evento_Sociale;
 import Model.Intervallo;
-import Model.Organizzatore_Scientifico;
 import Model.Programma;
 import Model.Pubblicità;
 import Model.Sessione;

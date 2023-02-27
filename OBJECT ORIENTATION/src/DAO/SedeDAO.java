@@ -2,7 +2,6 @@ package DAO;
 
 import java.util.ArrayList;
 
-import Model.Locazione;
 import Model.Sede;
 
 public interface SedeDAO {

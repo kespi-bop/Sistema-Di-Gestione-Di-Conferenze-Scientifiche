@@ -23,7 +23,6 @@ public class Conferenza {
 	}
 
 	//Metodi gets
-
 	public String getDescrizione() {
 		return descrizione;
 	}
@@ -52,9 +51,8 @@ public class Conferenza {
 		return organizzatori_Scientifici;
 	}
 
+	
 	//Metodi sets
-
-
 	public void setCodConferenza (int codConferenza) {
 		this.codConferenza= codConferenza;
 	}

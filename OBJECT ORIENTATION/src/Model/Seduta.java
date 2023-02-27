@@ -13,8 +13,7 @@ public class Seduta {
 	public Partecipante KSpresente = null;//Chiave esterna 
 	public Locazione locazione = null;
 	
-	//Costruttori
-	
+	//Costruttori	
 	public Seduta() {
 	}
 	
@@ -40,6 +39,7 @@ public class Seduta {
 		return locazione;
 	}
 
+	
 	//Metodi sets
 	public void setOrarioInizio(Date orarioInizio) {
 	this.orarioInizio = orarioInizio;

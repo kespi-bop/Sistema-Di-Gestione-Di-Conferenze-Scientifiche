@@ -37,6 +37,7 @@ public class Programma {
 		programmaConferenza=ref$Conferenza;
 		ref$Conferenza.programmiConferenza.add(this);
 	}
+	
 	//Metodi gets
 	public int getCodProgramma() {
 		return codProgramma;

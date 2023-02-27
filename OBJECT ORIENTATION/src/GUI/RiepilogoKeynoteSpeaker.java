@@ -7,14 +7,11 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -24,9 +21,7 @@ import Model.Ente;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
-import javax.swing.JSeparator;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -98,9 +93,6 @@ public class RiepilogoKeynoteSpeaker {
 				"Istituzione", "Percentuale dei KS"
 			}
 		) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false
@@ -183,7 +175,6 @@ public class RiepilogoKeynoteSpeaker {
 					sommaKS = sommaKS + i;
 				for(int i = 0; i < istituzioni.size(); i++)
 				{
-					
 					double percentuale = ((double)KSperEnte.get(i) * 100.00)/(double)sommaKS;
 					String percentualeString  = String.format("%.2f%%", percentuale);
 					model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentualeString});

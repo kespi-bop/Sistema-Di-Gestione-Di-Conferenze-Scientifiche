@@ -25,8 +25,7 @@ public class Sede {
 	public Sede() {
 	}
 	
-	//Metodi gets
-	
+	//Metodi gets	
 	public String getNomeSede() {
 		return nomeSede;
 	}
