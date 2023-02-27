@@ -173,7 +173,7 @@ public class Home {
 		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameConferenze(controller, frame);
+				controller.visualizzaFrameConferenze(frame);
 			}
 		});
 		
@@ -190,7 +190,7 @@ public class Home {
 		riepilogoKSButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameRiepilogoKS(controller, frame);
+				controller.visualizzaFrameRiepilogoKS(frame);
 			}
 		});
 		riepilogoKSButton.setFocusPainted(false);

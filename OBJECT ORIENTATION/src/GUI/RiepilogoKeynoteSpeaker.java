@@ -150,7 +150,7 @@ public class RiepilogoKeynoteSpeaker {
 		backToHomeButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(controller, frame, frameHome);
+				controller.tornaAllaHome(frame, frameHome);
 			}
 		});
 		backToHomeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));

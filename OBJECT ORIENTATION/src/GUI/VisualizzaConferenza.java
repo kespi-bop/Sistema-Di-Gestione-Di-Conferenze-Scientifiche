@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import javax.swing.JPanel;
 import javax.swing.JFormattedTextField;
+import java.text.Format;
 
 public class VisualizzaConferenza {
 
@@ -46,7 +47,8 @@ public class VisualizzaConferenza {
 	private DefaultTableModel model;	
 	private JSeparator separator_1;
 	private JPanel panel;
-	private JFormattedTextField dateTextField;
+	private JFormattedTextField dateInizialeTextField;
+	private JFormattedTextField dateFinaleTextField;
 	private JComboBox<String>comboBox;	
 	private ArrayList<String> sedi;
 	private ArrayList<Integer> listaCodici = new ArrayList<Integer>();
@@ -148,7 +150,7 @@ public class VisualizzaConferenza {
 		signature.setForeground(new Color(71, 72, 75));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 				
-		dataProgrammaLabel = new JLabel("Data");
+		dataProgrammaLabel = new JLabel("Inizio");
 		dataProgrammaLabel.setBounds(39, 58, 48, 14);
 		panel.add(dataProgrammaLabel);
 		dataProgrammaLabel.setForeground(new Color(57, 113, 177));
@@ -182,16 +184,16 @@ public class VisualizzaConferenza {
 		panel.add(comboBox);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
-		dateTextField = new JFormattedTextField(format);
-		dateTextField.setForeground(new Color(255, 255, 255));
-		dateTextField.setSelectionColor(new Color(126, 87, 194));
-		dateTextField.setSelectedTextColor(new Color(255, 255, 255));
-		dateTextField.setDisabledTextColor(new Color(255, 255, 255));
-		dateTextField.setBorder(null);
-		dateTextField.setBackground(new Color(32, 33, 35));
-		dateTextField.setCaretColor(new Color(255, 255, 255));
-		dateTextField.setBounds(86, 55, 154, 20);
-		panel.add(dateTextField);
+		dateInizialeTextField = new JFormattedTextField(format);
+		dateInizialeTextField.setForeground(new Color(255, 255, 255));
+		dateInizialeTextField.setSelectionColor(new Color(126, 87, 194));
+		dateInizialeTextField.setSelectedTextColor(new Color(255, 255, 255));
+		dateInizialeTextField.setDisabledTextColor(new Color(255, 255, 255));
+		dateInizialeTextField.setBorder(null);
+		dateInizialeTextField.setBackground(new Color(32, 33, 35));
+		dateInizialeTextField.setCaretColor(new Color(255, 255, 255));
+		dateInizialeTextField.setBounds(86, 55, 154, 20);
+		panel.add(dateInizialeTextField);
 		
 		aggiornaListaConferenzeButton = new JButton("aggiorna");
 		aggiornaListaConferenzeButton.setBounds(373, 103, 88, 26);
@@ -210,7 +212,37 @@ public class VisualizzaConferenza {
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.add(exitLabel);
 		
+		dateFinaleTextField = new JFormattedTextField((Format) null);
+		dateFinaleTextField.setSelectionColor(new Color(126, 87, 194));
+		dateFinaleTextField.setSelectedTextColor(Color.WHITE);
+		dateFinaleTextField.setForeground(Color.WHITE);
+		dateFinaleTextField.setDisabledTextColor(Color.WHITE);
+		dateFinaleTextField.setCaretColor(Color.WHITE);
+		dateFinaleTextField.setBorder(null);
+		dateFinaleTextField.setBackground(new Color(32, 33, 35));
+		dateFinaleTextField.setBounds(297, 55, 154, 20);
+		panel.add(dateFinaleTextField);
 		
+		dragFrame = new JLabel("");
+		dragFrame.setBounds(0, 0, 460, 44);
+		panel.add(dragFrame);
+			
+		JLabel lblDataI = new JLabel("Fine");
+		lblDataI.setForeground(new Color(57, 113, 177));
+		lblDataI.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblDataI.setBackground(new Color(57, 113, 177));
+		lblDataI.setBounds(250, 58, 48, 14);
+		panel.add(lblDataI);
+		
+		JLabel lblFormatoDataYyyymmdd_1 = new JLabel("yyyy-MM-dd");
+		lblFormatoDataYyyymmdd_1.setForeground(new Color(71, 72, 75));
+		lblFormatoDataYyyymmdd_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblFormatoDataYyyymmdd_1.setBounds(297, 42, 174, 14);
+		panel.add(lblFormatoDataYyyymmdd_1);
+		
+		JSeparator separator_1_1 = new JSeparator();
+		separator_1_1.setBounds(297, 79, 154, 2);
+		panel.add(separator_1_1);
 		
 		
 		
@@ -222,7 +254,7 @@ public class VisualizzaConferenza {
 			      	 if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
 						JTable target = (JTable)me.getSource();
 						int row = target.getSelectedRow(); // seleziona riga
-						controller.visualizzaFrameProgrammi(controller, frame, table.getValueAt(row, 0).toString());  //passo il valore del Programma cliccato
+						controller.visualizzaFrameProgrammi(frame, table.getValueAt(row, 0).toString());  //passo il valore del Programma cliccato
 			      	 }
 			    }
 		});
@@ -232,15 +264,13 @@ public class VisualizzaConferenza {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(controller, frame, frameHome);		
+				controller.tornaAllaHome(frame, frameHome);		
 			}
 		});		
 			
 		
 		//trascina finestra undecorated
-		dragFrame = new JLabel("");
-		dragFrame.setBounds(0, 0, 460, 44);
-		panel.add(dragFrame);
+
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -277,13 +307,14 @@ public class VisualizzaConferenza {
 		RipulisciArray();
 		
 		//RICHIEDE I PROGRAMMI AL DB
-		controller.ottieniConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateTextField.getText(), comboBox.getSelectedItem().toString());
+		controller.ottieniConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateInizialeTextField.getText(), dateFinaleTextField.getText(), comboBox.getSelectedItem().toString());
 		
 		//RIEMPIO LA TABELLA
-		RiempiTabellaConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateTextField.getText(), comboBox.getSelectedItem().toString());
+		RiempiTabellaConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateInizialeTextField.getText(), comboBox.getSelectedItem().toString());
 		
 		//RIPULISCO IL TEXTFIELD PER LA  DATA
-		RipulisciTextField(dateTextField);
+		RipulisciTextField(dateInizialeTextField);
+		RipulisciTextField(dateFinaleTextField);
 		
 	}
 

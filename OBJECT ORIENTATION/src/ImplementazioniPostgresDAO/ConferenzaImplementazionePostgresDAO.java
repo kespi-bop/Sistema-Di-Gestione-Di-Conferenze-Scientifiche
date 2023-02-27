@@ -39,11 +39,11 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 	
 	@Override
 	public void getConferenzeAndProgrammiDB(ArrayList<Integer> listaCodici, ArrayList<String> listaTitoli, ArrayList<String> listaDate, 
-			 								ArrayList<String> listaSedi, String data, String sede)
+			 								ArrayList<String> listaSedi, String dataInizio, String dataFine, String sede)
 	{				
 		PreparedStatement leggiConferenze;
 		try {
-			if(data.isEmpty())
+			if(dataInizio.isEmpty() || dataFine.isEmpty())
 			{
 				if(sede.isEmpty())
 				{
@@ -65,14 +65,14 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 				leggiConferenze = connection.prepareStatement(
 						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
-						+ "WHERE DataProgramma = '"+data+"';");
+						+ "WHERE DataProgramma BETWEEN '"+dataInizio+"' AND '"+dataFine+"'");
 			}
 			else
 			{
 				leggiConferenze = connection.prepareStatement(
 						"SELECT CodProgramma, TitoloConferenza, DataProgramma, NomeSede\r\n"
 						+ "FROM CONFERENZA NATURAL JOIN PROGRAMMA\r\n"
-						+ "WHERE DataProgramma = '"+data+"' AND NomeSede = '"+sede.replace("'","''")+"';");
+						+ "WHERE DataProgramma BETWEEN '"+dataInizio+"'AND'"+dataFine+"' AND NomeSede = '"+sede.replace("'","''")+"';");
 			}
 			
 		ResultSet rs = leggiConferenze.executeQuery();

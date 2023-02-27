@@ -12,7 +12,6 @@ public class Conferenza {
 	private Date dataFine;
 	private ArrayList<Organizzatore_Locale> organizzatori_Locali;
 	private ArrayList<Organizzatore_Scientifico> organizzatori_Scientifici;
-
 	public ArrayList<Programma> programmiConferenza = new ArrayList<Programma>();
 	//Costruttori
 	public Conferenza(Sede ref$Sede) {

@@ -45,9 +45,6 @@ public class CancellaConferenza {
 		initialize(controller, frameHome, listaConferenze);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize(final Controller controller, final JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
 		
 		//SWING COMPONENTS
@@ -142,7 +139,7 @@ public class CancellaConferenza {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(controller, frame, frameHome);
+				controller.tornaAllaHome(frame, frameHome);
 			}
 		});
 			

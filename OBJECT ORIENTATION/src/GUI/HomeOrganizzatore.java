@@ -129,7 +129,7 @@ public class HomeOrganizzatore {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ArrayList<Conferenza> listaConferenze = controller.ottieniConferenze();
-				controller.vediModificaConferenza(controller, frame, listaConferenze);
+				controller.vediModificaConferenza(frame, listaConferenze);
 			}
 		});
 		
@@ -157,7 +157,7 @@ public class HomeOrganizzatore {
 		creaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.vediCreazioneConferenza(controller, frame);
+				controller.vediCreazioneConferenza(frame);
 			}
 		});
 		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -173,7 +173,7 @@ public class HomeOrganizzatore {
 		cancellaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.vediCancellaConferenza(controller, frame, controller.ottieniConferenze());
+				controller.vediCancellaConferenza(frame, controller.ottieniConferenze());
 			}
 		});
 		cancellaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -199,7 +199,7 @@ public class HomeOrganizzatore {
 			public void mouseClicked(MouseEvent e) {
 				frame.dispose();
 				frame.setVisible(false);
-				controller.tornaAllaHome(controller, frame, frameHome);
+				controller.tornaAllaHome(frame, frameHome);
 				controller.deleteOrganizzatoreRicordato();
 			}
 		});
@@ -224,7 +224,7 @@ public class HomeOrganizzatore {
 		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameConferenze(controller, frame);
+				controller.visualizzaFrameConferenze(frame);
 			}
 		});
 		VisualizzaConferenzeButton.setFocusPainted(false);
@@ -240,7 +240,7 @@ public class HomeOrganizzatore {
 		riepilogoKSButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameRiepilogoKS(controller, frame);
+				controller.visualizzaFrameRiepilogoKS(frame);
 			}
 		});
 		riepilogoKSButton.setFocusPainted(false);

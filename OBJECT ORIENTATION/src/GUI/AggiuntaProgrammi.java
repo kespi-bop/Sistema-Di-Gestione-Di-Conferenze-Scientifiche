@@ -118,13 +118,11 @@ public class AggiuntaProgrammi {
 		initialize(controller, frameCreazioneConferenza, frameHomeOrganizzatore, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize(final Controller controller, final JFrame frameCreazioneConferenza, final JFrame frameHome,
 			 				final Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
 			 				ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici, ArrayList<Pubblicità> listaPubblicità) {
 		
+		//SWING COMPONENTS
 		conferenzaCreata.setOrganizzatoriLocali(listaOrganizzatoriLocali);
 		conferenzaCreata.setOrganizzatoriScientifici(listaOrganizzatoriScientifici);
 		frame = new JFrame();
@@ -249,9 +247,6 @@ public class AggiuntaProgrammi {
 				"Titolo","Inizio", "Fine", "Locazione", "Keynote", "Chair", "Descrizione"
 			}
 		){
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, false
@@ -519,15 +514,11 @@ public class AggiuntaProgrammi {
 		//riempi l'arrayList e la tabella di programmi aggiunti
 		btnAggiungiProgramma.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {	
-				if(formattedTextFieldData.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"Devi inserire una data!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				AggiungiProgramma(conferenzaCreata, formattedTextFieldData.getText(), tableSessioniAggiunte.getRowCount(), tableProgrammiAggiunti.getRowCount(), 
-						listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);	
-				}
+			public void mouseClicked(MouseEvent e) {
+				if(isDataInserita())	
+					AggiungiProgramma(conferenzaCreata, formattedTextFieldData.getText(), tableSessioniAggiunte.getRowCount(), tableProgrammiAggiunti.getRowCount());	
+		
+			}
 		});
 		
 		//effettua la creazione della nuova conferenza passando i valori al DB
@@ -540,70 +531,8 @@ public class AggiuntaProgrammi {
 				
 		aggiungiIntervalloButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-						
-				CastaDataProgramma(formattedTextFieldData.getText());
-					
-				CastaOrariProgramma(orarioInizio.getText(), orarioFine.getText());
-				
-				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
-				
-				//controllo se non ci sono altre sessioni in corso
-				if(tableSessioniAggiunte.getRowCount() != 0)
-				{
-					for(Seduta s: listaSedute)
-					{
-						if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
-							|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
-							|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
-							|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
-						{
-							JOptionPane.showMessageDialog(null,"In questo orario è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-							return;						
-						}
-						
-					}
-				}
-				
-				//nel caso in cui una sessione non ha titolo
-				if(textFieldTitolo.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"Devi insrire un titolo alla sessione!","ERROR:420", JOptionPane.ERROR_MESSAGE);
-				}
-				//nel caso in cui non sono stati inseriti orari
-				else if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-				}
-				//nel caso in cui la data del programma non rientra nella data della conferenza
-				else if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
-				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-				}			
-				//nel caso in cui orario inizale >= orario finale
-				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
-				{
-					System.out.println(timeInizio);
-					System.out.println(timeFine);
-					JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-				}	
-				else
-				{
-					try
-					{
-						model.addRow(new Object[] {comboBoxIntervallo.getSelectedItem().toString(), orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
-						Intervallo intervalloNuovo = new Intervallo();
-						intervalloNuovo.setOrarioInizio(timeInizio);
-						intervalloNuovo.setOrarioFine(timeFine);
-						intervalloNuovo.setTitolo(comboBoxIntervallo.getSelectedItem().toString());
-						listaSedute.add(intervalloNuovo);
-					}
-					catch(NullPointerException exception)
-					{
-						JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				
+			public void mouseClicked(MouseEvent e) {		
+				CreaIntervallo(controller, conferenzaCreata, formattedTextFieldData.getText(), comboBoxIntervallo.getSelectedItem().toString());
 			}
 		});
 		
@@ -611,79 +540,7 @@ public class AggiuntaProgrammi {
 		aggiungiEventoButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//casto la data inserita al tipo Date di java
-				SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-				Date dataProgramma = new Date();
-				try {
-					dataProgramma = sf.parse(formattedTextFieldData.getText());
-				} catch (ParseException e1) {
-					System.out.println("Data non conforme alla conferenza!");
-				}
-				
-				
-				//casto l'orario iniziale e finale a DataTime per poterli confrontare
-				SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
-				Date timeFine = new Date();
-				Date timeInizio = new Date();
-				try {
-					timeFine = tipoTempo.parse(orarioFine.getText());	
-					timeInizio = tipoTempo.parse(orarioInizio.getText());
-				} catch (ParseException e1) {
-					System.out.println("Orario non conforme!");
-				}
-				
-				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
-				
-				//controllo se non ci sono altre sessioni in corso
-				if(tableSessioniAggiunte.getRowCount() != 0)
-				{
-					for(Seduta s: listaSedute)
-					{
-						if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
-							|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
-							|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
-							|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
-						{
-							JOptionPane.showMessageDialog(null,"In questo orario è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-							return;						
-						}
-						
-					}
-				}
-				
-				
-				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-				}
-				//nel caso in cui la data del programma non rientra nella data della conferenza
-				else if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
-				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-				}			
-				//nel caso in cui orario inizale >= orario finale
-				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
-				{
-					JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-				}	
-				else
-				{
-					try
-					{
-						model.addRow(new Object[] {comboBoxEvento.getSelectedItem().toString(), orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
-						Evento_Sociale eventoNuovo = new Evento_Sociale();
-						eventoNuovo.setOrarioInizio(timeInizio);
-						eventoNuovo.setOrarioFine(timeFine);
-						eventoNuovo.setTitolo(comboBoxEvento.getSelectedItem().toString());
-						listaSedute.add(eventoNuovo);
-					}
-					catch(NullPointerException exception)
-					{
-						JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				
+				CreaEvento(controller, formattedTextFieldData.getText(), conferenzaCreata, comboBoxEvento.getSelectedItem().toString());
 			}
 		});
 		
@@ -691,97 +548,8 @@ public class AggiuntaProgrammi {
 		aggiungiSessioneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
-				//casto la data inserita al tipo Date di java
-				dataProgramma = new Date();
-				try {
-					dataProgramma = format.parse(formattedTextFieldData.getText());
-				} catch (ParseException e1) {
-					System.out.println("Data non conforme alla conferenza!");
-				}
-				
-				
-				//casto l'orario iniziale e finale a DataTime per poterli confrontare
-				
-				Date timeFine = new Date();
-				Date timeInizio = new Date();
-				try {
-					timeFine = tipoTempo.parse(orarioFine.getText());	
-					timeInizio = tipoTempo.parse(orarioInizio.getText());
-				} catch (ParseException e1) {
-					System.out.println("Orario non conforme!");
-				}
-				
-				DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
-				
-				//controllo se non ci sono altre sessioni in corso
-				if(tableSessioniAggiunte.getRowCount() != 0)
-				{
-					for(Seduta s: listaSedute)
-					{		
-						if(!(s instanceof Sessione))
-						{
-							if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
-								|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
-								|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
-								|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
-							{
-								JOptionPane.showMessageDialog(null,"In questo orario è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-								return;						
-							}
-						}
-						else
-						{
-							if( (s.getLocazione().getNomeLocazione().compareTo(comboBoxLocazione.getSelectedItem().toString())) == 0 )
-							{
-								if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
-										|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
-										|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
-										|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
-									{
-										JOptionPane.showMessageDialog(null,"In questa locazione è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-										return;						
-									}
-							}
-						}
-						
-					}
-				}
-				
-				
-				//nel caso in cui non sono stati inseriti orari
-				if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || formattedTextFieldData.getText().isEmpty())
-				{
-					JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-				}
-				//nel caso in cui la data del programma non rientra nella data della conferenza
-				else if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
-				{
-					JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza creata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-				}			
-				//nel caso in cui orario inizale >= orario finale
-				else if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
-				{
-					JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-				}	
-				else
-				{
-					try
-					{
-						model.addRow(new Object[] {textFieldTitolo.getText(), orarioInizio.getText(), orarioFine.getText(), comboBoxLocazione.getSelectedItem().toString(), 
-									 			   comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), editorPaneDescrizione.getText()});
-						
-						Sessione sessioneNuova = controller.creaSessionedaFrame(textFieldTitolo.getText(), timeInizio, timeFine, comboBoxLocazione.getSelectedItem().toString(), 
-									 			   comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), editorPaneDescrizione.getText());
-
-						listaSedute.add(sessioneNuova);
-					}
-					catch(NullPointerException exception)
-					{
-						JOptionPane.showMessageDialog(null,"Non sono presenti altri chair!","ERROR:407", JOptionPane.ERROR_MESSAGE);
-					}
-				}
-				
+				CreaSessione(controller, conferenzaCreata, formattedTextFieldData.getText(), comboBoxLocazione.getSelectedItem().toString(), comboBoxKS.getSelectedItem().toString(), 
+						comboBoxChair.getSelectedItem().toString(), textFieldTitolo.getText(), editorPaneDescrizione.getText());	
 			}
 		});
 		
@@ -794,6 +562,261 @@ public class AggiuntaProgrammi {
 		
 }
 	
+	//IMPLEMENTAZIONE DEI METODI CHIAMATI DAL FRAME
+	private Boolean isDataInserita() {
+		if(formattedTextFieldData.getText().isEmpty())
+		{
+			JOptionPane.showMessageDialog(null,"Devi inserire una data!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	
+	private void CreaSessione(Controller controller, Conferenza updateConferenza, String dataInserita, String locazione, String keynoteS, String Chair, String titolo, String descrizione) {
+		if(isDataInserita())
+		{
+			CastaDataeOrario(controller, dataInserita);
+			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioSessioneIdoneo(locazione))
+			{
+				if(isParametriCorretti(dataInserita, updateConferenza) && isTitoloInserito(titolo))
+					IstanziaSessione(controller, locazione, keynoteS, Chair, titolo, descrizione);
+			}
+		}	
+	}
+
+	private void IstanziaSessione(Controller controller, String locazione, String keynoteS, String chair, String titolo, String descrizione) {
+		try{
+			AggiungiSessioneAllaTable(titolo, locazione, keynoteS, chair, descrizione);
+			IstanziaSessioneEdAggiungiAdArray(controller, titolo, locazione, keynoteS, chair, descrizione);
+		}
+		catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Non sono presenti altri chair!","ERROR:407", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void IstanziaSessioneEdAggiungiAdArray(Controller controller, String titolo, String locazione, String keynoteS, String chair, String descrizione) {
+		Sessione sessioneNuova = controller.creaSessionedaFrame(titolo, timeInizio, timeFine, locazione, keynoteS, chair, descrizione);
+		listaSedute.add(sessioneNuova);
+	}
+
+	private void AggiungiSessioneAllaTable(String titolo, String locazione, String keynoteS, String chair, String descrizione) {
+		DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
+		model.addRow(new Object[] {titolo, orarioInizio.getText(), orarioFine.getText(), locazione, 
+									keynoteS, chair, descrizione});
+	}
+
+	private boolean isTitoloInserito(String titolo) {
+		if(titolo.isEmpty())
+		{
+			JOptionPane.showMessageDialog(null,"Devi insrire un titolo alla sessione!","ERROR:420", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isOrarioSessioneIdoneo(String ComboBoxLocazioneValue) {
+		//controllo se non ci sono altre sessioni in corso
+		if(tableSessioniAggiunte.getRowCount() != 0)
+		{
+			for(Seduta s: listaSedute)
+			{			
+				if(!(s instanceof Sessione))
+				{
+					if(isNotIdoneaSeduta(s))
+						return false;
+				}											
+				else
+				{
+					if(isNotIdoneaSessione(s, ComboBoxLocazioneValue))
+						return false;	
+				}
+							
+			}
+		}
+		return true;
+	}
+
+	private boolean isNotIdoneaSessione(Seduta s, String comboBoxLocazioneValue) {
+		if( (s.getLocazione().getNomeLocazione().compareTo(comboBoxLocazioneValue)) == 0 )
+		{
+			if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
+					|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
+					|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
+					|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
+				{
+					JOptionPane.showMessageDialog(null,"In questa locazione è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					return true;						
+				}
+		}
+		return false;
+	}
+
+	protected void CreaEvento(Controller controller, String dataInserita, Conferenza conferenzaCreata, String ComboBoxEventoValue) {
+		if(isDataInserita())
+		{
+			CastaDataeOrario(controller, dataInserita);
+			if(isNuovaDataIdoneaAllaConferenza(conferenzaCreata) && isOrarioIntervalloOrEventoIdoneo())
+			{
+				if(isParametriCorretti(dataInserita, conferenzaCreata))
+					IstanziaEvento(ComboBoxEventoValue);
+		
+			}
+		}	
+	}
+
+	private void IstanziaEvento(String comboBoxEventoValue) {
+		try{
+			AggiungiEventoAllaTable(comboBoxEventoValue);
+			IstanziaEventoAggiungiAdArraySedute(comboBoxEventoValue);				
+		} catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void IstanziaEventoAggiungiAdArraySedute(String comboBoxEventoValue) {
+		Evento_Sociale eventoNuovo = new Evento_Sociale();
+		eventoNuovo.setOrarioInizio(timeInizio);
+		eventoNuovo.setOrarioFine(timeFine);
+		eventoNuovo.setTitolo(comboBoxEventoValue);
+		listaSedute.add(eventoNuovo);
+	}
+
+	private void AggiungiEventoAllaTable(String comboBoxEventoValue) {
+		DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
+		model.addRow(new Object[] {comboBoxEventoValue, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
+	}
+
+	protected void CreaIntervallo(Controller controller, Conferenza conferenzaCreata, String dataInserita, String comboBoxIntervallo) {
+		if(isDataInserita())
+		{
+			CastaDataeOrario(controller, dataInserita);
+			if(isNuovaDataIdoneaAllaConferenza(conferenzaCreata) && isOrarioIntervalloOrEventoIdoneo())
+			{
+				if(isParametriCorretti(dataInserita, conferenzaCreata))			
+					IstanziaIntervallo(comboBoxIntervallo);				
+			}
+		}
+	
+	}
+
+	private void IstanziaIntervallo(String comboBoxIntervallo) {
+		try{
+			AggiungiIntervalloAllaTable(comboBoxIntervallo);		
+			IstanziaIntervalloAggiungiAdArraySedute(comboBoxIntervallo);		
+		}
+		catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void IstanziaIntervalloAggiungiAdArraySedute(String comboBoxIntervallo) {
+		Intervallo intervalloNuovo = new Intervallo();
+		intervalloNuovo.setOrarioInizio(timeInizio);
+		intervalloNuovo.setOrarioFine(timeFine);
+		intervalloNuovo.setTitolo(comboBoxIntervallo);
+		listaSedute.add(intervalloNuovo);
+	}
+
+	private void AggiungiIntervalloAllaTable(String comboBoxIntervallo) {
+		DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
+		model.addRow(new Object[] {comboBoxIntervallo, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
+	}
+
+	private boolean isParametriCorretti(String dataInserita, Conferenza conferenzaCreata) {
+		if(isOrarioDataNOTEmpty(dataInserita) && isDataProgrammaInConferenza(conferenzaCreata) && isOrarioConforme())
+			return true;
+		return false;
+	}
+
+	private boolean isOrarioConforme() {
+		if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
+		{
+			JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}	
+		return true;
+	}
+
+	private boolean isOrarioDataNOTEmpty(String dataInserita) {
+		if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataInserita.isEmpty())
+		{
+			JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isDataProgrammaInConferenza(Conferenza conferenzaCreata) {
+		CastaStringToData();
+		if(dataProgramma.before(conferenzaCreata.getDataInizio()) || dataProgramma.after(conferenzaCreata.getDataFine()))
+		{
+			JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}	
+		return true;
+	}
+
+	private boolean isNuovaDataIdoneaAllaConferenza(Conferenza conferenzaCreata) {
+		for(Programma p: conferenzaCreata.programmiConferenza)
+		{	
+			CastaStringToData();
+			if(dataProgramma.equals(p.getDataProgramma()))
+			{
+				JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}					
+		}
+		return true;
+	}
+
+	private boolean isOrarioIntervalloOrEventoIdoneo() {
+		if(tableSessioniAggiunte.getRowCount() != 0)
+		{
+			for(Seduta s: listaSedute)
+			{
+				if(isNotIdoneaSeduta(s))
+					return false;						
+			}
+		}
+		return true;
+	}
+
+	private boolean isNotIdoneaSeduta(Seduta s) {
+		if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
+				|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
+				|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
+				|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
+			{
+				JOptionPane.showMessageDialog(null,"In questo orario è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+				return true;
+			}
+		return false;
+	}
+
+	private void CastaDataeOrario(Controller controller, String dataInserita) {
+		dataProgramma = CastaStringToData();		
+		CastaStringToTime();
+	}
+
+	private void CastaStringToTime() {
+		try {
+			timeFine = tipoTempo.parse(orarioFine.getText());	
+			timeInizio = tipoTempo.parse(orarioInizio.getText());
+		} catch (ParseException e1) {
+			System.out.println("Orario non conforme!");
+		}
+	}
+
+	private Date CastaStringToData() {
+		try {
+			dataProgramma = format.parse(formattedTextFieldData.getText());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+		return dataProgramma;
+	}
+
 	protected void CastaOrariProgramma(String orarioIniziale, String orarioFinale) {
 		//casto l'orario iniziale e finale a DataTime per poterli confrontare			
 		try {
@@ -838,17 +861,13 @@ public class AggiuntaProgrammi {
 				}
 	}
 
-	private void AggiungiProgramma(Conferenza conferenzaCreata, String dataTesto, int numeroRigheSessioni, int numeroRigheProgrammi, 
-			ArrayList<Programma> listaProgrammi, Programma programmaNuovo, ArrayList<Sessione> listaSessioni, ArrayList<Evento_Sociale> listaEventi, ArrayList<Intervallo> listaIntervalli) {
+	private void AggiungiProgramma(Conferenza conferenzaCreata, String dataTesto, int numeroRigheSessioni, int numeroRigheProgrammi) {
 		
 		if(isNuovoProgrammaIdoneo(conferenzaCreata, dataTesto, numeroRigheProgrammi, numeroRigheSessioni))
 		{
 			IstanziaSeduteSpecializzate();
-			
-			IstanziaNuovoProgramma(listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);
-			
-			RipulisciLeArrayList();
-			
+			IstanziaNuovoProgramma(listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);	
+			RipulisciLeArrayList();		
 			RipulisciTabellaSessioni();
 		}				
 	}
@@ -909,6 +928,7 @@ public class AggiuntaProgrammi {
 		{
 			for(Programma p: listaProgrammi)
 			{
+				CastaStringToData();
 				if(p.getDataProgramma().equals(dataProgramma))
 				{
 					JOptionPane.showMessageDialog(null,"Data non disponibile!","ERROR:412", JOptionPane.ERROR_MESSAGE);
@@ -923,7 +943,7 @@ public class AggiuntaProgrammi {
 	private void CommitCreazione(Controller controller, Conferenza conferenzaCreata, JFrame frameCreazioneConferenza, JFrame frameHome, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
 		frameCreazioneConferenza.dispose();
 		controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
-		controller.tornaAllaHome(controller, frame, frameHome);	
+		controller.tornaAllaHome(frame, frameHome);	
 	}
 
 	//ISTANZIA SESSIONI, EVENTI E INTERVALLI

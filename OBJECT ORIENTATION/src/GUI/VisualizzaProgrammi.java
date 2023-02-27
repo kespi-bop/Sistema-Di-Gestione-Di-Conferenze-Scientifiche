@@ -167,7 +167,7 @@ public class VisualizzaProgrammi {
 	            	   String titoloSessione = target.getValueAt(row, 1).toString();
 	            	   String codSessione = target.getValueAt(row, 0).toString();
 	            	   if(Integer.parseInt(codSessione) >= 0)
-	            	   controller.visualizzaFrameDescrizione(controller, frame, titoloSessione, controller.ottieniDescrizione(codSessione));  //passo il valore della Sessione cliccata
+	            	   controller.visualizzaFrameDescrizione(frame, titoloSessione, controller.ottieniDescrizione(codSessione));  //passo il valore della Sessione cliccata
 	               }
 	               catch(NullPointerException e)
 	               {

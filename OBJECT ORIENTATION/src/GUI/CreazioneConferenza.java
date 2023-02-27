@@ -33,7 +33,6 @@ import Model.Sponsor;
 import javax.swing.JScrollPane;
 import javax.swing.JFormattedTextField;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,18 +50,28 @@ public class CreazioneConferenza {
 	private JTable table;
 	private JTable table_1;
 	private JTable table_2;
+	private Controller controller;
+	private JFormattedTextField dateInizioField;
+	private JFormattedTextField dateFineField;
+	private JComboBox<String>enumeraSede;
+	private JEditorPane descrizionePane;
+	private DefaultTableModel modelL;
+	private DefaultTableModel modelS;
+	private DefaultTableModel model;
+	private Date dateTimeInizio;
+	private Date dateTimeFine;
+	private Sede sedeSessione;
+	private Conferenza conferenzaCreata;
+	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
-	/**
-	 * Create the application.
-	 */
 	public CreazioneConferenza(Controller controller, JFrame frameHome) {
 		initialize(controller,frameHome);
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize(final Controller controller, final JFrame frameHome) {
+	
+	private void initialize(Controller controller, final JFrame frameHome) {
+		
+		//SWING COMPONENTS
+		this.controller = controller;
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setBounds(100, 100, 600, 800);
@@ -81,15 +90,11 @@ public class CreazioneConferenza {
 				
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		exitLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(controller, frame, frameHome);
-			}
-		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		exitLabel.setBounds(573, 11, 17, 21);
 		panel.add(exitLabel);
+		
+		
 		
 		//trascino la finestra undecorated
 		JLabel dragFrame = new JLabel("");
@@ -107,9 +112,7 @@ public class CreazioneConferenza {
 		});
 		dragFrame.setBounds(0, 0, 563, 40);
 		panel.add(dragFrame);
-		
-		
-		
+			
 		JLabel sedeLabel = new JLabel("Sede");
 		sedeLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		sedeLabel.setBounds(92, 108, 48, 14);
@@ -141,20 +144,15 @@ public class CreazioneConferenza {
 		descrizioneLabel.setBounds(69, 226, 71, 14);
 		descrizioneLabel.setForeground(new Color(57, 113, 177));
 		
-		final JComboBox<String>enumeraSede = new JComboBox<String>();
+		enumeraSede = new JComboBox<String>();
 		enumeraSede.setForeground(new Color(255, 255, 255));
-		enumeraSede.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		//riempio la ComboBox chiedendo al DB quali sono le sedi
-		ArrayList<String> sedi = controller.ottieniSedi();
-		for(String s: sedi)
-		{
-			enumeraSede.addItem(s);
-		}
-		panel.add(enumeraSede);
+		enumeraSede.setFont(new Font("Tahoma", Font.PLAIN, 11));	
 		enumeraSede.setFocusable(false);
 		enumeraSede.setBorder(null);
 		enumeraSede.setBackground(new Color(32, 33, 35));
-		enumeraSede.setBounds(150, 105, 154, 21);
+		enumeraSede.setBounds(150, 105, 154, 21);	
+		panel.add(enumeraSede);
+		RiempiComboBoxSedi();	
 		
 		textFieldTitolo = new JTextField();
 		textFieldTitolo.setCaretColor(new Color(255, 255, 255));
@@ -165,21 +163,6 @@ public class CreazioneConferenza {
 		textFieldTitolo.setBackground(new Color(32, 33, 35));
 		textFieldTitolo.setBounds(150, 61, 348, 20);
 		textFieldTitolo.setColumns(10);
-		
-		final JComboBox<String> comboBoxSponsor = new JComboBox<String>();
-		comboBoxSponsor.setForeground(new Color(255, 255, 255));
-		comboBoxSponsor.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		comboBoxSponsor.setFocusable(false);
-		comboBoxSponsor.setBounds(150, 317, 130, 22);
-		//riempio la ComboBox chiedendo al DB quali sono le sedi
-		ArrayList<String> sponsor = controller.ottieniAllSponsor();
-		for(String s: sponsor)
-		{
-			comboBoxSponsor.addItem(s);
-		}
-		comboBoxSponsor.setBorder(null);
-		comboBoxSponsor.setBackground(new Color(32, 33, 35));
-		
 		
 		textFieldSpesa = new JTextField();
 		textFieldSpesa.setCaretColor(new Color(255, 255, 255));
@@ -208,7 +191,7 @@ public class CreazioneConferenza {
 		organizzatoreScientificoLabel.setOpaque(false);
 		organizzatoreScientificoLabel.setForeground(new Color(57, 113, 177));
 		
-		final JComboBox<String> comboBoxOrganizzatoreS = new JComboBox<String>();
+		JComboBox<String> comboBoxOrganizzatoreS = new JComboBox<String>();
 		comboBoxOrganizzatoreS.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxOrganizzatoreS.setBounds(147, 594, 130, 22);
 		comboBoxOrganizzatoreS.setInheritsPopupMenu(true);
@@ -219,12 +202,16 @@ public class CreazioneConferenza {
 		comboBoxOrganizzatoreS.setOpaque(false);
 		comboBoxOrganizzatoreS.setFocusable(false);
 		comboBoxOrganizzatoreS.setForeground(new Color(255, 255, 255));
-		//riempio la ComboBox chiedendo al DB quali sono gli organizzatori scientifici
-		ArrayList<String> OrganizzatoreS = controller.ottieniAllOrganizzatoriS();
-		for(String s: OrganizzatoreS)
-		{
-			comboBoxOrganizzatoreS.addItem(s);
-		}
+		RiempiComboBoxOrganizzaotoreS(comboBoxOrganizzatoreS);
+		
+		JComboBox<String> comboBoxSponsor = new JComboBox<String>();
+		comboBoxSponsor.setForeground(new Color(255, 255, 255));
+		comboBoxSponsor.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		comboBoxSponsor.setFocusable(false);
+		comboBoxSponsor.setBounds(150, 317, 130, 22);
+		comboBoxSponsor.setBorder(null);
+		comboBoxSponsor.setBackground(new Color(32, 33, 35));
+		RiempiComboBoxSponsor(comboBoxSponsor);
 		
 		JLabel lblPremiPerAggiungere_1 = new JLabel("premi per aggiungere");
 		lblPremiPerAggiungere_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -236,7 +223,7 @@ public class CreazioneConferenza {
 		sponsorAggiuntiLabel_1_1.setBounds(300, 700, 198, 14);
 		sponsorAggiuntiLabel_1_1.setForeground(new Color(70, 71, 74));
 		
-		final JComboBox<String> comboBoxOrganizzatoreL = new JComboBox<String>();
+		JComboBox<String> comboBoxOrganizzatoreL = new JComboBox<String>();
 		comboBoxOrganizzatoreL.setBackground(new Color(32, 33, 35));
 		comboBoxOrganizzatoreL.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		comboBoxOrganizzatoreL.setBorder(null);
@@ -244,14 +231,8 @@ public class CreazioneConferenza {
 		comboBoxOrganizzatoreL.setForeground(new Color(255, 255, 255));
 		comboBoxOrganizzatoreL.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxOrganizzatoreL.setFocusable(false);
-		//riempio la ComboBox chiedendo al DB quali sono gli organizzatori locali
-		ArrayList<String> OrganizzatoreL = controller.ottieniAllOrganizzatoriL();
-		for(String l: OrganizzatoreL)
-		{
-			comboBoxOrganizzatoreL.addItem(l);
-		}
-		
-		
+		RiempiComboBoxOrganizzatoreL(comboBoxOrganizzatoreL);
+	
 		JLabel lblPremiPerAggiungere = new JLabel("premi per aggiungere");
 		lblPremiPerAggiungere.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblPremiPerAggiungere.setBounds(150, 538, 130, 14);
@@ -287,9 +268,6 @@ public class CreazioneConferenza {
 				"Azienda", "Spesa"
 			}
 		){
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false,
@@ -298,17 +276,7 @@ public class CreazioneConferenza {
 				return columnEditables[column];
 			}
 		});
-
-		table.addMouseListener(new MouseAdapter() {
-	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               comboBoxSponsor.addItem(table.getValueAt(row, 0).toString());
-	               ((DefaultTableModel)table.getModel()).removeRow(row); //ripristino la combobox col valore eliminato
-	            }
-	         }
-	      });
+		
 		scrollPane_1.setViewportView(table);
 		table.setSelectionBackground(new Color(126, 87, 194));
 		table.setBackground(new Color(32, 33, 35));
@@ -337,9 +305,6 @@ public class CreazioneConferenza {
 			}
 		)
 		{
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false
@@ -348,23 +313,13 @@ public class CreazioneConferenza {
 				return columnEditables[column];
 			}
 		});
-		
 		table_2.getColumnModel().getColumn(0).setResizable(false);
-		table_2.addMouseListener(new MouseAdapter() {
-	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               comboBoxOrganizzatoreL.addItem(table_2.getValueAt(row, 0).toString());
-	               ((DefaultTableModel)table_2.getModel()).removeRow(row); //ripristino la combobox col valore eliminato
-	            }
-	         }
-	      });
-		scrollPane_2.setViewportView(table_2);
 		table_2.setSelectionBackground(new Color(126, 87, 194));
 		table_2.setBackground(new Color(32, 33, 35));
 		table_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table_2.getTableHeader().setReorderingAllowed(false); 
+		scrollPane_2.setViewportView(table_2);
+		
 		panel.add(sponsorAggiuntiLabel);
 		panel.add(organizzatoreScientificoLabel);
 		panel.add(comboBoxOrganizzatoreS);
@@ -386,9 +341,6 @@ public class CreazioneConferenza {
 				"Organizzatore Scientifico"
 			}
 		){
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false
@@ -398,16 +350,6 @@ public class CreazioneConferenza {
 			}
 		});
 		scrollPane_3.setViewportView(table_1);
-		table_1.addMouseListener(new MouseAdapter() {
-	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               comboBoxOrganizzatoreS.addItem(table_1.getValueAt(row, 0).toString());
-	               ((DefaultTableModel)table_1.getModel()).removeRow(row); //ripristino la combobox col valore eliminato
-	            }
-	         }
-	      });
 		table_1.setSelectionBackground(new Color(126, 87, 194));
 		table_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table_1.setBackground(new Color(32, 33, 35));
@@ -450,31 +392,6 @@ public class CreazioneConferenza {
 		panel.add(spesaLabel);
 		
 		JButton aggiungiSponsorButton = new JButton("aggiungi");
-		aggiungiSponsorButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
-				if(textFieldSpesa.getText().isEmpty())
-					JOptionPane.showMessageDialog(null,"Inserisci una spesa!","ERROR:405", JOptionPane.ERROR_MESSAGE);
-				else
-				{
-					try
-					{
-						model.addRow(new Object[] {comboBoxSponsor.getSelectedItem().toString(),Double. parseDouble(textFieldSpesa.getText())+"€"});	
-						comboBoxSponsor.removeItem(comboBoxSponsor.getSelectedItem());
-					}
-					catch(NumberFormatException exception)
-					{
-						JOptionPane.showMessageDialog(null,"Inserisci un numero reale come spesa!","ERROR:406", JOptionPane.ERROR_MESSAGE);
-					}
-					catch(NullPointerException exception)
-					{
-						JOptionPane.showMessageDialog(null,"Non sono presenti altri sponsor!","ERROR:407", JOptionPane.ERROR_MESSAGE);
-					}
-				}	
-			}
-		});
 		aggiungiSponsorButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiSponsorButton.setForeground(Color.WHITE);
 		aggiungiSponsorButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -485,21 +402,6 @@ public class CreazioneConferenza {
 		panel.add(aggiungiSponsorButton);
 		
 		JButton aggiungiOrganizzatoreLButton = new JButton("aggiungi");
-		aggiungiOrganizzatoreLButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				DefaultTableModel model = (DefaultTableModel)table_2.getModel();
-				try
-				{
-					model.addRow(new Object[] {comboBoxOrganizzatoreL.getSelectedItem().toString()});	
-					comboBoxOrganizzatoreL.removeItem(comboBoxOrganizzatoreL.getSelectedItem());
-				}
-				catch(NullPointerException exception)
-				{
-					JOptionPane.showMessageDialog(null,"Non sono presenti altri organizzatori locali!","ERROR:408", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		aggiungiOrganizzatoreLButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiOrganizzatoreLButton.setForeground(Color.WHITE);
 		aggiungiOrganizzatoreLButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -513,31 +415,16 @@ public class CreazioneConferenza {
 		scrollPane.setBounds(150, 226, 346, 81);
 		panel.add(scrollPane);
 		
-		final JEditorPane descrizionePane = new JEditorPane();
-		scrollPane.setViewportView(descrizionePane);
+		descrizionePane = new JEditorPane();		
 		descrizionePane.setSelectionColor(new Color(126, 87, 194));
 		descrizionePane.setForeground(Color.WHITE);
 		descrizionePane.setDisabledTextColor(Color.WHITE);
 		descrizionePane.setCaretColor(Color.WHITE);
 		descrizionePane.setBorder(null);
 		descrizionePane.setBackground(new Color(32, 33, 35));
+		scrollPane.setViewportView(descrizionePane);
 		
 		JButton aggiungiOrganizzatoreSButton = new JButton("aggiungi");
-		aggiungiOrganizzatoreSButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				DefaultTableModel model = (DefaultTableModel)table_1.getModel();
-				try
-				{
-					model.addRow(new Object[] {comboBoxOrganizzatoreS.getSelectedItem().toString()});	
-					comboBoxOrganizzatoreS.removeItem(comboBoxOrganizzatoreS.getSelectedItem());
-				}
-				catch(NullPointerException exception)
-				{
-					JOptionPane.showMessageDialog(null,"Non sono presenti altri organizzatori scientifici!","ERROR:409", JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
 		aggiungiOrganizzatoreSButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		aggiungiOrganizzatoreSButton.setForeground(Color.WHITE);
 		aggiungiOrganizzatoreSButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -546,9 +433,8 @@ public class CreazioneConferenza {
 		aggiungiOrganizzatoreSButton.setBackground(new Color(126, 87, 194));
 		aggiungiOrganizzatoreSButton.setBounds(147, 632, 130, 28);
 		panel.add(aggiungiOrganizzatoreSButton);
-		
-		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		final JFormattedTextField dateInizioField = new JFormattedTextField(format);
+
+		dateInizioField = new JFormattedTextField(format);
 		dateInizioField.setSelectionColor(new Color(126, 87, 194));
 		dateInizioField.setSelectedTextColor(Color.WHITE);
 		dateInizioField.setForeground(Color.WHITE);
@@ -559,7 +445,7 @@ public class CreazioneConferenza {
 		dateInizioField.setBounds(150, 154, 154, 20);
 		panel.add(dateInizioField);
 	
-		final JFormattedTextField dateFineField = new JFormattedTextField(format);
+		dateFineField = new JFormattedTextField(format);
 		dateFineField.setSelectionColor(new Color(126, 87, 194));
 		dateFineField.setSelectedTextColor(Color.WHITE);
 		dateFineField.setForeground(Color.WHITE);
@@ -577,99 +463,6 @@ public class CreazioneConferenza {
 		panel.add(lblFormatoDataYyyymmdd);
 		
 		JButton costruisciProgrammaButton = new JButton("Programma");
-		costruisciProgrammaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				DefaultTableModel modelL = (DefaultTableModel)table_2.getModel();
-				DefaultTableModel modelS = (DefaultTableModel)table_1.getModel();
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
-				
-				if(textFieldTitolo.getText().isEmpty() || dateInizioField.getText().isEmpty() || dateFineField.getText().isEmpty()
-				   || modelL.getRowCount() == 0 || modelS.getRowCount() == 0)	
-				{
-					JOptionPane.showMessageDialog(null,"Riempi tutti i campi contrassegnati da *!","ERROR:410", JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				
-				else
-				{	
-					Sede sedeSessione = new Sede();
-					sedeSessione.setNomeSede(enumeraSede.getSelectedItem().toString());
-					
-					Conferenza conferenzaCreata = new Conferenza(sedeSessione);
-					conferenzaCreata.setTitoloConferenza(textFieldTitolo.getText());
-					conferenzaCreata.setDescrizione(descrizionePane.getText());
-					
-					//converto la stringa di data passata in tipo Date
-					SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");	
-					
-					Date dateTimeInizio = new Date();
-					try {
-						dateTimeInizio = sf.parse(dateInizioField.getText());
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-					conferenzaCreata.setDataInizio(dateTimeInizio);
-					
-					Date dateTimeFine = new Date();
-					try {
-						dateTimeFine = sf.parse(dateFineField.getText());
-					} catch (ParseException e1) {
-						e1.printStackTrace();
-					}
-					conferenzaCreata.setDataFine(dateTimeFine);
-					
-					if(!(controller.ottieniConferenzaConflitto(conferenzaCreata.getDataInizio(),conferenzaCreata.getDataFine(),sedeSessione.getNomeSede()).isEmpty()))
-					{
-						JOptionPane.showMessageDialog(null,"Errore! La sede ospita già una conferenza!","ERROR:411", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					
-					if(dateTimeInizio.before(dateTimeFine) || dateTimeInizio.equals(dateTimeFine))
-					{
-						ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali = new ArrayList<Organizzatore_Locale>();
-						for(int count = 0; count < modelL.getRowCount() ; count++){
-							 Organizzatore_Locale organizzatoreLocale = new Organizzatore_Locale();
-							 organizzatoreLocale.setEmail(modelL.getValueAt(count, 0).toString());
-							 listaOrganizzatoriLocali.add(organizzatoreLocale);
-						 }
-						
-						
-						ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici = new ArrayList<Organizzatore_Scientifico>();
-						for(int count = 0; count < modelS.getRowCount(); count++){
-							Organizzatore_Scientifico organizzatoreScientifico = new Organizzatore_Scientifico();
-							organizzatoreScientifico.setEmail(modelS.getValueAt(count, 0).toString());
-							listaOrganizzatoriScientifici.add(organizzatoreScientifico);
-						 }
-						
-						
-						ArrayList<Pubblicità> listaPubblicità = new ArrayList<Pubblicità>();
-						for(int count = 0; count < model.getRowCount(); count++){
-							//costruisco lo sponsor
-							Sponsor sponsor = new Sponsor();
-							sponsor.setNomeAzienda(model.getValueAt(count, 0).toString());
-							//lo inserisco in pubblicità con la spesa sostenuta
-							Pubblicità pubblicità = new Pubblicità();
-							pubblicità.setCoferenza(conferenzaCreata);
-							pubblicità.setSponsor(sponsor);
-							String spesa = model.getValueAt(count, 1).toString();
-							spesa = spesa.substring(0,spesa.length()-1);
-							pubblicità.setSpesa(Double.parseDouble(spesa));
-							listaPubblicità.add(pubblicità);					
-						}		
-						
-						controller.vediCreazioneProgramma(controller, frame, frameHome, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null,"Date NON conformi!","ERROR:411", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					
-				}
-			}
-		});
 		costruisciProgrammaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		costruisciProgrammaButton.setForeground(Color.WHITE);
 		costruisciProgrammaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -678,7 +471,279 @@ public class CreazioneConferenza {
 		costruisciProgrammaButton.setBackground(new Color(57, 113, 177));
 		costruisciProgrammaButton.setBounds(398, 725, 165, 36);
 		panel.add(costruisciProgrammaButton);
+		
+
+		
+		
+		
+		
+		//PULSANTI & LISTNERS
+		
+		
+		table.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        	RimuoviRiga(me, comboBoxSponsor);
+	         }
+	      });
+
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.tornaAllaHome(frame, frameHome);
+			}
+		});
+
+		table_2.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        	 RimuoviRiga(me, comboBoxOrganizzatoreL);
+	         }
+	      });		
+		
+		table_1.addMouseListener(new MouseAdapter() {
+	         public void mouseClicked(MouseEvent me) {
+	        	 RimuoviRiga(me, comboBoxOrganizzatoreS);
+	         }
+	      });
+
+		aggiungiSponsorButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				AggiungSponsorAllaTable(textFieldSpesa.getText(), comboBoxSponsor);				
+			}
+		});
+
+		aggiungiOrganizzatoreLButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				AggiungiOrganizzatoreLAllaTable(comboBoxOrganizzatoreL);			
+			}
+		});
+
+		aggiungiOrganizzatoreSButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){
+				AggiungiOrganizzatoreSAllaTable(comboBoxOrganizzatoreS);			
+			}
+		});
+
+		costruisciProgrammaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e){		
+				AggiungiProgrammaCommit(frameHome);
+			}
+		});
+
 	
+	}
+	
+	private void RimuoviRiga(MouseEvent me, JComboBox<String> comboBoxSponsor) {
+        if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+            JTable target = (JTable)me.getSource();
+            int row = target.getSelectedRow(); // seleziona riga
+            comboBoxSponsor.addItem(table.getValueAt(row, 0).toString());
+            ((DefaultTableModel)table.getModel()).removeRow(row); //ripristino la combobox col valore eliminato
+        }
+	}
+
+	private void RiempiComboBoxOrganizzaotoreS(JComboBox<String> comboBoxOrganizzatoreS) {
+		//riempio la ComboBox chiedendo al DB quali sono gli organizzatori scientifici
+		ArrayList<String> OrganizzatoreS = controller.ottieniAllOrganizzatoriS();
+		for(String s: OrganizzatoreS)
+		{
+			comboBoxOrganizzatoreS.addItem(s);
+		}
+	}
+
+	private void RiempiComboBoxOrganizzatoreL(JComboBox<String> comboBoxOrganizzatoreL) {
+		//riempio la ComboBox chiedendo al DB quali sono gli organizzatori locali
+		ArrayList<String> OrganizzatoreL = controller.ottieniAllOrganizzatoriL();
+		for(String l: OrganizzatoreL)
+		{
+			comboBoxOrganizzatoreL.addItem(l);
+		}
+	}
+
+	private void RiempiComboBoxSponsor(JComboBox<String> comboBoxSponsor) {
+		//riempio la ComboBox chiedendo al DB quali sono le sedi
+		ArrayList<String> sponsor = controller.ottieniAllSponsor();
+		for(String s: sponsor)
+		{
+			comboBoxSponsor.addItem(s);
+		}
+	}
+
+	private void AggiungiOrganizzatoreSAllaTable(JComboBox<String> comboBoxOrganizzatoreS) {
+		DefaultTableModel model = (DefaultTableModel)table_1.getModel();
+		try{
+			model.addRow(new Object[] {comboBoxOrganizzatoreS.getSelectedItem().toString()});	
+			comboBoxOrganizzatoreS.removeItem(comboBoxOrganizzatoreS.getSelectedItem());
+		}catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Non sono presenti altri organizzatori scientifici!","ERROR:409", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void AggiungiOrganizzatoreLAllaTable(JComboBox<String> comboBoxOrganizzatoreL) {
+		DefaultTableModel model = (DefaultTableModel)table_2.getModel();
+		try{
+			model.addRow(new Object[] {comboBoxOrganizzatoreL.getSelectedItem().toString()});	
+			comboBoxOrganizzatoreL.removeItem(comboBoxOrganizzatoreL.getSelectedItem());
+		}catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Non sono presenti altri organizzatori locali!","ERROR:408", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	private void AggiungSponsorAllaTable(String text, JComboBox<String> comboBoxSponsor) {
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		if(!isEmptySpesa(textFieldSpesa.getText()))
+		{
+			try{
+				model.addRow(new Object[] {comboBoxSponsor.getSelectedItem().toString(),Double. parseDouble(textFieldSpesa.getText())+"€"});	
+				comboBoxSponsor.removeItem(comboBoxSponsor.getSelectedItem());
+			}catch(NumberFormatException exception){
+				JOptionPane.showMessageDialog(null,"Inserisci un numero reale come spesa!","ERROR:406", JOptionPane.ERROR_MESSAGE);
+			}catch(NullPointerException exception){
+				JOptionPane.showMessageDialog(null,"Non sono presenti altri sponsor!","ERROR:407", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private boolean isEmptySpesa(String spesaTextField) {
+		if(spesaTextField.isEmpty())
+		{
+			JOptionPane.showMessageDialog(null,"Inserisci una spesa!","ERROR:405", JOptionPane.ERROR_MESSAGE);
+			return true;
+		}
+		return false;
+	}
+
+	private void RiempiComboBoxSedi() {
+		//riempio la ComboBox chiedendo al DB quali sono le sedi
+		ArrayList<String> sedi = controller.ottieniSedi();
+		for(String s: sedi)
+		{
+			enumeraSede.addItem(s);
+		}				
+	}
+
+	private void AggiungiProgrammaCommit(JFrame frameHome) {
+		
+		modelL = (DefaultTableModel)table_2.getModel();
+		modelS = (DefaultTableModel)table_1.getModel();
+		model = (DefaultTableModel)table.getModel();		
+		if(isAllCampiRiempiti())
+		{	
+			InizializzaValuesConferenza();			
+			if(isConferenzaIdonea() && isOrarioCorretto())
+			{
+				MemorizzaOrganizzatoriEPubblicitàInArray(frameHome);	
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(null,"Date NON conformi!","ERROR:411", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
+
+	private void MemorizzaOrganizzatoriEPubblicitàInArray(JFrame frameHome) {
+		ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali = new ArrayList<Organizzatore_Locale>();
+		InizializzaOrganizzatorilocali(listaOrganizzatoriLocali);
+		ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici = new ArrayList<Organizzatore_Scientifico>();
+		InizializzaOrganizzatoriScientifici(listaOrganizzatoriScientifici);
+		ArrayList<Pubblicità> listaPubblicità = new ArrayList<Pubblicità>();		
+		InizializzaPubblicità(listaPubblicità);	
+		controller.vediCreazioneProgramma(frame, frameHome, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
+	}
+
+	private void InizializzaValuesConferenza() {
+		sedeSessione = new Sede();
+		sedeSessione.setNomeSede(enumeraSede.getSelectedItem().toString());		
+		conferenzaCreata = new Conferenza(sedeSessione);
+		conferenzaCreata.setTitoloConferenza(textFieldTitolo.getText());
+		conferenzaCreata.setDescrizione(descrizionePane.getText());				
+		//converto la stringa di data passata in tipo Date
+		CastaStringToDataInizio();
+		CastaStringToDataFine();
+		conferenzaCreata.setDataInizio(dateTimeInizio);
+		conferenzaCreata.setDataFine(dateTimeFine);
+	}
+
+	private void InizializzaPubblicità(ArrayList<Pubblicità> listaPubblicità) {
+		
+		for(int count = 0; count < model.getRowCount(); count++){
+			//costruisco lo sponsor
+			Sponsor sponsor = new Sponsor();
+			sponsor.setNomeAzienda(model.getValueAt(count, 0).toString());
+			//lo inserisco in pubblicità con la spesa sostenuta
+			Pubblicità pubblicità = new Pubblicità();
+			pubblicità.setCoferenza(conferenzaCreata);
+			pubblicità.setSponsor(sponsor);
+			String spesa = model.getValueAt(count, 1).toString();
+			spesa = spesa.substring(0,spesa.length()-1);
+			pubblicità.setSpesa(Double.parseDouble(spesa));
+			listaPubblicità.add(pubblicità);					
+		}
+	}
+
+	private void InizializzaOrganizzatoriScientifici(ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici) {
+		for(int count = 0; count < modelS.getRowCount(); count++){
+			Organizzatore_Scientifico organizzatoreScientifico = new Organizzatore_Scientifico();
+			organizzatoreScientifico.setEmail(modelS.getValueAt(count, 0).toString());
+			listaOrganizzatoriScientifici.add(organizzatoreScientifico);
+		 }
+	}
+
+	private void InizializzaOrganizzatorilocali(ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali) {		
+		for(int count = 0; count < modelL.getRowCount() ; count++){
+			 Organizzatore_Locale organizzatoreLocale = new Organizzatore_Locale();
+			 organizzatoreLocale.setEmail(modelL.getValueAt(count, 0).toString());
+			 listaOrganizzatoriLocali.add(organizzatoreLocale);
+		}
+	}
+
+	private Boolean isOrarioCorretto() {
+		if(dateTimeInizio.before(dateTimeFine) || dateTimeInizio.equals(dateTimeFine))
+		{
+			return true;
+		}
+		JOptionPane.showMessageDialog(null,"Orario NON idoneo!","ERROR:411", JOptionPane.ERROR_MESSAGE);
+		return false;
+	}
+
+	private Boolean isConferenzaIdonea() {
+		if(!(controller.ottieniConferenzaConflitto(conferenzaCreata.getDataInizio(),conferenzaCreata.getDataFine(),sedeSessione.getNomeSede()).isEmpty()))
+		{
+			JOptionPane.showMessageDialog(null,"Errore! La sede ospita già una conferenza!","ERROR:411", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
+	private void CastaStringToDataFine() {
+		dateTimeFine = new Date();
+		try {
+			dateTimeFine = format.parse(dateFineField.getText());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	private void CastaStringToDataInizio() {
+		dateTimeInizio = new Date();
+		try {
+			dateTimeInizio = format.parse(dateInizioField.getText());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	private Boolean isAllCampiRiempiti() {
+		if(textFieldTitolo.getText().isEmpty() || dateInizioField.getText().isEmpty() || dateFineField.getText().isEmpty()
+				   || modelL.getRowCount() == 0 || modelS.getRowCount() == 0)	
+		{
+			JOptionPane.showMessageDialog(null,"Riempi tutti i campi contrassegnati da *!","ERROR:410", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 	
 }

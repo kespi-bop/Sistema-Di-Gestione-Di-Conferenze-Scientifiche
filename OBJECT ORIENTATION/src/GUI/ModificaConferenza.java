@@ -74,7 +74,7 @@ public class ModificaConferenza {
 	               JTable target = (JTable)me.getSource();
 	               int row = target.getSelectedRow(); // seleziona riga
 	               controller.ottieniProgrammi(listaConferenze.get(row));
-	               controller.vediAzioniDiModifica(controller, frame, frameHome, listaConferenze.get(row));  //passo il valore del Programma cliccato
+	               controller.vediAzioniDiModifica(frame, frameHome, listaConferenze.get(row));  //passo il valore del Programma cliccato
 	            }
 	         }
 	      });
@@ -125,7 +125,7 @@ public class ModificaConferenza {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(controller, frame, frameHome);
+				controller.tornaAllaHome(frame, frameHome);
 				frame.dispose();
 			}
 		});

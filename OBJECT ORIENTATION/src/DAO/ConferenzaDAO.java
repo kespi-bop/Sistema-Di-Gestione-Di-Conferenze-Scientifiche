@@ -16,7 +16,7 @@ public interface ConferenzaDAO {
 	
 	//restituisce tutte le conferenze con i relativi programmi filtrati per Data e Sede
 	void getConferenzeAndProgrammiDB(ArrayList<Integer> listaCodici, ArrayList<String> listaTitoli, ArrayList<String> listaDate, 
-									 ArrayList<String> listaSedi, String data, String sede);
+									 ArrayList<String> listaSedi, String dataInizio, String dataFine, String sede);
 
 	//effettua la creazione della conferenza
 	void commitCreateDB(Conferenza conferenzaCreata, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità);

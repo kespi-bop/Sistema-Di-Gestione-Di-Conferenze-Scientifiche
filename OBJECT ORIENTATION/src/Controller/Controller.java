@@ -31,95 +31,88 @@ import Model.*;
 public class Controller {
 	
 	Utente utente;
+	Date dataProgramma = null;
 	
 	//COSTRUTTORE
 	public Controller() {}
 	
 	//METODI VISUALIZZAZIONE DEI FRAME
-	public void visualizzaFrameRiepilogoKS(Controller controller, JFrame frame)
+	public void visualizzaFrameRiepilogoKS(JFrame frame)
 	{
-		RiepilogoKeynoteSpeaker elencoPercentualiKS = new RiepilogoKeynoteSpeaker(controller, frame);
+		RiepilogoKeynoteSpeaker elencoPercentualiKS = new RiepilogoKeynoteSpeaker(this, frame);
 		elencoPercentualiKS.frame.setVisible(true);
 		frame.setEnabled(false);		//non può essere toccata la finestra Home finchè non vengono eseguite azioni sul nuovo frame
 	}
 	
-	public void visualizzaFrameConferenze(Controller controller, JFrame frame)
+	public void visualizzaFrameConferenze(JFrame frame)
 	{
-		VisualizzaConferenza elencoConferenze = new VisualizzaConferenza(controller, frame);
+		VisualizzaConferenza elencoConferenze = new VisualizzaConferenza(this, frame);
 		elencoConferenze.frame.setVisible(true);
 		frame.setEnabled(false);		
 	}
 	
-	public void tornaAllaHome(Controller controller, JFrame frame, JFrame frameHome)
+	public void tornaAllaHome(JFrame frame, JFrame frameHome)
 	{
 		frameHome.setEnabled(true);
 		frameHome.setVisible(true);
 		frame.dispose();
 	}
 	
-	public void visualizzaFrameProgrammi(Controller controller, JFrame frameVisualizzaConferenza, String CodProgramma)
+	public void visualizzaFrameProgrammi(JFrame frameVisualizzaConferenza, String CodProgramma)
 	{
-		VisualizzaProgrammi elencoProgrammi = new VisualizzaProgrammi(controller, frameVisualizzaConferenza, CodProgramma);
+		VisualizzaProgrammi elencoProgrammi = new VisualizzaProgrammi(this, frameVisualizzaConferenza, CodProgramma);
 		elencoProgrammi.frame.setVisible(true);
 		frameVisualizzaConferenza.setEnabled(false);
 	}
 	
-	public void visualizzaFrameDescrizione(Controller controller, JFrame frameVisualizzaProgrammi, String titoloSessione, String descrizione)
+	public void visualizzaFrameDescrizione(JFrame frameVisualizzaProgrammi, String titoloSessione, String descrizione)
 	{
-		VisualizzaDescrizione descrizioneSessione = new VisualizzaDescrizione(controller, frameVisualizzaProgrammi, titoloSessione, descrizione);
+		VisualizzaDescrizione descrizioneSessione = new VisualizzaDescrizione(this, frameVisualizzaProgrammi, titoloSessione, descrizione);
 		descrizioneSessione.frame.setVisible(true);
 		frameVisualizzaProgrammi.setEnabled(false);
 		
 	}
 	
-	public void vediCreazioneConferenza(Controller controller, JFrame frameHome)
+	public void vediCreazioneConferenza(JFrame frameHome)
 	{
-		CreazioneConferenza creazioneConferenza = new CreazioneConferenza(controller, frameHome);
+		CreazioneConferenza creazioneConferenza = new CreazioneConferenza(this, frameHome);
 		creazioneConferenza.frame.setVisible(true);
 		frameHome.setEnabled(false);	//non può essere toccata la finestra HomeOrganizzatore
 	}
 	
-	public void vediCreazioneProgramma(Controller controller, JFrame frameCreazioneConferenza, JFrame frameHome, 
-									   Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
+	public void vediCreazioneProgramma(JFrame frameCreazioneConferenza, JFrame frameHome, Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
 									   ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici, ArrayList<Pubblicità> listaPubblicità)
 	{
-		AggiuntaProgrammi creazioneProgramma = new AggiuntaProgrammi(controller, frameCreazioneConferenza, frameHome, conferenzaCreata, 
+		AggiuntaProgrammi creazioneProgramma = new AggiuntaProgrammi(this, frameCreazioneConferenza, frameHome, conferenzaCreata, 
 																	listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 		creazioneProgramma.frame.setVisible(true);
 		frameCreazioneConferenza.setEnabled(false);
 	}
 	
-	public void vediModificaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze)
+	public void vediModificaConferenza(JFrame frameHome, ArrayList<Conferenza> listaConferenze)
 	{
-		ModificaConferenza modificaConferenza = new ModificaConferenza(controller, frameHome, listaConferenze);
+		ModificaConferenza modificaConferenza = new ModificaConferenza(this, frameHome, listaConferenze);
 		modificaConferenza.frame.setVisible(true);
 		frameHome.setEnabled(false);
 	}
 	
-	public void vediAzioniDiModifica(Controller controller,JFrame frameModificaConferenza, JFrame frameHome, Conferenza updateConferenza)
+	public void vediAzioniDiModifica(JFrame frameModificaConferenza, JFrame frameHome, Conferenza updateConferenza)
 	{
-		AzioneDiModifica scegliModifica = new AzioneDiModifica(controller, frameModificaConferenza, frameHome, updateConferenza);
+		AzioneDiModifica scegliModifica = new AzioneDiModifica(this, frameModificaConferenza, frameHome, updateConferenza);
 		scegliModifica.frame.setVisible(true);
 		frameModificaConferenza.setEnabled(false);
 	}
 	
-	public void vediCreazioneProgrammaEdit(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine)
+	public void vediCreazioneProgrammaEdit(JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine)
 	{
-		AggiungiProgrammiEdit aggiungiProgrammi = new AggiungiProgrammiEdit(controller, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
+		AggiungiProgrammiEdit aggiungiProgrammi = new AggiungiProgrammiEdit(this, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
 		aggiungiProgrammi.frame.setVisible(true);
 		frameAzioniDiModifica.setEnabled(false);
 	}
-	
-	public void vediCancellaProgramma(Controller controller, JFrame frameAzioniDiModifica)
+		
+	public void vediCancellaConferenza(JFrame frameHome, ArrayList<Conferenza> listaConferenze)
 	{
-		CancellaProgramma listaCancellabili = new CancellaProgramma(controller, frameAzioniDiModifica);
-		listaCancellabili.frame.setVisible(true);
-		frameAzioniDiModifica.setEnabled(false);
-	}
-	
-	public void vediCancellaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze)
-	{
-		CancellaConferenza elencoConferenzeCancellabili = new CancellaConferenza(controller, frameHome, listaConferenze);
+		CancellaConferenza elencoConferenzeCancellabili = new CancellaConferenza(this, frameHome, listaConferenze);
 		elencoConferenzeCancellabili.frame.setVisible(true);
 		frameHome.setEnabled(false);
 	}
@@ -134,10 +127,10 @@ public class Controller {
 	}
 
 	public void ottieniConferenzeConProgrammi(ArrayList<Integer> listaCodici, ArrayList<String> listaTitoli, 
-											  ArrayList<String> listaDate, ArrayList<String> listaSedi, String data, String sede)
+											  ArrayList<String> listaDate, ArrayList<String> listaSedi, String dataInizio, String dataFine, String sede)
 	{
 		ConferenzaDAO listaConferenze = new ConferenzaImplementazionePostgresDAO();
-		listaConferenze.getConferenzeAndProgrammiDB(listaCodici, listaTitoli, listaDate, listaSedi, data, sede);	
+		listaConferenze.getConferenzeAndProgrammiDB(listaCodici, listaTitoli, listaDate, listaSedi, dataInizio, dataFine, sede);	
 	}
 	
 	public ArrayList<Seduta> ottieniSedute(String codProgramma)
@@ -199,8 +192,49 @@ public class Controller {
 		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
 		c.removeConferenzaDB(conferenza);
 	}
+
+	public ArrayList<String> ottieniLocazioni(Sede sede) {
+		SedeDAO s = new SedeImplementazionePostgresDAO();
+		return s.getLocazioniDB(sede);
+	}
+
+	public ArrayList<String> ottieniAllPossibiliChair(Conferenza updateConferenza) {
+		Organizzare_S_DAO s = new Organizzare_S_ImplementazionePostgresDAO();
+		return s.getAllPossibleChair(updateConferenza.getCodConferenza());
+	}
+
+	public void commitAggiungiProgramma(String dataProgramma, Conferenza updateConferenza, ArrayList<Intervallo> listaIntervalli, ArrayList<Sessione> listaSessioni,
+			ArrayList<Evento_Sociale> listaEventi) {
+		ConferenzaDAO p = new ConferenzaImplementazionePostgresDAO();
+		p.commitAddProgramma(dataProgramma, updateConferenza, listaIntervalli, listaSessioni, listaEventi);
+	}
+
+	public void commitCancellaProgramma(String codProgramma) {
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		c.commitDeleteProgramDB(codProgramma);
+	}
+
+	public ArrayList<String> ottieniAnniConferenze() {
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		return c.getAnniConferenze();
+	}
 	
-	//metodi di login
+	public ArrayList<String> ottieniAllKS() {
+		SessioneDAO s = new SessioneImplementazionePostgresDAO();
+		return s.getKeynoteDB();
+	}
+
+	public String ottieniConferenzaConflitto(Date dataInizio, Date dataFine, String nomeSede) {
+		ConferenzaDAO c= new ConferenzaImplementazionePostgresDAO();
+		return c.getConflictConferenzaDB(dataInizio, dataFine, nomeSede);
+	}
+
+	public void ottieniProgrammi(Conferenza conferenza) {
+		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
+		c.getProgrammiDB(conferenza);		
+	}
+	
+	//METODI PER IL LOGIN
 	public String isCorrectCredenziali(String email, String password)
 	{
 		UtenteDAO u = new UtenteImplementazionePostgresDAO();
@@ -225,13 +259,12 @@ public class Controller {
 		u.eliminaPasswordDB();
 	}
 
-	
-	
-	public ArrayList<String> ottieniLocazioni(Sede sede) {
-		SedeDAO s = new SedeImplementazionePostgresDAO();
-		return s.getLocazioniDB(sede);
+	//metodi per gestione generica 
+	public void RipulisciTabella(TableModel model) {
+		DefaultTableModel dtm = (DefaultTableModel) model;
+		dtm.setRowCount(0);
 	}
-
+	
 	public Sessione creaSessionedaFrame(String Titolo, Date timeInizio, Date timeFine, String nomeLocazione, String ks,
 			String chair, String descrizione) 
 	{
@@ -242,53 +275,29 @@ public class Controller {
 		Organizzatore_Scientifico chairSessione = new Organizzatore_Scientifico();
 		chairSessione.setEmail(chair);
 		Sessione sessioneNuova = new Sessione(locazioneSessione, ksSessione, chairSessione);
-		sessioneNuova.setTitolo(Titolo);
-		sessioneNuova.setOrarioInizio(timeInizio);
-		sessioneNuova.setOrarioFine(timeFine);	
-		sessioneNuova.setDescrizioneSessione(descrizione);		
-		
+		InizializzaAttributiSessioneNuova(sessioneNuova, Titolo, timeInizio, timeFine, descrizione);
+	
 		return sessioneNuova;
 	}
 
-	public ArrayList<String> ottieniAllKS() {
-		SessioneDAO s = new SessioneImplementazionePostgresDAO();
-		return s.getKeynoteDB();
+	private void InizializzaAttributiSessioneNuova(Sessione sessioneNuova, String titolo, Date timeInizio, Date timeFine, String descrizione) {
+		sessioneNuova.setTitolo(titolo);
+		sessioneNuova.setOrarioInizio(timeInizio);
+		sessioneNuova.setOrarioFine(timeFine);	
+		sessioneNuova.setDescrizioneSessione(descrizione);	
 	}
 
-	public String ottieniConferenzaConflitto(Date dataInizio, Date dataFine, String nomeSede) {
-		ConferenzaDAO c= new ConferenzaImplementazionePostgresDAO();
-		return c.getConflictConferenzaDB(dataInizio, dataFine, nomeSede);
+	public void TornaAllaPaginaPrecedente(JFrame frame, JFrame framePrecedente) {
+		frame.dispose();
+		frame.setVisible(false);
+		framePrecedente.setVisible(true);		
+		framePrecedente.setEnabled(true);
 	}
 
-	public void ottieniProgrammi(Conferenza conferenza) {
-		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
-		c.getProgrammiDB(conferenza);		
-	}
+	
+	
 
-	public void RipulisciTabella(TableModel model) {
-		DefaultTableModel dtm = (DefaultTableModel) model;
-		dtm.setRowCount(0);
-	}
 
-	public ArrayList<String> ottieniAllPossibiliChair(Conferenza updateConferenza) {
-		Organizzare_S_DAO s = new Organizzare_S_ImplementazionePostgresDAO();
-		return s.getAllPossibleChair(updateConferenza.getCodConferenza());
-	}
-
-	public void commitAggiungiProgramma(String dataProgramma, Conferenza updateConferenza, ArrayList<Intervallo> listaIntervalli, ArrayList<Sessione> listaSessioni,
-			ArrayList<Evento_Sociale> listaEventi) {
-		ConferenzaDAO p = new ConferenzaImplementazionePostgresDAO();
-		p.commitAddProgramma(dataProgramma, updateConferenza, listaIntervalli, listaSessioni, listaEventi);
-	}
-
-	public void commitCancellaProgramma(String codProgramma) {
-		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
-		c.commitDeleteProgramDB(codProgramma);
-	}
-
-	public ArrayList<String> ottieniAnniConferenze() {
-		ConferenzaDAO c = new ConferenzaImplementazionePostgresDAO();
-		return c.getAnniConferenze();
-	}
+	
 }
 
