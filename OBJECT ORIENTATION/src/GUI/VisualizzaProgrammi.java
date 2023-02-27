@@ -19,8 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 import Controller.Controller;
 import Model.Seduta;
-import Model.Sessione;
-
 import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
