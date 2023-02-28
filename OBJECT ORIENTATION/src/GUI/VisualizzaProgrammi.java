@@ -48,7 +48,7 @@ public class VisualizzaProgrammi {
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 513, 408);
+		frame.setBounds(800, 400, 513, 408);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -39,21 +40,23 @@ public class CancellaConferenza {
 	private JButton ConfermaCancellazioneButton;
 	private JPanel panel;
 	private Image imgExit;
+	private Controller controller;
 
 	
 	public CancellaConferenza(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
 		initialize(controller, frameHome, listaConferenze);
 	}
 
-	private void initialize(final Controller controller, final JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
+	private void initialize(Controller controller, JFrame frameHome, ArrayList<Conferenza> listaConferenze) {
 		
 		//SWING COMPONENTS
+		this.controller = controller;
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(800, 350, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
@@ -163,15 +166,32 @@ public class CancellaConferenza {
 		//commit della cancellazione della conferenza
 		ConfermaCancellazioneButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {				
-				controller.commitCancellaConferenza(listaConferenze.get(table.getSelectedRow() ));
-				model.removeRow(table.getSelectedRow());
+			public void mouseClicked(MouseEvent e) {	
+				EffettuaCancellazione(listaConferenze, frameHome);
 			}
 		});
 			
 	}
 
 	
+	protected void EffettuaCancellazione(ArrayList<Conferenza> listaConferenze, JFrame frameHome) {
+		if(table.getSelectedRow() != -1)
+		{
+			CancellaConferenzaSelezionata(listaConferenze);			
+			controller.tornaAllaHome(frame, frameHome);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null,"Seleziona una conferenza da cancellare!","ERROR:426!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	protected void CancellaConferenzaSelezionata(ArrayList<Conferenza> listaConferenze) {
+		controller.commitCancellaConferenza(listaConferenze.get(table.getSelectedRow()));
+		model.removeRow(table.getSelectedRow());
+		JOptionPane.showMessageDialog(null,"Cancellazione eseguita con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
+	}
+
 	//METODI IMPLEMENTATIVI
 	private void RiempiTabellaConferenze(ArrayList<Conferenza> listaConferenze) {		
 		//riempio il model che mostrerà i valori sullo schermo

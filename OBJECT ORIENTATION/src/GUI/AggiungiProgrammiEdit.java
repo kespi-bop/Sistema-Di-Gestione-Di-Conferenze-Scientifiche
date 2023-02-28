@@ -74,7 +74,7 @@ public class AggiungiProgrammiEdit {
 		//SWING COMPONENTS
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 600, 750);
+		frame.setBounds(675, 150, 600, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

@@ -120,7 +120,7 @@ public class AggiuntaProgrammi {
 		conferenzaCreata.setOrganizzatoriScientifici(listaOrganizzatoriScientifici);
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 600, 880);
+		frame.setBounds(850, 80, 600, 880);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

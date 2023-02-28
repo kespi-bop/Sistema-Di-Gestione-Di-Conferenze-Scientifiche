@@ -39,7 +39,7 @@ public class VisualizzaDescrizione {
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);	
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 513, 348);
+		frame.setBounds(900, 475, 513, 348);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//definisco il pulsante di uscita
@@ -106,7 +106,8 @@ public class VisualizzaDescrizione {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mouseX = e.getX();
-				mouseY = e.getY();			}
+				mouseY = e.getY();			
+			}
 		});
 		
 

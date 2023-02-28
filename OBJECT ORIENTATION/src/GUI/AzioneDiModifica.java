@@ -50,7 +50,7 @@ public class AzioneDiModifica {
 		frame.setUndecorated(true);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);	
-		frame.setBounds(100, 100, 590, 407);
+		frame.setBounds(675, 450, 590, 407);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//definisco il pulsante di uscita

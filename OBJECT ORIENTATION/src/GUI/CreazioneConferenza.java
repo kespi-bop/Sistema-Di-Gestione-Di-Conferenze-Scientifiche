@@ -74,7 +74,7 @@ public class CreazioneConferenza {
 		this.controller = controller;
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 600, 800);
+		frame.setBounds(350, 100, 600, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

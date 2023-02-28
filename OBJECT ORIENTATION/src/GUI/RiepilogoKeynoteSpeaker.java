@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
@@ -40,18 +41,23 @@ public class RiepilogoKeynoteSpeaker {
 	private ArrayList<Integer> KSperEnte;
 	private JLabel sedeLabel;
 	private JPanel panel;
+	private Controller controller;
 
 
 	public RiepilogoKeynoteSpeaker(Controller controller, JFrame frameHome) {
 		initialize(controller, frameHome);
 	}
 
-	private void initialize(final Controller controller, final JFrame frameHome) {
+	private void initialize(Controller controller, JFrame frameHome) {
+		this.controller = controller;
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
+		frame.setBackground(new Color(32, 33, 35));
+		frame.setBounds(700, 300, 513, 408);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -105,7 +111,7 @@ public class RiepilogoKeynoteSpeaker {
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
 		riepilogoKSPanel.setViewportView(table);		
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
+
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -184,9 +190,7 @@ public class RiepilogoKeynoteSpeaker {
 				mouseY = e.getY();			}
 		});
 		
-		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 513, 408);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		
 		
 		
@@ -212,25 +216,43 @@ public class RiepilogoKeynoteSpeaker {
 
 		aggiornaListaConferenzeButton_1.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-					
-				Integer sommaKS = 0;		
-				model.setRowCount(0);
-				KSperEnte = controller.ottieniRiepilogoKS(istituzioni, enumeraMese.getSelectedItem().toString(), inserisciAnnoField.getSelectedItem().toString());
-				
-				for(Integer i: KSperEnte)
-					sommaKS = sommaKS + i;
-				
-				for(int i = 0; i < istituzioni.size(); i++)
-				{
-					double percentuale = ((double)KSperEnte.get(i) * 100.00)/(double)sommaKS;
-					String percentualeString  = String.format("%.2f%%", percentuale);
-					model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentualeString});
-				}
+			public void mouseClicked(MouseEvent e) {	
+				OttieniRiepilogo(enumeraMese.getSelectedItem(), inserisciAnnoField.getSelectedItem());
 			}
 		});
 
 
+	}
+
+	protected void OttieniRiepilogo(Object mese, Object anno) {
+		if(anno == null){
+			JOptionPane.showMessageDialog(null,"Non sono presenti Conferenze!","ERROR:425", JOptionPane.ERROR_MESSAGE);
+			return;
+		}	
+		
+		Integer sommaKS = 0;			
+		
+		KSperEnte = controller.ottieniRiepilogoKS(istituzioni, mese.toString(), anno.toString());
+		EseguiCalcoloEAggiungiAllaTabella(sommaKS);
+		
+		istituzioni.removeAll(istituzioni);
+	}
+
+	
+	private void EseguiCalcoloEAggiungiAllaTabella(Integer sommaKS) {
+		//ripulisce tabella
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		model.setRowCount(0);
+		
+		for(Integer i: KSperEnte)
+			sommaKS = sommaKS + i;
+		
+		for(int i = 0; i < istituzioni.size(); i++)
+		{
+			double percentuale = ((double)KSperEnte.get(i) * 100.00)/(double)sommaKS;
+			String percentualeString  = String.format("%.2f%%", percentuale);
+			model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentualeString});
+		}
 	}
 }
 

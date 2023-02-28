@@ -64,9 +64,7 @@ public class VisualizzaConferenza {
 		initialize(controller, frameHome);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize(final Controller controller, final JFrame frameHome) {
 		
 		//SWING COMPONENTS
@@ -76,7 +74,7 @@ public class VisualizzaConferenza {
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 513, 408);
+		frame.setBounds(700, 300, 513, 408);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();

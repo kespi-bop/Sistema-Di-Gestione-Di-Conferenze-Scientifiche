@@ -50,7 +50,7 @@ public class ModificaConferenza {
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);	
 		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(750, 350, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();

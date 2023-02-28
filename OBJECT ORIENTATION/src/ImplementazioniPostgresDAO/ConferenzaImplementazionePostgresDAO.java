@@ -116,19 +116,18 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 
 	private void RiempiAllTabelle(Conferenza conferenzaCreata, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
 		InserisciConferenza(conferenzaCreata);	
-		RiempiTabellaPontePubbblicità(listaPubblicità, conferenzaCreata);	
-		RiempiTabellaPonteOrganizzare_S(conferenzaCreata);	
-		RiempiTabellaPonteOrganizzare_L(conferenzaCreata);
-		RiempiTabellaProgramma(listaProgrammi, conferenzaCreata);			
-		RiempiTabellaIntervallo(listaProgrammi);			
-		RiempiTabellaSessioni(listaProgrammi);		
+		RiempiTabellaProgramma(listaProgrammi, conferenzaCreata);	
+		RiempiTabellaIntervallo(listaProgrammi);	
 		RiempiTabellaEvento_Sociale(listaProgrammi);
+		RiempiTabellaPonteOrganizzare_S(conferenzaCreata);
+		RiempiTabellaSessioni(listaProgrammi);	
+		RiempiTabellaPonteOrganizzare_L(conferenzaCreata);		
+		RiempiTabellaPontePubblicità(listaPubblicità, conferenzaCreata);	
 	}
 
 
 	private void InserisciConferenza(Conferenza conferenzaCreata) {
 		PreparedStatement riempiConferenza;
-		InserisciConferenza(conferenzaCreata);
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			riempiConferenza = connection.prepareStatement("INSERT INTO CONFERENZA(CodConferenza, TitoloConferenza, DataInizio, DataFine, Descrizione, NomeSede)"
@@ -138,12 +137,10 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-
 	}
 
 
-	private void RiempiTabellaPontePubbblicità(ArrayList<Pubblicità> listaPubblicità, Conferenza conferenzaCreata) {
+	private void RiempiTabellaPontePubblicità(ArrayList<Pubblicità> listaPubblicità, Conferenza conferenzaCreata) {
 		PreparedStatement riempiPubblicità;
 		try {	
 			//TABELLA PONTE PUBBLICITA'
