@@ -80,21 +80,21 @@ public class UtenteImplementazionePostgresDAO implements UtenteDAO{
 			verifyAccess = connection.prepareStatement(
 					"SELECT nome FROM Organizzatore_Locale WHERE\r\n"
 					+ "emailL = '"+email+"' AND password = '"+password+"';");
-		ResultSet rsl = verifyAccess.executeQuery();	
+			ResultSet rsl = verifyAccess.executeQuery();	
 		
 			verifyAccess = connection.prepareStatement(
 					"SELECT nome FROM Organizzatore_Scientifico WHERE\r\n"
 							+ "emailS = '"+email+"' AND password = '"+password+"';");
-		ResultSet rss = verifyAccess.executeQuery();
-		while (rsl.next()) {	
-			l = rsl.getString("nome");
-		}
-		while (rss.next()) {	
-			s = rss.getString("nome");
-		}
-		rsl.close();
-		rss.close();
-		connection.close();
+			ResultSet rss = verifyAccess.executeQuery();
+			while (rsl.next()) {	
+				l = rsl.getString("nome");
+			}
+			while (rss.next()) {	
+				s = rss.getString("nome");
+			}
+			rsl.close();
+			rss.close();
+			connection.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

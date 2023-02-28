@@ -3,8 +3,8 @@ package Model;
 public class Sessione extends Seduta{
 	private String descrizioneSessione;
 	public Programma sessioneInProgramma;//Chiave esterna
+	public Partecipante KSpresente = null;//Chiave esterna
 	public Locazione luogoLocazione;//Chiave esterna
-	public Partecipante KSpresente=null;//Chiave esterna 
 	public Organizzatore_Scientifico chairSessione=null;//Chiave esterna
 	
 	//Costruttori
@@ -55,7 +55,6 @@ public class Sessione extends Seduta{
 		return KSpresente;
 	}
 	
-	@Override
 	public Locazione getLocazione() {
 		return luogoLocazione;
 	}

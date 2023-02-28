@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 public class VisualizzaProgrammi {
 
 	private int mouseX, mouseY;
+	private Controller controller;
 	public JFrame frame;
 	private JTable table;
 	private JLabel dragFrame;
@@ -39,29 +40,30 @@ public class VisualizzaProgrammi {
 		initialize(controller, frameVisualizzaConferenza, CodProgramma);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize(final Controller controller, final JFrame frameVisualizzaConferenza, String  CodProgramma) {
+	private void initialize(Controller controller, JFrame frameVisualizzaConferenza, String  CodProgramma) {
+		this.controller = controller;
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
 		frame.getContentPane().setLayout(null);
+		frame.setBackground(new Color(32, 33, 35));
+		frame.setBounds(100, 100, 513, 408);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 0, 513, 408);
-		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		frame.getContentPane().add(panel);
 		
 		programmiVisualizzatiPanel = new JScrollPane();
 		programmiVisualizzatiPanel.setOpaque(false);
-		programmiVisualizzatiPanel.setBounds(47, 55, 425, 259);
-		panel.add(programmiVisualizzatiPanel);
 		programmiVisualizzatiPanel.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		programmiVisualizzatiPanel.setBackground(new Color(0, 0, 0));
+		programmiVisualizzatiPanel.setBounds(47, 55, 425, 259);
+		panel.add(programmiVisualizzatiPanel);
 		
 		table = new JTable();
 		table.setFocusable(false);
@@ -78,9 +80,6 @@ public class VisualizzaProgrammi {
 				"CodSessione","Titolo", "Inizio", "Fine",
 			}
 		) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false
@@ -89,25 +88,14 @@ public class VisualizzaProgrammi {
 				return columnEditables[column];
 			}
 		});
-		
-		
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		programmiVisualizzatiPanel.setViewportView(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
+		programmiVisualizzatiPanel.setViewportView(table);
 		
-		ArrayList<Seduta> listaSedute = controller.ottieniSedute(CodProgramma);
-		
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		if(listaSedute!=null)
-			for(int i = 0;i<listaSedute.size(); i++)
-				//riempiamo il model che mostrerà i valori sullo schermo
-				model.addRow(new Object[] {listaSedute.get(i).getCodSeduta(), listaSedute.get(i).getTitolo(), 
-						listaSedute.get(i).getOrarioInizio(), listaSedute.get(i).getOrarioFine()});
-		
-		
-		
+		RiempiTabellaProgrammi(CodProgramma);
+
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
@@ -115,14 +103,6 @@ public class VisualizzaProgrammi {
 		exitLabel.setBounds(486, 11, 17, 21);
 		panel.add(exitLabel);
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		exitLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frameVisualizzaConferenza.setVisible(true);
-				frameVisualizzaConferenza.setEnabled(true);
-				frame.dispose();
-			}
-		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		
 		//trascino la finestra undecorated
@@ -154,31 +134,52 @@ public class VisualizzaProgrammi {
 				mouseY = e.getY();			}
 		});
 		
+		
+		
+		
+		//PULSANTI & LISTNERS
+		
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.TornaAllaPaginaPrecedente(frame, frameVisualizzaConferenza);
+			}
+		});
+
 		table.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
-	            if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
-	               JTable target = (JTable)me.getSource();
-	               int row = target.getSelectedRow(); // seleziona riga
-	               //se la zona clickata è una sessione, allora eseguo la riga seguente:
-	               try
-	               {
-	            	   String titoloSessione = target.getValueAt(row, 1).toString();
-	            	   String codSessione = target.getValueAt(row, 0).toString();
-	            	   if(Integer.parseInt(codSessione) >= 0)
-	            	   controller.visualizzaFrameDescrizione(frame, titoloSessione, controller.ottieniDescrizione(codSessione));  //passo il valore della Sessione cliccata
-	               }
-	               catch(NullPointerException e)
-	               {
-	            	   JOptionPane.showMessageDialog(null,"Intervalli ed Eventi non hanno descrizioni!","ERROR:404", JOptionPane.ERROR_MESSAGE);
-	               }
-	               
-	               
-	            }
+	        	 VisualizzaDescrizione(me);
 	         }
 	      });
+	}
+
+	
+	//METODI IMPLEMENTATIVI
+	private void VisualizzaDescrizione(MouseEvent me) {
 		
-		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 513, 408);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
+            JTable target = (JTable)me.getSource();
+            int row = target.getSelectedRow(); // seleziona riga
+            try
+            {
+         	   String titoloSessione = target.getValueAt(row, 1).toString();
+         	   String codSessione = target.getValueAt(row, 0).toString();
+         	   if(Integer.parseInt(codSessione) >= 0)
+         	   controller.visualizzaFrameDescrizione(frame, titoloSessione, controller.ottieniDescrizione(codSessione));  //passo il valore della Sessione cliccata
+            }catch(NullPointerException e){
+         	   JOptionPane.showMessageDialog(null,"Intervalli ed Eventi non hanno descrizioni!","ERROR:404", JOptionPane.ERROR_MESSAGE);
+            }         
+         }
+	}
+
+	private void RiempiTabellaProgrammi(String codProgramma) {
+		ArrayList<Seduta> listaSedute = controller.ottieniSedute(codProgramma);		
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		if(listaSedute!=null)
+			for(int i = 0;i<listaSedute.size(); i++)
+			{
+				model.addRow(new Object[] {listaSedute.get(i).getCodSeduta(), listaSedute.get(i).getTitolo(), 
+						listaSedute.get(i).getOrarioInizio(), listaSedute.get(i).getOrarioFine()});
+			}				
 	}
 }

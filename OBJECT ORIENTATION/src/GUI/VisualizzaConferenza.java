@@ -226,6 +226,19 @@ public class VisualizzaConferenza {
 		dragFrame = new JLabel("");
 		dragFrame.setBounds(0, 0, 460, 44);
 		panel.add(dragFrame);
+		//trascina finestra undecorated
+		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
+			}
+		});		
+		dragFrame.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();			}
+		});
 			
 		JLabel lblDataI = new JLabel("Fine");
 		lblDataI.setForeground(new Color(57, 113, 177));
@@ -243,6 +256,7 @@ public class VisualizzaConferenza {
 		JSeparator separator_1_1 = new JSeparator();
 		separator_1_1.setBounds(297, 79, 154, 2);
 		panel.add(separator_1_1);
+		
 		
 		
 		
@@ -266,24 +280,7 @@ public class VisualizzaConferenza {
 			public void mouseClicked(MouseEvent e) {
 				controller.tornaAllaHome(frame, frameHome);		
 			}
-		});		
-			
-		
-		//trascina finestra undecorated
-
-		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				frame.setLocation(frame.getX() + e.getX() - mouseX, frame.getY() + e.getY() - mouseY);
-			}
-		});		
-		dragFrame.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();			}
-		});
-				
+		});			
 
 		//aggiorna la jtable in base ai dati inseriti	
 		aggiornaListaConferenzeButton.addMouseListener(new MouseAdapter() {
@@ -291,28 +288,18 @@ public class VisualizzaConferenza {
 			public void mouseClicked(MouseEvent e) {	
 				aggiornaListaConferenze(controller);			
 			}
-		});
-		
-			
+		});		
 	}
 
 	
 	//AGGIORNA LA JTABLE CON LE CONFERENZE RICHIESTE 
 	private void aggiornaListaConferenze(Controller controller) {
 		
-		//RIPULISCI TABELLA
-		controller.RipulisciTabella(table.getModel());
-		
-		//RIPULISCI ARRAY
+		controller.RipulisciTabella(table.getModel());	
 		RipulisciArray();
-		
-		//RICHIEDE I PROGRAMMI AL DB
 		controller.ottieniConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateInizialeTextField.getText(), dateFinaleTextField.getText(), comboBox.getSelectedItem().toString());
-		
-		//RIEMPIO LA TABELLA
-		RiempiTabellaConferenzeConProgrammi(listaCodici, listaTitoli, listaDate, listaSedi, dateInizialeTextField.getText(), comboBox.getSelectedItem().toString());
-		
-		//RIPULISCO IL TEXTFIELD PER LA  DATA
+
+		RiempiTabellaConferenzeConProgrammi();	
 		RipulisciTextField(dateInizialeTextField);
 		RipulisciTextField(dateFinaleTextField);
 		
@@ -327,7 +314,7 @@ public class VisualizzaConferenza {
 	}
 
 	//RIEMPIE LA JTABLE
-	private void RiempiTabellaConferenzeConProgrammi(ArrayList<Integer> listaCodici, ArrayList<String> listaTitoli, ArrayList<String> listaDate, ArrayList<String> listaSedi, String string, String sedeSelezionata) {
+	private void RiempiTabellaConferenzeConProgrammi() {
 		if(listaDate!=null)
 			for(int i = 0;i<listaDate.size(); i++)
 				//riempiamo il model che mostrerà i valori sullo schermo

@@ -47,6 +47,9 @@ public class AggiungiProgrammiEdit {
 	private JTextField orarioFine;
 	private JTable table;
 	private JTextField orarioInizio;
+	private JComboBox<String> comboBoxChair;
+	private JComboBox<String> comboBoxKS;
+	private JComboBox<String> comboBoxLocazione;
 	private ArrayList<Seduta> listaSedute = new ArrayList<Seduta>();
 	private ArrayList<Sessione> listaSessioni = new ArrayList<Sessione>();
 	private ArrayList<Evento_Sociale> listaEventi = new ArrayList<Evento_Sociale>();
@@ -57,6 +60,7 @@ public class AggiungiProgrammiEdit {
 	private Date dataProgramma = new Date();
 	private JFormattedTextField dataTextField;
 	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private Controller controller = new Controller();
 	
 	public AggiungiProgrammiEdit(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
 		initialize(controller, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
@@ -65,17 +69,19 @@ public class AggiungiProgrammiEdit {
 	
 	private void initialize(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
 		
+		
+		this.controller = controller;
 		//SWING COMPONENTS
 		frame = new JFrame();
 		frame.setUndecorated(true);
-		frame.setBounds(100, 100, 600, 880);
+		frame.setBounds(100, 100, 600, 750);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
-		panel.setBounds(0, 0, 600, 880);
+		panel.setBounds(0, 0, 600, 750);
 		panel.setLayout(null);
 		frame.getContentPane().add(panel);
 		
@@ -112,14 +118,14 @@ public class AggiungiProgrammiEdit {
 		panel.add(dragFrame);
 		
 		JLabel dataProgrammaLabel = new JLabel("Data");
-		dataProgrammaLabel.setBounds(74, 78, 48, 14);
+		dataProgrammaLabel.setBounds(74, 87, 48, 14);
 		dataProgrammaLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		dataProgrammaLabel.setForeground(new Color(57, 113, 177));
 		dataProgrammaLabel.setBackground(new Color(57, 113, 177));
 		panel.add(dataProgrammaLabel);
 		
 		JLabel orarioInizioLabel = new JLabel("Orario inizio");
-		orarioInizioLabel.setBounds(74, 121, 66, 14);
+		orarioInizioLabel.setBounds(74, 125, 66, 14);
 		orarioInizioLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		orarioInizioLabel.setForeground(new Color(57, 113, 177));
 		panel.add(orarioInizioLabel);
@@ -144,10 +150,11 @@ public class AggiungiProgrammiEdit {
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		dataTextField = new JFormattedTextField(format);
+		dataTextField.setCaretColor(new Color(255, 255, 255));
 		dataTextField.setForeground(new Color(255, 255, 255));
 		dataTextField.setBackground(new Color(32, 33, 35));
 		dataTextField.setBorder(null);
-		dataTextField.setBounds(150, 80, 154, 20);
+		dataTextField.setBounds(150, 89, 154, 20);
 		panel.add(dataTextField);
 		
 		orarioFine = new JTextField();
@@ -162,7 +169,7 @@ public class AggiungiProgrammiEdit {
 		panel.add(orarioFine);
 		
 		orarioInizio = new JTextField();
-		orarioInizio.setBounds(150, 120, 154, 20);
+		orarioInizio.setBounds(150, 124, 154, 20);
 		orarioInizio.setSelectionColor(new Color(126, 87, 194));
 		orarioInizio.setForeground(Color.WHITE);
 		orarioInizio.setDisabledTextColor(Color.WHITE);
@@ -216,22 +223,21 @@ public class AggiungiProgrammiEdit {
 		panel.add(as);
 		
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
-		signature.setBounds(425, 847, 165, 33);
+		signature.setBounds(425, 717, 165, 33);
 		signature.setForeground(new Color(56, 57, 59));
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		panel.add(signature);
 		
 		JSeparator separator_1_1 = new JSeparator();
-		separator_1_1.setBounds(150, 101, 154, 8);
+		separator_1_1.setBounds(150, 110, 154, 8);
 		panel.add(separator_1_1);
 		
 		JSeparator separator_1_2 = new JSeparator();
 		separator_1_2.setBounds(150, 178, 154, 8);
 		panel.add(separator_1_2);
 			
-		JComboBox<String> comboBoxLocazione = new JComboBox<String>();	
-		RiempiComboBoxLocazione(controller, comboBoxLocazione, updateConferenza);
-		
+		comboBoxLocazione = new JComboBox<String>();	
+		RiempiComboBoxLocazione(controller, comboBoxLocazione, updateConferenza);		
 		comboBoxLocazione.setForeground(Color.WHITE);
 		comboBoxLocazione.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxLocazione.setFocusable(false);
@@ -308,9 +314,8 @@ public class AggiungiProgrammiEdit {
 		editorPane.setBorder(null);
 		editorPane.setBackground(new Color(32, 33, 35));
 		
-		JComboBox<String> comboBoxKS = new JComboBox<String>();
-		RiempiComboBoxKS(controller, comboBoxKS, updateConferenza);
-		
+		comboBoxKS = new JComboBox<String>();
+		RiempiComboBoxKS(controller, comboBoxKS, updateConferenza);	
 		comboBoxKS.setForeground(Color.WHITE);
 		comboBoxKS.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxKS.setFocusable(false);
@@ -319,9 +324,8 @@ public class AggiungiProgrammiEdit {
 		comboBoxKS.setBounds(150, 218, 154, 21);
 		panel.add(comboBoxKS);
 		
-		JComboBox<String> comboBoxChair = new JComboBox<String>();
-		RiempiComboBoxChair(controller, comboBoxChair, updateConferenza);
-		
+		comboBoxChair = new JComboBox<String>();
+		RiempiComboBoxChair(controller, comboBoxChair, updateConferenza);		
 		comboBoxChair.setForeground(Color.WHITE);
 		comboBoxChair.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		comboBoxChair.setFocusable(false);
@@ -331,21 +335,22 @@ public class AggiungiProgrammiEdit {
 		panel.add(comboBoxChair);
 		
 		JFormattedTextField textFieldTitolo = new JFormattedTextField((Format) null);
+		textFieldTitolo.setDisabledTextColor(new Color(255, 255, 255));
 		textFieldTitolo.setForeground(Color.WHITE);
 		textFieldTitolo.setBorder(null);
 		textFieldTitolo.setBackground(new Color(32, 33, 35));
-		textFieldTitolo.setBounds(150, 27, 154, 20);
+		textFieldTitolo.setBounds(150, 51, 154, 20);
 		panel.add(textFieldTitolo);
 		
 		JLabel titoloLabel = new JLabel("Titolo*");
 		titoloLabel.setForeground(new Color(57, 113, 177));
 		titoloLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		titoloLabel.setBackground(new Color(57, 113, 177));
-		titoloLabel.setBounds(74, 30, 48, 14);
+		titoloLabel.setBounds(74, 54, 48, 14);
 		panel.add(titoloLabel);
 		
 		JSeparator separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setBounds(150, 48, 154, 8);
+		separator_1_1_1.setBounds(150, 72, 154, 8);
 		panel.add(separator_1_1_1);
 		
 		
@@ -366,7 +371,7 @@ public class AggiungiProgrammiEdit {
 		panel.add(keynoteSpekaerLabel);
 		
 		JSeparator separator_1_2_1 = new JSeparator();
-		separator_1_2_1.setBounds(150, 141, 154, 2);
+		separator_1_2_1.setBounds(150, 145, 154, 2);
 		panel.add(separator_1_2_1);
 			
 		JLabel lblChair = new JLabel("Chair*");
@@ -388,7 +393,7 @@ public class AggiungiProgrammiEdit {
 		JLabel lblFormatoDataYyyymmdd = new JLabel("yyyy-MM-dd");
 		lblFormatoDataYyyymmdd.setForeground(new Color(71, 72, 75));
 		lblFormatoDataYyyymmdd.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd.setBounds(150, 56, 174, 14);
+		lblFormatoDataYyyymmdd.setBounds(150, 74, 174, 14);
 		panel.add(lblFormatoDataYyyymmdd);
 		
 		JLabel lblFormatoDataYyyymmdd_1_1 = new JLabel("(HH:mm)");
@@ -400,7 +405,7 @@ public class AggiungiProgrammiEdit {
 		JLabel lblFormatoDataYyyymmdd_1_1_1 = new JLabel("(HH:mm)");
 		lblFormatoDataYyyymmdd_1_1_1.setForeground(new Color(71, 72, 75));
 		lblFormatoDataYyyymmdd_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 120, 174, 14);
+		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 124, 174, 14);
 		panel.add(lblFormatoDataYyyymmdd_1_1_1);	
 		
 		
@@ -410,29 +415,28 @@ public class AggiungiProgrammiEdit {
 		aggiungiIntervalloButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {	
-				CreaIntervallo(controller, updateConferenza, dataTextField.getText(), comboBoxIntervallo.getSelectedItem().toString());
+				CreaIntervallo(updateConferenza, comboBoxIntervallo.getSelectedItem().toString());
 			}
 		});
 		
 		aggiungiEventoButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreaEvento(controller, dataTextField.getText(), updateConferenza, comboBoxEvento.getSelectedItem().toString());
+				CreaEvento(updateConferenza, comboBoxEvento.getSelectedItem().toString());
 			}
 		});
 		
 		aggiungiSessioneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {				
-				CreaSessione(controller, updateConferenza, dataTextField.getText(), comboBoxLocazione.getSelectedItem().toString(), comboBoxKS.getSelectedItem().toString(), 
-									comboBoxChair.getSelectedItem().toString(), textFieldTitolo.getText(), editorPane.getText());
+				CreaSessione(updateConferenza, textFieldTitolo.getText(), editorPane.getText());
 			}
 		});
 			
 		AggiungiProgrammaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreaProgramma(controller, frameAzioniDiModifica, dataTextField.getText(), updateConferenza, dataInizio, dataFine);	
+				CreaProgramma(frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);	
 			}
 		});
 			
@@ -451,19 +455,7 @@ public class AggiungiProgrammiEdit {
          }
 	}
 	
-	private void CreaProgramma(Controller controller, JFrame frameAzioniDiModifica, String dataInserita, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
-			
-		if(isDataInserita())
-		{
-			CastaStringToData();
-			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isDataIdoneaAlProgramma(dataInizio, dataFine))
-				IstanziaSeduteSpecializzate();	
-			controller.commitAggiungiProgramma(dataInserita,updateConferenza, listaIntervalli, listaSessioni, listaEventi);
-			controller.tornaAllaHome(frame, frameAzioniDiModifica);	
-			JOptionPane.showMessageDialog(null,"Programma aggiunto con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
-		}				
-	}
-
+	
 	private Boolean isDataIdoneaAlProgramma(Date dataInizio, Date dataFine) {
 		CastaStringToData();
 		if(dataProgramma.after(dataFine) || dataProgramma.before(dataInizio))
@@ -474,6 +466,7 @@ public class AggiungiProgrammiEdit {
 		return true;
 	}
 
+	
 	private Boolean isDataInserita() {
 		if(dataTextField.getText().isEmpty())
 		{
@@ -483,41 +476,44 @@ public class AggiungiProgrammiEdit {
 		return true;
 	}
 
-	private void CreaSessione(Controller controller, Conferenza updateConferenza, String dataInserita, String locazione, String keynoteS, String Chair, String titolo, String descrizione) {
+	
+	private void CreaSessione(Conferenza updateConferenza, String titolo, String descrizione) {
 		
 		if(isDataInserita())		
 		{
-			CastaDataeOrario(controller, dataInserita);
-			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioSessioneIdoneo(locazione))
+			CastaDataeOrario(dataTextField.getText());
+			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioSessioneIdoneo())
 			{	
-				if(isParametriCorretti(dataInserita, updateConferenza) && isTitoloInserito(titolo))
-					IstanziaSessione(controller, locazione, keynoteS, Chair, titolo, descrizione);
+				if(isParametriCorretti(dataTextField.getText(), updateConferenza) && isTitoloInserito(titolo))
+					IstanziaSessione(titolo, descrizione);
 			}
 		}
 	}
+	
 
-	private void IstanziaSessione(Controller controller, String Locazione, String KeynoteS, String Chair, String Titolo, String Descrizione) {
+	private void IstanziaSessione(String Titolo, String Descrizione) {
 		try{
-			AggiungiSessioneAllaTable(Titolo, Locazione, KeynoteS, Chair, Descrizione);
-			IstanziaSessioneEdAggiungiAdArray(controller, Titolo, Locazione, KeynoteS, Chair, Descrizione);
-		}
-		catch(NullPointerException exception){
+			AggiungiSessioneAllaTable(Titolo, Descrizione);
+			IstanziaSessioneEdAggiungiAdArray(Titolo, comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), Descrizione);
+		}catch(NullPointerException exception){
 			JOptionPane.showMessageDialog(null,"Non sono presenti altri chair!","ERROR:407", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
 
-	private void IstanziaSessioneEdAggiungiAdArray(Controller controller, String titolo, String locazione,
-								String keynoteS, String chair, String descrizione) {
-		Sessione sessioneNuova = controller.creaSessionedaFrame(titolo, timeInizio, timeFine, locazione, keynoteS, chair, descrizione);
+	private void IstanziaSessioneEdAggiungiAdArray(String titolo, String keynoteS, String chair, String descrizione) {
+		Sessione sessioneNuova = controller.creaSessionedaFrame(titolo, timeInizio, timeFine, comboBoxLocazione.getSelectedItem().toString(), keynoteS, chair, descrizione);
 		listaSedute.add(sessioneNuova);
 	}
 
-	private void AggiungiSessioneAllaTable(String titolo, String locazione, String keynoteS, String chair, String descrizione) {
+	
+	private void AggiungiSessioneAllaTable(String titolo, String descrizione) {
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		model.addRow(new Object[] {titolo, orarioInizio.getText(), orarioFine.getText(), locazione, 
-									keynoteS, chair, descrizione});
+		model.addRow(new Object[] {titolo, orarioInizio.getText(), orarioFine.getText(), comboBoxLocazione.getSelectedItem().toString(), 
+									comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), descrizione});
 	}
 
+	
 	private Boolean isTitoloInserito(String TitoloInserito) {
 		
 		if(TitoloInserito.isEmpty())
@@ -528,7 +524,8 @@ public class AggiungiProgrammiEdit {
 		return true;
 	}
 
-	private Boolean isOrarioSessioneIdoneo(String ComboBoxLocazioneValue) {
+	
+	private Boolean isOrarioSessioneIdoneo() {
 		//controllo se non ci sono altre sessioni in corso
 		if(table.getRowCount() != 0)
 		{
@@ -541,7 +538,7 @@ public class AggiungiProgrammiEdit {
 				}									
 				else
 				{
-					if(isNotIdoneaSessione(s, ComboBoxLocazioneValue))
+					if(isNotIdoneaSessione(s, comboBoxLocazione.getSelectedItem().toString()))
 						return false;	
 				}
 							
@@ -549,7 +546,228 @@ public class AggiungiProgrammiEdit {
 		}
 		return true;
 	}
+	
 
+
+
+	
+	private void CreaEvento(Conferenza updateConferenza, String ComboBoxEventoValue) {	
+		if(isDataInserita())
+		{
+			CastaDataeOrario(dataTextField.getText());
+			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioIntervalloOrEventoIdoneo())
+			{
+				if(isParametriCorretti(dataTextField.getText(), updateConferenza))
+					IstanziaEvento(ComboBoxEventoValue);
+			}
+		}
+			
+	}
+
+	
+	private void IstanziaEvento(String ComboBoxEventoValue) {
+		try{
+			AggiungiEventoAllaTable(ComboBoxEventoValue);
+			IstanziaEventoAggiungiAdArraySedute(ComboBoxEventoValue);				
+		}catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	
+	private void IstanziaEventoAggiungiAdArraySedute(String ComboBoxEventoValue) {
+		Evento_Sociale eventoNuovo = new Evento_Sociale();
+		eventoNuovo.setOrarioInizio(timeInizio);
+		eventoNuovo.setOrarioFine(timeFine);
+		eventoNuovo.setTitolo(ComboBoxEventoValue);
+		listaSedute.add(eventoNuovo);
+	}
+	
+
+	private void AggiungiEventoAllaTable(String ComboBoxEventoValue) {
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		model.addRow(new Object[] {ComboBoxEventoValue, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
+	}
+	
+
+	private void CreaIntervallo(Conferenza updateConferenza, String comboBoxIntervalloValue) {
+		if(isDataInserita())
+		{
+			CastaDataeOrario(dataTextField.getText());
+			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioIntervalloOrEventoIdoneo())
+			{			
+				if(isParametriCorretti(dataTextField.getText(), updateConferenza))			
+					IstanziaIntervallo(comboBoxIntervalloValue);					
+			}
+		}	
+	}
+	
+
+	private void CastaDataeOrario(String dataInserita) {
+		if(!dataInserita.isEmpty())
+		{
+			CastaStringToData();		
+			CastaStringToTime();
+		}			
+	}
+	
+	
+	private void IstanziaIntervallo(String comboBoxIntervalloValue) {
+		try{
+			AggiungiIntervalloAllaTable(comboBoxIntervalloValue);		
+			IstanziaIntervalloAggiungiAdArraySedute(comboBoxIntervalloValue);		
+		}
+		catch(NullPointerException exception){
+			JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+
+	private void AggiungiIntervalloAllaTable(String comboBoxIntervalloValue) {
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
+		model.addRow(new Object[] {comboBoxIntervalloValue, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
+	}
+
+	
+	private void IstanziaIntervalloAggiungiAdArraySedute(String comboBoxIntervalloValue) {
+		Intervallo intervalloNuovo = new Intervallo();
+		intervalloNuovo.setOrarioInizio(timeInizio);
+		intervalloNuovo.setOrarioFine(timeFine);
+		intervalloNuovo.setTitolo(comboBoxIntervalloValue);
+		listaSedute.add(intervalloNuovo);
+	}
+
+	
+	private Boolean isParametriCorretti(String dataInserita, Conferenza updateConferenza) {
+		
+		if(isOrarioDataNOTEmpty(dataInserita) && isDataProgrammaInConferenza(updateConferenza) && isOrarioConforme())
+			return true;
+		return false;
+	}
+	
+
+	private Boolean isOrarioConforme() {
+		if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
+		{
+			JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}	
+		return true;
+	}
+	
+
+	private Boolean isDataProgrammaInConferenza(Conferenza updateConferenza) {
+		CastaStringToData();
+		if(dataProgramma.before(updateConferenza.getDataInizio()) || dataProgramma.after(updateConferenza.getDataFine()))
+		{
+			JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}	
+		return true;
+	}
+
+	
+	private Boolean isOrarioDataNOTEmpty(String dataInserita) {
+		if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataInserita.isEmpty())
+		{
+			JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+	
+
+	private Boolean isOrarioIntervalloOrEventoIdoneo() {
+		if(table.getRowCount() != 0)
+		{
+			for(Seduta s: listaSedute)
+			{
+				if(isNotIdoneaSeduta(s))
+					return false;						
+			}
+		}
+		return true;
+	}
+	
+
+	private void CastaStringToTime() {
+		try {
+			timeFine = tipoTempo.parse(orarioFine.getText());	
+			timeInizio = tipoTempo.parse(orarioInizio.getText());
+		} catch (ParseException e1) {
+			System.out.println("Orario non conforme!");
+		}
+	}
+
+	
+	private Boolean isNuovaDataIdoneaAllaConferenza(Conferenza updateConferenza) {
+		for(Programma p: updateConferenza.programmiConferenza)
+		{	
+			CastaStringToData();
+			if(dataProgramma.equals(p.getDataProgramma()))
+			{
+				JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}					
+		}
+		return true;
+	}
+
+	
+	private void RiempiComboBoxChair(Controller controller, JComboBox<String> comboBoxChair,
+			Conferenza updateConferenza) {
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
+		for(String chair: controller.ottieniAllPossibiliChair(updateConferenza))
+		{
+				comboBoxChair.addItem(chair);
+		}
+	}
+
+	
+	private void RiempiComboBoxKS(Controller controller, JComboBox<String> comboBoxKS, Conferenza updateConferenza) {
+		//riempio la ComboBox chiedendo al DB quali sono i KS 
+		for(String ks: controller.ottieniAllKS())
+		{
+				comboBoxKS.addItem(ks);
+		}
+	}
+
+	
+	private void RiempiComboBoxLocazione(Controller controller, JComboBox<String> comboBox, Conferenza updateConferenza) {
+		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
+		ArrayList<String> listaLocazioni = controller.ottieniLocazioni(updateConferenza.sedeOspitante);
+		for(String s: listaLocazioni)
+		{
+			comboBox.addItem(s);
+		}
+	}
+	
+	
+	public void CastaStringToData() {
+		try {
+			dataProgramma = format.parse(dataTextField.getText());
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	
+	private void CreaProgramma(JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
+			
+		if(isDataInserita())
+		{
+			CastaStringToData();
+			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isDataIdoneaAlProgramma(dataInizio, dataFine))
+			{
+				IstanziaSeduteSpecializzate();	
+				controller.commitAggiungiProgramma(dataTextField.getText(),updateConferenza, listaIntervalli, listaSessioni, listaEventi);
+				controller.tornaAllaHome(frame, frameAzioniDiModifica);	
+				JOptionPane.showMessageDialog(null,"Programma aggiunto con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
+			}		
+		}				
+	}
+	
+	
 	private Boolean isNotIdoneaSessione(Seduta s, String comboBoxLocazioneValue) {
 		if( (s.getLocazione().getNomeLocazione().compareTo(comboBoxLocazioneValue)) == 0 )
 		{
@@ -564,6 +782,7 @@ public class AggiungiProgrammiEdit {
 		}
 		return false;
 	}
+	
 
 	private Boolean isNotIdoneaSeduta(Seduta s) {
 		if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
@@ -576,187 +795,7 @@ public class AggiungiProgrammiEdit {
 			}
 		return false;
 	}
-
-	private void CreaEvento(Controller controller, String dataInserita, Conferenza updateConferenza, String ComboBoxEventoValue) {	
-		if(isDataInserita())
-		{
-			CastaDataeOrario(controller, dataInserita);
-			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioIntervalloOrEventoIdoneo())
-			{
-				if(isParametriCorretti(dataInserita, updateConferenza))
-					IstanziaEvento(ComboBoxEventoValue);
-			}
-		}
-			
-	}
-
-	private void IstanziaEvento(String ComboBoxEventoValue) {
-		try{
-			AggiungiEventoAllaTable(ComboBoxEventoValue);
-			IstanziaEventoAggiungiAdArraySedute(ComboBoxEventoValue);				
-		}catch(NullPointerException exception){
-			JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void IstanziaEventoAggiungiAdArraySedute(String ComboBoxEventoValue) {
-		Evento_Sociale eventoNuovo = new Evento_Sociale();
-		eventoNuovo.setOrarioInizio(timeInizio);
-		eventoNuovo.setOrarioFine(timeFine);
-		eventoNuovo.setTitolo(ComboBoxEventoValue);
-		listaSedute.add(eventoNuovo);
-	}
-
-	private void AggiungiEventoAllaTable(String ComboBoxEventoValue) {
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		model.addRow(new Object[] {ComboBoxEventoValue, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
-	}
-
-	private void CreaIntervallo(Controller controller, Conferenza updateConferenza, String dataInserita, String comboBoxIntervalloValue) {
-		if(isDataInserita())
-		{
-			CastaDataeOrario(controller, dataInserita);
-			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioIntervalloOrEventoIdoneo())
-			{			
-				if(isParametriCorretti(dataInserita, updateConferenza))			
-					IstanziaIntervallo(comboBoxIntervalloValue);					
-			}
-		}	
-	}
-
-	private void CastaDataeOrario(Controller controller, String dataInserita) {
-		if(!dataInserita.isEmpty())
-		{
-			CastaStringToData();		
-			CastaStringToTime();
-		}			
-	}
 	
-	private void IstanziaIntervallo(String comboBoxIntervalloValue) {
-		try{
-			AggiungiIntervalloAllaTable(comboBoxIntervalloValue);		
-			IstanziaIntervalloAggiungiAdArraySedute(comboBoxIntervalloValue);		
-		}
-		catch(NullPointerException exception){
-			JOptionPane.showMessageDialog(null,"Errore!","ERROR:407", JOptionPane.ERROR_MESSAGE);
-		}
-	}
-
-	private void AggiungiIntervalloAllaTable(String comboBoxIntervalloValue) {
-		DefaultTableModel model = (DefaultTableModel)table.getModel();
-		model.addRow(new Object[] {comboBoxIntervalloValue, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
-	}
-
-	private void IstanziaIntervalloAggiungiAdArraySedute(String comboBoxIntervalloValue) {
-		Intervallo intervalloNuovo = new Intervallo();
-		intervalloNuovo.setOrarioInizio(timeInizio);
-		intervalloNuovo.setOrarioFine(timeFine);
-		intervalloNuovo.setTitolo(comboBoxIntervalloValue);
-		listaSedute.add(intervalloNuovo);
-	}
-
-	private Boolean isParametriCorretti(String dataInserita, Conferenza updateConferenza) {
-		
-		if(isOrarioDataNOTEmpty(dataInserita) && isDataProgrammaInConferenza(updateConferenza) && isOrarioConforme())
-			return true;
-		return false;
-	}
-
-	private Boolean isOrarioConforme() {
-		if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
-		{
-			JOptionPane.showMessageDialog(null,"Gli orari non sono conformi!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}	
-		return true;
-	}
-
-	private Boolean isDataProgrammaInConferenza(Conferenza updateConferenza) {
-		CastaStringToData();
-		if(dataProgramma.before(updateConferenza.getDataInizio()) || dataProgramma.after(updateConferenza.getDataFine()))
-		{
-			JOptionPane.showMessageDialog(null,"Data non conforme alla conferenza!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}	
-		return true;
-	}
-
-	private Boolean isOrarioDataNOTEmpty(String dataInserita) {
-		if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataInserita.isEmpty())
-		{
-			JOptionPane.showMessageDialog(null,"Devi compilare la data e gli orari!","ERROR:412", JOptionPane.ERROR_MESSAGE);
-			return false;
-		}
-		return true;
-	}
-
-	private Boolean isOrarioIntervalloOrEventoIdoneo() {
-		if(table.getRowCount() != 0)
-		{
-			for(Seduta s: listaSedute)
-			{
-				if(isNotIdoneaSeduta(s))
-					return false;						
-			}
-		}
-		return true;
-	}
-
-	private void CastaStringToTime() {
-		try {
-			timeFine = tipoTempo.parse(orarioFine.getText());	
-			timeInizio = tipoTempo.parse(orarioInizio.getText());
-		} catch (ParseException e1) {
-			System.out.println("Orario non conforme!");
-		}
-	}
-
-	private Boolean isNuovaDataIdoneaAllaConferenza(Conferenza updateConferenza) {
-		for(Programma p: updateConferenza.programmiConferenza)
-		{	
-			CastaStringToData();
-			if(dataProgramma.equals(p.getDataProgramma()))
-			{
-				JOptionPane.showMessageDialog(null,"Questa data è già occupata!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-				return false;
-			}					
-		}
-		return true;
-	}
-
-	private void RiempiComboBoxChair(Controller controller, JComboBox<String> comboBoxChair,
-			Conferenza updateConferenza) {
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		for(String chair: controller.ottieniAllPossibiliChair(updateConferenza))
-		{
-				comboBoxChair.addItem(chair);
-		}
-	}
-
-	private void RiempiComboBoxKS(Controller controller, JComboBox<String> comboBoxKS, Conferenza updateConferenza) {
-		//riempio la ComboBox chiedendo al DB quali sono i KS 
-		for(String ks: controller.ottieniAllKS())
-		{
-				comboBoxKS.addItem(ks);
-		}
-	}
-
-	private void RiempiComboBoxLocazione(Controller controller, JComboBox<String> comboBox, Conferenza updateConferenza) {
-		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-		ArrayList<String> listaLocazioni = controller.ottieniLocazioni(updateConferenza.sedeOspitante);
-		for(String s: listaLocazioni)
-		{
-			comboBox.addItem(s);
-		}
-	}
-	
-	public void CastaStringToData() {
-		try {
-			dataProgramma = format.parse(dataTextField.getText());
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-	}
 
 	//ISTANZIA SESSIONI, EVENTI E INTERVALLI
 	private void IstanziaSeduteSpecializzate() {

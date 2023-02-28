@@ -251,6 +251,7 @@ public class AzioneDiModifica {
 	}
 	
 	
+	//METODI IMPLEMENTATIVI
 	private void CancellaProgramma(Conferenza updateConferenza) {
 		if(isAlmenoUnaCellaSelezionata())
 		{
@@ -262,6 +263,7 @@ public class AzioneDiModifica {
 		}
 	}
 
+	
 	private boolean isAlmenoUnaCellaSelezionata() {
 		if (table.getSelectionModel().isSelectionEmpty()) {
 			JOptionPane.showMessageDialog(null,"Seleziona un programma!","ERROR:415", JOptionPane.ERROR_MESSAGE);
@@ -269,20 +271,24 @@ public class AzioneDiModifica {
 		} 
 		return true;
 	}
+	
 
 	private void ChiudiFrame(Conferenza updateConferenza, JFrame frameModificaConferenza) {
 		updateConferenza.programmiConferenza.removeAll(updateConferenza.programmiConferenza);
 		controller.TornaAllaPaginaPrecedente(frame, frameModificaConferenza);	
 	}
 
+	
 	private void AggiungiProgramma(Conferenza updateConferenza) {
 		controller.vediCreazioneProgrammaEdit(frame, updateConferenza, updateConferenza.getDataInizio(), updateConferenza.getDataFine());
 	}
+	
 
 	private void RipristinaFrame(JFrame frameModificaConferenza, JFrame frameHome) {
 		frameModificaConferenza.dispose();
 		controller.tornaAllaHome(frame, frameHome);	
 	}
+	
 
 	private void CommitModifica(String titolo, String descrizione, Conferenza updateConferenza) {
 		if (!titolo.isEmpty() || !descrizione.isEmpty())
@@ -292,6 +298,7 @@ public class AzioneDiModifica {
 		}
 	}
 
+	
 	private void RiempiTableProgrammi(Conferenza updateConferenza) {
 		model = (DefaultTableModel) table.getModel();
 		model.setRowCount(0);

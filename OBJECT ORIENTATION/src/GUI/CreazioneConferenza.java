@@ -536,6 +536,8 @@ public class CreazioneConferenza {
 	
 	}
 	
+	
+	//METODI IMPLEMENTATIVI
 	private void RimuoviRiga(MouseEvent me, JComboBox<String> comboBoxSponsor) {
         if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
             JTable target = (JTable)me.getSource();
@@ -544,6 +546,7 @@ public class CreazioneConferenza {
             ((DefaultTableModel)table.getModel()).removeRow(row); //ripristino la combobox col valore eliminato
         }
 	}
+	
 
 	private void RiempiComboBoxOrganizzaotoreS(JComboBox<String> comboBoxOrganizzatoreS) {
 		//riempio la ComboBox chiedendo al DB quali sono gli organizzatori scientifici
@@ -554,6 +557,7 @@ public class CreazioneConferenza {
 		}
 	}
 
+	
 	private void RiempiComboBoxOrganizzatoreL(JComboBox<String> comboBoxOrganizzatoreL) {
 		//riempio la ComboBox chiedendo al DB quali sono gli organizzatori locali
 		ArrayList<String> OrganizzatoreL = controller.ottieniAllOrganizzatoriL();
@@ -562,6 +566,7 @@ public class CreazioneConferenza {
 			comboBoxOrganizzatoreL.addItem(l);
 		}
 	}
+	
 
 	private void RiempiComboBoxSponsor(JComboBox<String> comboBoxSponsor) {
 		//riempio la ComboBox chiedendo al DB quali sono le sedi
@@ -572,6 +577,7 @@ public class CreazioneConferenza {
 		}
 	}
 
+	
 	private void AggiungiOrganizzatoreSAllaTable(JComboBox<String> comboBoxOrganizzatoreS) {
 		DefaultTableModel model = (DefaultTableModel)table_1.getModel();
 		try{
@@ -582,6 +588,7 @@ public class CreazioneConferenza {
 		}
 	}
 
+	
 	private void AggiungiOrganizzatoreLAllaTable(JComboBox<String> comboBoxOrganizzatoreL) {
 		DefaultTableModel model = (DefaultTableModel)table_2.getModel();
 		try{
@@ -591,6 +598,7 @@ public class CreazioneConferenza {
 			JOptionPane.showMessageDialog(null,"Non sono presenti altri organizzatori locali!","ERROR:408", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+	
 
 	private void AggiungSponsorAllaTable(String text, JComboBox<String> comboBoxSponsor) {
 		DefaultTableModel model = (DefaultTableModel)table.getModel();
@@ -606,6 +614,7 @@ public class CreazioneConferenza {
 			}
 		}
 	}
+	
 
 	private boolean isEmptySpesa(String spesaTextField) {
 		if(spesaTextField.isEmpty())
@@ -615,6 +624,7 @@ public class CreazioneConferenza {
 		}
 		return false;
 	}
+	
 
 	private void RiempiComboBoxSedi() {
 		//riempio la ComboBox chiedendo al DB quali sono le sedi
@@ -625,6 +635,7 @@ public class CreazioneConferenza {
 		}				
 	}
 
+	
 	private void AggiungiProgrammaCommit(JFrame frameHome) {
 		
 		modelL = (DefaultTableModel)table_2.getModel();
@@ -633,16 +644,15 @@ public class CreazioneConferenza {
 		if(isAllCampiRiempiti())
 		{	
 			InizializzaValuesConferenza();			
-			if(isConferenzaIdonea() && isOrarioCorretto())
-			{
+			if(isConferenzaIdonea() && isOrarioCorretto())	{
 				MemorizzaOrganizzatoriEPubblicitàInArray(frameHome);	
 			}
-			else
-			{
+			else{
 				JOptionPane.showMessageDialog(null,"Date NON conformi!","ERROR:411", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
+	
 
 	private void MemorizzaOrganizzatoriEPubblicitàInArray(JFrame frameHome) {
 		ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali = new ArrayList<Organizzatore_Locale>();
@@ -654,6 +664,7 @@ public class CreazioneConferenza {
 		controller.vediCreazioneProgramma(frame, frameHome, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 	}
 
+	
 	private void InizializzaValuesConferenza() {
 		sedeSessione = new Sede();
 		sedeSessione.setNomeSede(enumeraSede.getSelectedItem().toString());		
@@ -667,6 +678,7 @@ public class CreazioneConferenza {
 		conferenzaCreata.setDataFine(dateTimeFine);
 	}
 
+	
 	private void InizializzaPubblicità(ArrayList<Pubblicità> listaPubblicità) {
 		
 		for(int count = 0; count < model.getRowCount(); count++){
@@ -683,6 +695,7 @@ public class CreazioneConferenza {
 			listaPubblicità.add(pubblicità);					
 		}
 	}
+	
 
 	private void InizializzaOrganizzatoriScientifici(ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici) {
 		for(int count = 0; count < modelS.getRowCount(); count++){
@@ -691,6 +704,7 @@ public class CreazioneConferenza {
 			listaOrganizzatoriScientifici.add(organizzatoreScientifico);
 		 }
 	}
+	
 
 	private void InizializzaOrganizzatorilocali(ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali) {		
 		for(int count = 0; count < modelL.getRowCount() ; count++){
@@ -699,6 +713,7 @@ public class CreazioneConferenza {
 			 listaOrganizzatoriLocali.add(organizzatoreLocale);
 		}
 	}
+	
 
 	private Boolean isOrarioCorretto() {
 		if(dateTimeInizio.before(dateTimeFine) || dateTimeInizio.equals(dateTimeFine))
@@ -709,6 +724,7 @@ public class CreazioneConferenza {
 		return false;
 	}
 
+
 	private Boolean isConferenzaIdonea() {
 		if(!(controller.ottieniConferenzaConflitto(conferenzaCreata.getDataInizio(),conferenzaCreata.getDataFine(),sedeSessione.getNomeSede()).isEmpty()))
 		{
@@ -717,6 +733,7 @@ public class CreazioneConferenza {
 		}
 		return true;
 	}
+	
 
 	private void CastaStringToDataFine() {
 		dateTimeFine = new Date();
@@ -726,6 +743,7 @@ public class CreazioneConferenza {
 			e1.printStackTrace();
 		}
 	}
+	
 
 	private void CastaStringToDataInizio() {
 		dateTimeInizio = new Date();
@@ -736,6 +754,7 @@ public class CreazioneConferenza {
 		}
 	}
 
+	
 	private Boolean isAllCampiRiempiti() {
 		if(textFieldTitolo.getText().isEmpty() || dateInizioField.getText().isEmpty() || dateFineField.getText().isEmpty()
 				   || modelL.getRowCount() == 0 || modelS.getRowCount() == 0)	

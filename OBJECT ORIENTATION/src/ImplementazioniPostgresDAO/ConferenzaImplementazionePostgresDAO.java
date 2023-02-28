@@ -95,14 +95,8 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 	public void commitCreateDB(Conferenza conferenzaCreata, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
 		
 		PreparedStatement estraiCodice;
-		PreparedStatement riempiConferenza;
-		PreparedStatement riempiPubblicità;
-		PreparedStatement riempiOrganizzare_S;
-		PreparedStatement riempiOrganizzare_L;
+
 		try {
-			
-			
-			//TABELLA CONFERENZA
 			//estraggo il codice conferenza più alto e lo incremento così da poterlo usare per la nuova conferenza
 			estraiCodice = connection.prepareStatement("SELECT Max(CodConferenza) FROM CONFERENZA LIMIT 1;");
 			ResultSet rsCodConferenza = estraiCodice.executeQuery();
@@ -110,13 +104,48 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 			while(rsCodConferenza.next())
 				conferenzaCreata.setCodConferenza(rsCodConferenza.getInt(1) + 1);
 			
-			SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+			RiempiAllTabelle(conferenzaCreata, listaProgrammi, listaPubblicità);
+
+	
+		connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void RiempiAllTabelle(Conferenza conferenzaCreata, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
+		InserisciConferenza(conferenzaCreata);	
+		RiempiTabellaPontePubbblicità(listaPubblicità, conferenzaCreata);	
+		RiempiTabellaPonteOrganizzare_S(conferenzaCreata);	
+		RiempiTabellaPonteOrganizzare_L(conferenzaCreata);
+		RiempiTabellaProgramma(listaProgrammi, conferenzaCreata);			
+		RiempiTabellaIntervallo(listaProgrammi);			
+		RiempiTabellaSessioni(listaProgrammi);		
+		RiempiTabellaEvento_Sociale(listaProgrammi);
+	}
+
+
+	private void InserisciConferenza(Conferenza conferenzaCreata) {
+		PreparedStatement riempiConferenza;
+		InserisciConferenza(conferenzaCreata);
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
 			riempiConferenza = connection.prepareStatement("INSERT INTO CONFERENZA(CodConferenza, TitoloConferenza, DataInizio, DataFine, Descrizione, NomeSede)"
 					+ "VALUES("+conferenzaCreata.getCodConferenza()+",'"+conferenzaCreata.getTitoloConferenza()+"','"+sf.format(conferenzaCreata.getDataInizio())+"',"
 					+ "'"+sf.format(conferenzaCreata.getDataFine())+"','"+conferenzaCreata.getDescrizione()+"','"+conferenzaCreata.sedeOspitante.getNomeSede().replace("'", "''")+"');\r\n");
-			
 			riempiConferenza.executeUpdate();;
-			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+
+	}
+
+
+	private void RiempiTabellaPontePubbblicità(ArrayList<Pubblicità> listaPubblicità, Conferenza conferenzaCreata) {
+		PreparedStatement riempiPubblicità;
+		try {	
 			//TABELLA PONTE PUBBLICITA'
 			for(Pubblicità p: listaPubblicità)
 			{
@@ -124,8 +153,16 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 						+ "SELECT PartitaIva,"+conferenzaCreata.getCodConferenza()+","+p.getSpesa()+" FROM SPONSOR WHERE NomeAzienda = '"+p.getSponsor().getNomeAzienda()+"';");
 				riempiPubblicità.executeUpdate();
 			}	
-			
-					
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+
+	private void RiempiTabellaPonteOrganizzare_S(Conferenza conferenzaCreata) {
+		
+		PreparedStatement riempiOrganizzare_S;
+		try {	
 			//TABELLA PONTE ORGANIZZARE_S
 			for(Organizzatore_Scientifico s: conferenzaCreata.getOrganizzatoriScientifici())
 			{
@@ -133,8 +170,15 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 						+ "VALUES("+conferenzaCreata.getCodConferenza()+", '"+s.getEmail()+"')");
 				riempiOrganizzare_S.executeUpdate();
 			}
-			
-			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void RiempiTabellaPonteOrganizzare_L(Conferenza conferenzaCreata) {
+		
+		PreparedStatement riempiOrganizzare_L;
+		try {	
 			//TABELLA PONTE ORGANIZZARE_L
 			for(Organizzatore_Locale l: conferenzaCreata.getOrganizzatoriLocali())
 			{
@@ -142,21 +186,9 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 						+ "VALUES("+conferenzaCreata.getCodConferenza()+", '"+l.getEmail()+"');");
 				riempiOrganizzare_L.executeUpdate();
 			}
-			
-			RiempiTabellaProgramma(listaProgrammi, conferenzaCreata);
-			
-			RiempiTabellaIntervallo(listaProgrammi);
-			
-			RiempiTabellaSessioni(listaProgrammi);
-			
-			RiempiTabellaEvento_Sociale(listaProgrammi);
-			
-			
-		connection.close();
-		} catch (SQLException e) {
+		}catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 
@@ -195,7 +227,6 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		PreparedStatement riempiSessione;
 		
 		try {
-			//TABELLA SESSIONE
 			//estraggo il codice Sessione più alto e lo incremento così da poterlo usare per la nuova conferenza
 			estraiCodice = connection.prepareStatement("SELECT Max(CodSessione) FROM SESSIONE LIMIT 1;");
 			ResultSet rsCodSessione = estraiCodice.executeQuery();
@@ -369,8 +400,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		ArrayList<Integer> numeroKS = new ArrayList<Integer>();
 		
 		PreparedStatement leggiIstituzioni;
-		try {	
-				
+		try {			
 				if(!(mese.isEmpty()))
 				{
 					leggiIstituzioni = connection.prepareStatement(
@@ -389,8 +419,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 						numeroKS.add(rs.getInt(2));
 					}
 					rs.close();
-				}
-				
+				}				
 				else
 				{
 					leggiIstituzioni = connection.prepareStatement(
@@ -409,15 +438,13 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 						numeroKS.add(rs.getInt(2));
 					}
 					rs.close();
-				}
-				
+				}				
 			connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
-			return numeroKS;
 		
+			return numeroKS;
 	}
 
 
@@ -477,23 +504,14 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
-		
-			p.sessioniProgrammate.addAll(listaSessioni);
-		
-
-			p.intervalliProgrammati.addAll(listaIntervalli);
-		
-
-			p.eventiProgrammati.addAll(listaEventi);
-		
+		p.sessioniProgrammate.addAll(listaSessioni);	
+		p.intervalliProgrammati.addAll(listaIntervalli);
+		p.eventiProgrammati.addAll(listaEventi);
 		prog.add(p);
 		updateConferenza.programmiConferenza.add(p);
 		
-		RiempiTabellaIntervallo(prog);
-		
-		RiempiTabellaSessioni(prog);
-		
+		RiempiTabellaIntervallo(prog);	
+		RiempiTabellaSessioni(prog);	
 		RiempiTabellaEvento_Sociale(prog);
 		
 		return CodProgrammaCreato;		
@@ -545,7 +563,6 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		ArrayList<String> listaAnni = new ArrayList<String>();
 		
 		try {
-			//TABELLA PROGRAMMA
 			//estraggo il codice Programma più alto e lo incremento così da poterlo usare per la nuova conferenza
 			estraiAnni = connection.prepareStatement("SELECT DISTINCT extract(year from DataInizio) as anno FROM CONFERENZA");
 			ResultSet rsAnni = estraiAnni.executeQuery();

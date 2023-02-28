@@ -50,19 +50,14 @@ public class SedeImplementazionePostgresDAO implements SedeDAO{
 		ArrayList<String> listaLocazioni = new ArrayList<String>();
 		PreparedStatement leggiLocazioni;
 		String nomeSede = sede.getNomeSede();
-		
-		if(nomeSede.contains("'"))
-			nomeSede = nomeSede.replace("'","''");
 
-			
-			
 		try {
 			leggiLocazioni = connection.prepareStatement(
 					"SELECT nomeLocazione FROM LOCAZIONE \r\n"
-				  + "WHERE nomeSede = '"+nomeSede+"';");
-		ResultSet rs = leggiLocazioni.executeQuery();
-		while (rs.next()) {	
-			listaLocazioni.add(rs.getString("nomeLocazione"));
+				  + "WHERE nomeSede = '"+nomeSede.replace("'","''")+"';");
+			ResultSet rs = leggiLocazioni.executeQuery();
+			while (rs.next()) {	
+				listaLocazioni.add(rs.getString("nomeLocazione"));
 		}
 		rs.close();
 		connection.close();

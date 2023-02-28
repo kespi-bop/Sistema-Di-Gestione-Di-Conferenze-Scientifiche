@@ -36,6 +36,8 @@ public class RiepilogoKeynoteSpeaker {
 	private JLabel AnnoLabel;
 	private JButton aggiornaListaConferenzeButton_1;
 	private JComboBox<String> enumeraMese;
+	private ArrayList<Ente> istituzioni = new ArrayList<Ente>();
+	private ArrayList<Integer> KSperEnte;
 	private JLabel sedeLabel;
 	private JPanel panel;
 
@@ -44,9 +46,6 @@ public class RiepilogoKeynoteSpeaker {
 		initialize(controller, frameHome);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize(final Controller controller, final JFrame frameHome) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
@@ -58,15 +57,14 @@ public class RiepilogoKeynoteSpeaker {
 		panel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 0, 513, 408);
-		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		frame.getContentPane().add(panel);
 		
 		riepilogoKSPanel = new JScrollPane();
 		riepilogoKSPanel.setBounds(47, 153, 425, 185);
-		panel.add(riepilogoKSPanel);
 		riepilogoKSPanel.setBorder(new LineBorder(new Color(0, 0, 0), 0));
 		riepilogoKSPanel.setBackground(new Color(0, 0, 0));
-		
+		panel.add(riepilogoKSPanel);
 
 		JComboBox<String> inserisciAnnoField = new JComboBox<String>();
 		inserisciAnnoField.setForeground(Color.WHITE);
@@ -104,26 +102,19 @@ public class RiepilogoKeynoteSpeaker {
 		table.getColumnModel().getColumn(0).setResizable(false);
 		table.getColumnModel().getColumn(1).setResizable(false);
 		table.setForeground(Color.WHITE);
-		riepilogoKSPanel.setViewportView(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		table.setBackground(new Color(32, 33, 35));
+		riepilogoKSPanel.setViewportView(table);		
+		DefaultTableModel model = (DefaultTableModel)table.getModel();
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setBounds(486, 11, 17, 21);
-		panel.add(exitLabel);
-		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		exitLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frameHome.setEnabled(true);
-				frameHome.setVisible(true);
-				frame.dispose();		
-			}
-		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
+		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		panel.add(exitLabel);
 		
 		//trascino la finestra undecorated
 		dragFrame = new JLabel("");
@@ -138,49 +129,21 @@ public class RiepilogoKeynoteSpeaker {
 		
 		JButton backToHomeButton = new JButton("back");
 		backToHomeButton.setBounds(47, 349, 96, 33);
-		panel.add(backToHomeButton);
-		backToHomeButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(frame, frameHome);
-			}
-		});
+
 		backToHomeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		backToHomeButton.setForeground(Color.WHITE);
 		backToHomeButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		backToHomeButton.setFocusPainted(false);
 		backToHomeButton.setBorder(null);
 		backToHomeButton.setBackground(new Color(126, 87, 194));
+		panel.add(backToHomeButton);
 		
 		AnnoLabel = new JLabel("Anno");
 		AnnoLabel.setBounds(47, 110, 66, 14);
 		panel.add(AnnoLabel);
 		AnnoLabel.setForeground(new Color(57, 113, 177));
 		AnnoLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		
 		aggiornaListaConferenzeButton_1 = new JButton("aggiorna");
-		aggiornaListaConferenzeButton_1.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-					
-				DefaultTableModel dtm = (DefaultTableModel) table.getModel();
-				dtm.setRowCount(0);
-					
-				DefaultTableModel model = (DefaultTableModel)table.getModel();
-				ArrayList<Ente> istituzioni = new ArrayList<Ente>();
-				ArrayList<Integer> KSperEnte = controller.ottieniRiepilogoKS(istituzioni, enumeraMese.getSelectedItem().toString(), inserisciAnnoField.getSelectedItem().toString());
-				Integer sommaKS = 0;
-			
-				for(Integer i: KSperEnte)
-					sommaKS = sommaKS + i;
-				for(int i = 0; i < istituzioni.size(); i++)
-				{
-					double percentuale = ((double)KSperEnte.get(i) * 100.00)/(double)sommaKS;
-					String percentualeString  = String.format("%.2f%%", percentuale);
-					model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentualeString});
-				}
-			}
-		});
 		aggiornaListaConferenzeButton_1.setBounds(368, 103, 88, 26);
 		panel.add(aggiornaListaConferenzeButton_1);
 		aggiornaListaConferenzeButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -224,6 +187,50 @@ public class RiepilogoKeynoteSpeaker {
 		frame.setBackground(new Color(32, 33, 35));
 		frame.setBounds(100, 100, 513, 408);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		
+		
+		
+		
+		
+		//PULSANTI & LISTNERS
+		
+		
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.tornaAllaHome(frame, frameHome);	
+			}
+		});
+
+		backToHomeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.tornaAllaHome(frame, frameHome);
+			}
+		});
+
+		aggiornaListaConferenzeButton_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+					
+				Integer sommaKS = 0;		
+				model.setRowCount(0);
+				KSperEnte = controller.ottieniRiepilogoKS(istituzioni, enumeraMese.getSelectedItem().toString(), inserisciAnnoField.getSelectedItem().toString());
+				
+				for(Integer i: KSperEnte)
+					sommaKS = sommaKS + i;
+				
+				for(int i = 0; i < istituzioni.size(); i++)
+				{
+					double percentuale = ((double)KSperEnte.get(i) * 100.00)/(double)sommaKS;
+					String percentualeString  = String.format("%.2f%%", percentuale);
+					model.addRow(new Object[] {istituzioni.get(i).getNomeIstituazione(),percentualeString});
+				}
+			}
+		});
+
+
 	}
 }
 

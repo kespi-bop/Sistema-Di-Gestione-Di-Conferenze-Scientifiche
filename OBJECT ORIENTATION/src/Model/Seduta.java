@@ -4,13 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Seduta {
+	SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
 	private Integer codSeduta;
 	private Date orarioInizio;
 	private Date orarioFine;
-	SimpleDateFormat tipoTempo = new SimpleDateFormat("HH:mm");
 	private String titolo;
 	public Programma sedutaInProgramma;//Chiave esterna
-	public Partecipante KSpresente = null;//Chiave esterna 
 	public Locazione locazione = null;
 	
 	//Costruttori	

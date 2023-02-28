@@ -172,7 +172,7 @@ public class CancellaConferenza {
 	}
 
 	
-	//RIEMPIE LA JTABLE
+	//METODI IMPLEMENTATIVI
 	private void RiempiTabellaConferenze(ArrayList<Conferenza> listaConferenze) {		
 		//riempio il model che mostrerà i valori sullo schermo
 		for(int i = 0;i<listaConferenze.size(); i++)

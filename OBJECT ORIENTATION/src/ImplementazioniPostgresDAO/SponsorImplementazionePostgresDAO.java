@@ -22,8 +22,7 @@ private Connection connection;
 	}	
 	
 	@Override
-	public ArrayList<String> getListaSponsorDB(){
-		
+	public ArrayList<String> getListaSponsorDB(){	
 		ArrayList<String> listaSponsor = new ArrayList<String>();
 		PreparedStatement leggiSponsor;
 		try {

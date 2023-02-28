@@ -101,6 +101,7 @@ public class AggiuntaProgrammi {
 	private ArrayList<Sessione> listaSessioni = new ArrayList<Sessione>();
 	private ArrayList<Evento_Sociale> listaEventi = new ArrayList<Evento_Sociale>();
 	private ArrayList<Intervallo> listaIntervalli = new ArrayList<Intervallo>();
+	private Controller controller;
 	private Image imgExit;
 
 	
@@ -110,10 +111,10 @@ public class AggiuntaProgrammi {
 		initialize(controller, frameCreazioneConferenza, frameHomeOrganizzatore, conferenzaCreata, listaOrganizzatoriLocali, listaOrganizzatoriScientifici, listaPubblicità);
 	}
 
-	private void initialize(final Controller controller, final JFrame frameCreazioneConferenza, final JFrame frameHome,
-			 				final Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
+	private void initialize( Controller controller,  JFrame frameCreazioneConferenza,  JFrame frameHome,
+			 				 Conferenza conferenzaCreata, ArrayList<Organizzatore_Locale> listaOrganizzatoriLocali,
 			 				ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici, ArrayList<Pubblicità> listaPubblicità) {
-		
+		this.controller = controller;
 		//SWING COMPONENTS
 		conferenzaCreata.setOrganizzatoriLocali(listaOrganizzatoriLocali);
 		conferenzaCreata.setOrganizzatoriScientifici(listaOrganizzatoriScientifici);
@@ -160,13 +161,13 @@ public class AggiuntaProgrammi {
 		panel.add(scrollPane);
 		
 		dataProgrammaLabel = new JLabel("Data");
-		dataProgrammaLabel.setBounds(74, 78, 48, 14);
+		dataProgrammaLabel.setBounds(74, 86, 48, 14);
 		dataProgrammaLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		dataProgrammaLabel.setForeground(new Color(57, 113, 177));
 		dataProgrammaLabel.setBackground(new Color(57, 113, 177));
 		
 		orarioInizioLabel = new JLabel("Orario inizio");
-		orarioInizioLabel.setBounds(74, 121, 66, 14);
+		orarioInizioLabel.setBounds(74, 123, 66, 14);
 		orarioInizioLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		orarioInizioLabel.setForeground(new Color(57, 113, 177));
 		
@@ -185,10 +186,11 @@ public class AggiuntaProgrammi {
 		descrizioneLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		descrizioneLabel.setForeground(new Color(57, 113, 177));
 		
+		formattedTextFieldData.setDisabledTextColor(new Color(255, 255, 255));	
 		formattedTextFieldData.setForeground(new Color(255, 255, 255));
 		formattedTextFieldData.setBackground(new Color(32, 33, 35));
 		formattedTextFieldData.setBorder(null);
-		formattedTextFieldData.setBounds(150, 80, 154, 20);
+		formattedTextFieldData.setBounds(150, 87, 154, 20);
 		panel.add(formattedTextFieldData);
 		
 		orarioFine = new JTextField();
@@ -202,7 +204,7 @@ public class AggiuntaProgrammi {
 		orarioFine.setColumns(10);
 		
 		orarioInizio = new JTextField();
-		orarioInizio.setBounds(150, 120, 154, 20);
+		orarioInizio.setBounds(150, 124, 154, 20);
 		orarioInizio.setSelectionColor(new Color(126, 87, 194));
 		orarioInizio.setForeground(Color.WHITE);
 		orarioInizio.setDisabledTextColor(Color.WHITE);
@@ -262,7 +264,7 @@ public class AggiuntaProgrammi {
 		panel.add(signature);
 		
 		separator_1_1 = new JSeparator();
-		separator_1_1.setBounds(150, 101, 154, 8);
+		separator_1_1.setBounds(150, 109, 154, 8);
 		panel.add(separator_1_1);
 		
 		separator_1_2 = new JSeparator();
@@ -277,7 +279,7 @@ public class AggiuntaProgrammi {
 		comboBoxLocazione.setBackground(new Color(32, 33, 35));
 		comboBoxLocazione.setBounds(150, 185, 154, 21);
 		panel.add(comboBoxLocazione);
-		RiempiComboBoxLocazione(controller, conferenzaCreata, comboBoxLocazione);
+		RiempiComboBoxLocazione(conferenzaCreata, comboBoxLocazione);
 		
 		lblTipointervallo = new JLabel("Intervallo");
 		lblTipointervallo.setForeground(new Color(57, 113, 177));
@@ -351,7 +353,7 @@ public class AggiuntaProgrammi {
 		comboBoxKS.setBackground(new Color(32, 33, 35));
 		comboBoxKS.setBounds(150, 218, 154, 21);
 		panel.add(comboBoxKS);
-		RiempiComboBoxKS(controller, comboBoxKS);
+		RiempiComboBoxKS(comboBoxKS);
 		
 		comboBoxChair = new JComboBox<String>();	
 		comboBoxChair.setForeground(Color.WHITE);
@@ -364,21 +366,22 @@ public class AggiuntaProgrammi {
 		RiempiComboBoxChair(listaOrganizzatoriScientifici, comboBoxChair);
 		
 		textFieldTitolo = new JFormattedTextField((Format) null);
+		textFieldTitolo.setDisabledTextColor(new Color(255, 255, 255));
 		textFieldTitolo.setForeground(Color.WHITE);
 		textFieldTitolo.setBorder(null);
 		textFieldTitolo.setBackground(new Color(32, 33, 35));
-		textFieldTitolo.setBounds(150, 27, 154, 20);
+		textFieldTitolo.setBounds(150, 49, 154, 20);
 		panel.add(textFieldTitolo);
 		
 		titoloLabel = new JLabel("Titolo*");
 		titoloLabel.setForeground(new Color(57, 113, 177));
 		titoloLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		titoloLabel.setBackground(new Color(57, 113, 177));
-		titoloLabel.setBounds(74, 30, 48, 14);
+		titoloLabel.setBounds(74, 49, 48, 14);
 		panel.add(titoloLabel);
 		
 		separator_1_1_1 = new JSeparator();
-		separator_1_1_1.setBounds(150, 48, 154, 8);
+		separator_1_1_1.setBounds(150, 71, 154, 8);
 		panel.add(separator_1_1_1);
 			
 		aggiungiSessioneButton = new JButton("aggiungi sessione");
@@ -394,13 +397,13 @@ public class AggiuntaProgrammi {
 		lblListaDeiProgrammi = new JLabel("Lista dei programmi aggiunti alla conferenza");
 		lblListaDeiProgrammi.setForeground(new Color(70, 71, 74));
 		lblListaDeiProgrammi.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblListaDeiProgrammi.setBounds(29, 759, 497, 14);
+		lblListaDeiProgrammi.setBounds(29, 754, 497, 14);
 		panel.add(lblListaDeiProgrammi);
 		
 		lblFormatoDataYyyymmdd = new JLabel("yyyy-MM-dd");
 		lblFormatoDataYyyymmdd.setForeground(new Color(71, 72, 75));
 		lblFormatoDataYyyymmdd.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd.setBounds(150, 56, 174, 14);
+		lblFormatoDataYyyymmdd.setBounds(150, 74, 174, 14);
 		panel.add(lblFormatoDataYyyymmdd);
 		
 		lblFormatoDataYyyymmdd_1_1 = new JLabel("(HH:mm)");
@@ -412,7 +415,7 @@ public class AggiuntaProgrammi {
 		lblFormatoDataYyyymmdd_1_1_1 = new JLabel("(HH:mm)");
 		lblFormatoDataYyyymmdd_1_1_1.setForeground(new Color(71, 72, 75));
 		lblFormatoDataYyyymmdd_1_1_1.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 120, 174, 14);
+		lblFormatoDataYyyymmdd_1_1_1.setBounds(25, 123, 174, 14);
 		panel.add(lblFormatoDataYyyymmdd_1_1_1);
 		
 		keynoteSpekaerLabel = new JLabel("Keynote*");
@@ -422,7 +425,7 @@ public class AggiuntaProgrammi {
 		panel.add(keynoteSpekaerLabel);
 		
 		separator_1_2_1 = new JSeparator();
-		separator_1_2_1.setBounds(150, 141, 154, 2);
+		separator_1_2_1.setBounds(150, 145, 154, 2);
 		panel.add(separator_1_2_1);
 		
 		lblChair = new JLabel("Chair*");
@@ -443,7 +446,7 @@ public class AggiuntaProgrammi {
 		
 		scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBorder(new LineBorder(new Color(130, 135, 144), 0));
-		scrollPane_2.setBounds(29, 624, 131, 124);
+		scrollPane_2.setBounds(29, 627, 208, 124);
 		panel.add(scrollPane_2);
 		
 		tableProgrammiAggiunti = new JTable();
@@ -476,7 +479,7 @@ public class AggiuntaProgrammi {
 		btnAggiungiProgramma.setFocusPainted(false);
 		btnAggiungiProgramma.setBorder(null);
 		btnAggiungiProgramma.setBackground(new Color(126, 87, 194));
-		btnAggiungiProgramma.setBounds(39, 805, 165, 36);
+		btnAggiungiProgramma.setBounds(49, 779, 165, 36);
 		panel.add(btnAggiungiProgramma);
 		
 		
@@ -508,8 +511,7 @@ public class AggiuntaProgrammi {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(isDataInserita())	
-					AggiungiProgramma(conferenzaCreata, formattedTextFieldData.getText(), tableSessioniAggiunte.getRowCount(), tableProgrammiAggiunti.getRowCount());	
-		
+					AggiungiProgramma(conferenzaCreata, tableSessioniAggiunte.getRowCount(), tableProgrammiAggiunti.getRowCount());	
 			}
 		});
 		
@@ -517,14 +519,14 @@ public class AggiuntaProgrammi {
 		creaConferenzaButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CommitCreazione(controller, conferenzaCreata, frameCreazioneConferenza, frameHome, listaProgrammi, listaPubblicità);							
+				CommitCreazione(conferenzaCreata, frameCreazioneConferenza, frameHome, listaProgrammi, listaPubblicità);							
 			}
 		});
 				
 		aggiungiIntervalloButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {		
-				CreaIntervallo(controller, conferenzaCreata, formattedTextFieldData.getText(), comboBoxIntervallo.getSelectedItem().toString());
+				CreaIntervallo(conferenzaCreata, comboBoxIntervallo.getSelectedItem().toString());
 			}
 		});
 		
@@ -532,7 +534,7 @@ public class AggiuntaProgrammi {
 		aggiungiEventoButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreaEvento(controller, formattedTextFieldData.getText(), conferenzaCreata, comboBoxEvento.getSelectedItem().toString());
+				CreaEvento(conferenzaCreata, comboBoxEvento.getSelectedItem().toString());
 			}
 		});
 		
@@ -540,8 +542,7 @@ public class AggiuntaProgrammi {
 		aggiungiSessioneButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreaSessione(controller, conferenzaCreata, formattedTextFieldData.getText(), comboBoxLocazione.getSelectedItem().toString(), comboBoxKS.getSelectedItem().toString(), 
-						comboBoxChair.getSelectedItem().toString(), textFieldTitolo.getText(), editorPaneDescrizione.getText());	
+				CreaSessione(conferenzaCreata, textFieldTitolo.getText(), editorPaneDescrizione.getText());	
 			}
 		});
 		
@@ -565,38 +566,43 @@ public class AggiuntaProgrammi {
 	}
 
 	
-	private void CreaSessione(Controller controller, Conferenza updateConferenza, String dataInserita, String locazione, String keynoteS, String Chair, String titolo, String descrizione) {
+	private void CreaSessione( Conferenza updateConferenza, String titolo, String descrizione) {
 		if(isDataInserita())
 		{
-			CastaDataeOrario(controller, dataInserita);
-			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioSessioneIdoneo(locazione))
+			CastaDataeOrario();
+			if(isNuovaDataIdoneaAllaConferenza(updateConferenza) && isOrarioSessioneIdoneo(comboBoxLocazione.getSelectedItem().toString()))
 			{
-				if(isParametriCorretti(dataInserita, updateConferenza) && isTitoloInserito(titolo))
-					IstanziaSessione(controller, locazione, keynoteS, Chair, titolo, descrizione);
+				if(isParametriCorretti(updateConferenza) && isTitoloInserito(titolo))
+					IstanziaSessione(titolo, descrizione);
 			}
 		}	
 	}
 
-	private void IstanziaSessione(Controller controller, String locazione, String keynoteS, String chair, String titolo, String descrizione) {
+	
+	private void IstanziaSessione(String titolo, String descrizione) {
 		try{
-			AggiungiSessioneAllaTable(titolo, locazione, keynoteS, chair, descrizione);
-			IstanziaSessioneEdAggiungiAdArray(controller, titolo, locazione, keynoteS, chair, descrizione);
+			AggiungiSessioneAllaTable(titolo, descrizione);
+			IstanziaSessioneEdAggiungiAdArray(titolo, descrizione);
 		}
 		catch(NullPointerException exception){
 			JOptionPane.showMessageDialog(null,"Non sono presenti altri chair!","ERROR:407", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	private void IstanziaSessioneEdAggiungiAdArray(Controller controller, String titolo, String locazione, String keynoteS, String chair, String descrizione) {
-		Sessione sessioneNuova = controller.creaSessionedaFrame(titolo, timeInizio, timeFine, locazione, keynoteS, chair, descrizione);
+	
+	private void IstanziaSessioneEdAggiungiAdArray(String titolo, String descrizione) {
+		Sessione sessioneNuova = controller.creaSessionedaFrame(titolo, timeInizio, timeFine, comboBoxLocazione.getSelectedItem().toString(), 
+				comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), descrizione);
 		listaSedute.add(sessioneNuova);
 	}
 
-	private void AggiungiSessioneAllaTable(String titolo, String locazione, String keynoteS, String chair, String descrizione) {
+	
+	private void AggiungiSessioneAllaTable(String titolo, String descrizione) {
 		DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
-		model.addRow(new Object[] {titolo, orarioInizio.getText(), orarioFine.getText(), locazione, 
-									keynoteS, chair, descrizione});
+		model.addRow(new Object[] {titolo, orarioInizio.getText(), orarioFine.getText(), comboBoxLocazione.getSelectedItem().toString(), 
+						comboBoxKS.getSelectedItem().toString(), comboBoxChair.getSelectedItem().toString(), descrizione});
 	}
+	
 
 	private boolean isTitoloInserito(String titolo) {
 		if(titolo.isEmpty())
@@ -606,56 +612,20 @@ public class AggiuntaProgrammi {
 		}
 		return true;
 	}
-
-	private boolean isOrarioSessioneIdoneo(String ComboBoxLocazioneValue) {
-		//controllo se non ci sono altre sessioni in corso
-		if(tableSessioniAggiunte.getRowCount() != 0)
-		{
-			for(Seduta s: listaSedute)
-			{			
-				if(!(s instanceof Sessione))
-				{
-					if(isNotIdoneaSeduta(s))
-						return false;
-				}											
-				else
-				{
-					if(isNotIdoneaSessione(s, ComboBoxLocazioneValue))
-						return false;	
-				}
-							
-			}
-		}
-		return true;
-	}
-
-	private boolean isNotIdoneaSessione(Seduta s, String comboBoxLocazioneValue) {
-		if( (s.getLocazione().getNomeLocazione().compareTo(comboBoxLocazioneValue)) == 0 )
-		{
-			if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
-					|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
-					|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
-					|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
-				{
-					JOptionPane.showMessageDialog(null,"In questa locazione è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
-					return true;						
-				}
-		}
-		return false;
-	}
-
-	protected void CreaEvento(Controller controller, String dataInserita, Conferenza conferenzaCreata, String ComboBoxEventoValue) {
+	
+	
+	private void CreaEvento(Conferenza conferenzaCreata, String ComboBoxEventoValue) {
 		if(isDataInserita())
 		{
-			CastaDataeOrario(controller, dataInserita);
+			CastaDataeOrario();
 			if(isNuovaDataIdoneaAllaConferenza(conferenzaCreata) && isOrarioIntervalloOrEventoIdoneo())
 			{
-				if(isParametriCorretti(dataInserita, conferenzaCreata))
-					IstanziaEvento(ComboBoxEventoValue);
-		
+				if(isParametriCorretti(conferenzaCreata))
+					IstanziaEvento(ComboBoxEventoValue);	
 			}
 		}	
 	}
+	
 
 	private void IstanziaEvento(String comboBoxEventoValue) {
 		try{
@@ -666,6 +636,7 @@ public class AggiuntaProgrammi {
 		}
 	}
 
+	
 	private void IstanziaEventoAggiungiAdArraySedute(String comboBoxEventoValue) {
 		Evento_Sociale eventoNuovo = new Evento_Sociale();
 		eventoNuovo.setOrarioInizio(timeInizio);
@@ -674,24 +645,27 @@ public class AggiuntaProgrammi {
 		listaSedute.add(eventoNuovo);
 	}
 
+	
 	private void AggiungiEventoAllaTable(String comboBoxEventoValue) {
 		DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
 		model.addRow(new Object[] {comboBoxEventoValue, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
 	}
 
-	protected void CreaIntervallo(Controller controller, Conferenza conferenzaCreata, String dataInserita, String comboBoxIntervallo) {
+	
+	protected void CreaIntervallo(Conferenza conferenzaCreata, String comboBoxIntervallo) {
 		if(isDataInserita())
 		{
-			CastaDataeOrario(controller, dataInserita);
+			CastaDataeOrario();
 			if(isNuovaDataIdoneaAllaConferenza(conferenzaCreata) && isOrarioIntervalloOrEventoIdoneo())
 			{
-				if(isParametriCorretti(dataInserita, conferenzaCreata))			
+				if(isParametriCorretti(conferenzaCreata))			
 					IstanziaIntervallo(comboBoxIntervallo);				
 			}
 		}
 	
 	}
 
+	
 	private void IstanziaIntervallo(String comboBoxIntervallo) {
 		try{
 			AggiungiIntervalloAllaTable(comboBoxIntervallo);		
@@ -702,6 +676,7 @@ public class AggiuntaProgrammi {
 		}
 	}
 
+	
 	private void IstanziaIntervalloAggiungiAdArraySedute(String comboBoxIntervallo) {
 		Intervallo intervalloNuovo = new Intervallo();
 		intervalloNuovo.setOrarioInizio(timeInizio);
@@ -710,17 +685,20 @@ public class AggiuntaProgrammi {
 		listaSedute.add(intervalloNuovo);
 	}
 
+	
 	private void AggiungiIntervalloAllaTable(String comboBoxIntervallo) {
 		DefaultTableModel model = (DefaultTableModel)tableSessioniAggiunte.getModel();
 		model.addRow(new Object[] {comboBoxIntervallo, orarioInizio.getText(), orarioFine.getText(), null, null, null, null});
 	}
+	
 
-	private boolean isParametriCorretti(String dataInserita, Conferenza conferenzaCreata) {
-		if(isOrarioDataNOTEmpty(dataInserita) && isDataProgrammaInConferenza(conferenzaCreata) && isOrarioConforme())
+	private boolean isParametriCorretti(Conferenza conferenzaCreata) {
+		if(isOrarioDataNOTEmpty(formattedTextFieldData.getText()) && isDataProgrammaInConferenza(conferenzaCreata) && isOrarioConforme())
 			return true;
 		return false;
 	}
 
+	
 	private boolean isOrarioConforme() {
 		if(timeFine.before(timeInizio) || timeFine.equals(timeInizio))
 		{
@@ -730,6 +708,7 @@ public class AggiuntaProgrammi {
 		return true;
 	}
 
+	
 	private boolean isOrarioDataNOTEmpty(String dataInserita) {
 		if(orarioFine.getText().isEmpty() || orarioInizio.getText().isEmpty() || dataInserita.isEmpty())
 		{
@@ -738,6 +717,7 @@ public class AggiuntaProgrammi {
 		}
 		return true;
 	}
+	
 
 	private boolean isDataProgrammaInConferenza(Conferenza conferenzaCreata) {
 		CastaStringToData();
@@ -748,6 +728,7 @@ public class AggiuntaProgrammi {
 		}	
 		return true;
 	}
+	
 
 	private boolean isNuovaDataIdoneaAllaConferenza(Conferenza conferenzaCreata) {
 		for(Programma p: conferenzaCreata.programmiConferenza)
@@ -761,6 +742,7 @@ public class AggiuntaProgrammi {
 		}
 		return true;
 	}
+	
 
 	private boolean isOrarioIntervalloOrEventoIdoneo() {
 		if(tableSessioniAggiunte.getRowCount() != 0)
@@ -773,6 +755,7 @@ public class AggiuntaProgrammi {
 		}
 		return true;
 	}
+	
 
 	private boolean isNotIdoneaSeduta(Seduta s) {
 		if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
@@ -785,21 +768,24 @@ public class AggiuntaProgrammi {
 			}
 		return false;
 	}
+	
 
-	private void CastaDataeOrario(Controller controller, String dataInserita) {
+	private void CastaDataeOrario() {
 		dataProgramma = CastaStringToData();		
 		CastaStringToTime();
 	}
+	
 
 	private void CastaStringToTime() {
 		try {
 			timeFine = tipoTempo.parse(orarioFine.getText());	
 			timeInizio = tipoTempo.parse(orarioInizio.getText());
-		} catch (ParseException e1) {
+		}catch (ParseException e1){
 			System.out.println("Orario non conforme!");
 		}
 	}
 
+	
 	private Date CastaStringToData() {
 		try {
 			dataProgramma = format.parse(formattedTextFieldData.getText());
@@ -809,6 +795,7 @@ public class AggiuntaProgrammi {
 		return dataProgramma;
 	}
 
+	
 	protected void CastaOrariProgramma(String orarioIniziale, String orarioFinale) {
 		//casto l'orario iniziale e finale a DataTime per poterli confrontare			
 		try {
@@ -819,6 +806,7 @@ public class AggiuntaProgrammi {
 		}	
 	}
 
+	
 	protected void CastaDataProgramma(String data) {
 		//casto la data inserita al tipo Date di java
 		try {
@@ -828,34 +816,34 @@ public class AggiuntaProgrammi {
 		}
 	}
 
-	private void RiempiComboBoxKS(Controller controller, JComboBox<String> comboBoxKS) {
+	
+	private void RiempiComboBoxKS(JComboBox<String> comboBoxKS) {
 		//riempio la ComboBox chiedendo al DB quali sono le locazioni della sede passata
-				for(String s: controller.ottieniAllKS())
-				{
-					comboBoxKS.addItem(s);
-				}
+		for(String s: controller.ottieniAllKS()){
+			comboBoxKS.addItem(s);
+		}
 	}
+	
 
 	private void RiempiComboBoxChair(ArrayList<Organizzatore_Scientifico> listaOrganizzatoriScientifici,JComboBox<String> comboBoxChair) {
 		//riempio la ComboBox con i possibili chair
-				for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici)
-				{
+				for(Organizzatore_Scientifico chair: listaOrganizzatoriScientifici){
 						comboBoxChair.addItem(chair.getEmail().toString());
 				}
 	}
 
-	private void RiempiComboBoxLocazione(Controller controller, Conferenza conferenzaCreata, JComboBox<String> comboBoxKS) {
+	
+	private void RiempiComboBoxLocazione(Conferenza conferenzaCreata, JComboBox<String> comboBoxKS) {
 		//riempio la ComboBox chiedendo al DB quali i possibili KS
-				for(String ks: controller.ottieniLocazioni(conferenzaCreata.sedeOspitante))
-				{
-					comboBoxLocazione.addItem(ks);
-						
-				}
+		for(String ks: controller.ottieniLocazioni(conferenzaCreata.sedeOspitante)){
+			comboBoxLocazione.addItem(ks);
+		}
 	}
 
-	private void AggiungiProgramma(Conferenza conferenzaCreata, String dataTesto, int numeroRigheSessioni, int numeroRigheProgrammi) {
+	
+	private void AggiungiProgramma(Conferenza conferenzaCreata,int numeroRigheSessioni, int numeroRigheProgrammi) {
 		
-		if(isNuovoProgrammaIdoneo(conferenzaCreata, dataTesto, numeroRigheProgrammi, numeroRigheSessioni))
+		if(isNuovoProgrammaIdoneo(conferenzaCreata, numeroRigheProgrammi, numeroRigheSessioni) && isParametriCorretti(conferenzaCreata))
 		{
 			IstanziaSeduteSpecializzate();
 			IstanziaNuovoProgramma(listaProgrammi, programmaNuovo, listaSessioni, listaEventi, listaIntervalli);	
@@ -864,17 +852,21 @@ public class AggiuntaProgrammi {
 		}				
 	}
 
-	private boolean isNuovoProgrammaIdoneo(Conferenza conferenzaCreata, String dataTesto, int numeroRigheProgrammi, int numeroRigheSessioni) {
+	
+	private boolean isNuovoProgrammaIdoneo(Conferenza conferenzaCreata, int numeroRigheProgrammi, int numeroRigheSessioni) {
 
+		CastaStringToData();
 		//se tutti e tre i vincoli sono soddisfatti allora posso eseguire la creazione di nuove conferenze
-		return (isDataIdonea(conferenzaCreata, dataTesto)) && (isDataAppenaAggiuntaIdonea(numeroRigheProgrammi, listaProgrammi)) && isProgrammaConSedute(numeroRigheSessioni);
+		return (isDataIdonea(conferenzaCreata, formattedTextFieldData.getText())) && (isDataAppenaAggiuntaIdonea(numeroRigheProgrammi, listaProgrammi)) && isProgrammaConSedute(numeroRigheSessioni);
 	}
 
+	
 	private void RipulisciTabellaSessioni() {
 		//ripulisco la tabella
 		DefaultTableModel dtm = (DefaultTableModel) tableSessioniAggiunte.getModel();
 		dtm.setRowCount(0);
 	}
+	
 
 	private void RipulisciLeArrayList() {
 		//dopo aver aggiunto il programma rimuovo le ArrayList occupate
@@ -884,25 +876,13 @@ public class AggiuntaProgrammi {
 		listaSedute.removeAll(listaSedute);
 	}
 
-	
 
-	private void IstanziaNuovoProgramma(ArrayList<Programma> listaProgrammi, Programma programmaNuovo,
-			ArrayList<Sessione> listaSessioni, ArrayList<Evento_Sociale> listaEventi,
-			ArrayList<Intervallo> listaIntervalli) {
-
-		programmaNuovo = new Programma();
-		programmaNuovo.setDataProgramma(dataProgramma);
-		programmaNuovo.sessioniProgrammate = new ArrayList<Sessione>(listaSessioni);
-		programmaNuovo.eventiProgrammati = new ArrayList<Evento_Sociale>(listaEventi);
-		programmaNuovo.intervalliProgrammati = new ArrayList<Intervallo>(listaIntervalli);
-		listaProgrammi.add(programmaNuovo);
-		AggiungiProgrammaAllaTable(programmaNuovo);	
-	}
-	
 	private void AggiungiProgrammaAllaTable(Programma programmaNuovo) {
 		model = (DefaultTableModel)tableProgrammiAggiunti.getModel();
 		model.addRow(new Object[] {format.format(programmaNuovo.getDataProgramma())});
 	}
+	
+	
 
 	//IMPEDISCE DI CREARE CONFERENZE SENZA SESSIONI
 	private boolean isProgrammaConSedute(int rowCount) {
@@ -914,6 +894,7 @@ public class AggiuntaProgrammi {
 		return true;
 	}
 
+	
 	//IMPEDISCO DI CREARE PROGRAMMI CON LA STESSA DATA
 	private boolean isDataAppenaAggiuntaIdonea(int rowCount, ArrayList<Programma> listaProgrammi) {
 		if(rowCount != 0)
@@ -930,14 +911,16 @@ public class AggiuntaProgrammi {
 		}
 		return true;
 	}
+	
 
 	//CHIEDE AL DB DI CREARE LA CONFERENZA E POI TORNA ALLA HOME
-	private void CommitCreazione(Controller controller, Conferenza conferenzaCreata, JFrame frameCreazioneConferenza, JFrame frameHome, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
+	private void CommitCreazione(Conferenza conferenzaCreata, JFrame frameCreazioneConferenza, JFrame frameHome, ArrayList<Programma> listaProgrammi, ArrayList<Pubblicità> listaPubblicità) {
 		frameCreazioneConferenza.dispose();
 		controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
 		controller.tornaAllaHome(frame, frameHome);	
 	}
 
+	
 	//ISTANZIA SESSIONI, EVENTI E INTERVALLI
 	private void IstanziaSeduteSpecializzate() {
 		//istanzia le varie sedute in base alla loro specializzazione	
@@ -999,7 +982,60 @@ public class AggiuntaProgrammi {
             listaProgrammi.remove(row);	                
          }
 	}
+	
+	
+	private boolean isOrarioSessioneIdoneo(String ComboBoxLocazioneValue) {
+		//controllo se non ci sono altre sessioni in corso
+		if(tableSessioniAggiunte.getRowCount() != 0)
+		{
+			for(Seduta s: listaSedute)
+			{			
+				if(!(s instanceof Sessione))
+				{
+					if(isNotIdoneaSeduta(s))
+						return false;
+				}											
+				else
+				{
+					if(isNotIdoneaSessione(s, ComboBoxLocazioneValue))
+						return false;	
+				}					
+			}
+		}
+		return true;
+	}
 
+	
+	private boolean isNotIdoneaSessione(Seduta s, String comboBoxLocazioneValue) {
+		if( (s.getLocazione().getNomeLocazione().compareTo(comboBoxLocazioneValue)) == 0 )
+		{
+			if( ( timeInizio.after(s.getOrarioInizio()) && timeInizio.before(s.getOrarioFine()) )
+					|| ( timeFine.after(s.getOrarioInizio()) && timeFine.before(s.getOrarioFine()) ) 
+					|| ( timeInizio.before(s.getOrarioInizio()) && timeFine.after(s.getOrarioFine()) ) 
+					|| ( timeInizio.equals(s.getOrarioInizio()) || timeFine.equals(s.getOrarioFine()) ))
+				{
+					JOptionPane.showMessageDialog(null,"In questa locazione è in corso un'altra sessione!","ERROR:413", JOptionPane.ERROR_MESSAGE);
+					return true;						
+				}
+		}
+		return false;
+	}
+
+	
+	private void IstanziaNuovoProgramma(ArrayList<Programma> listaProgrammi, Programma programmaNuovo,
+			ArrayList<Sessione> listaSessioni, ArrayList<Evento_Sociale> listaEventi,
+			ArrayList<Intervallo> listaIntervalli) {
+
+		programmaNuovo = new Programma();
+		programmaNuovo.setDataProgramma(dataProgramma);
+		programmaNuovo.sessioniProgrammate = new ArrayList<Sessione>(listaSessioni);
+		programmaNuovo.eventiProgrammati = new ArrayList<Evento_Sociale>(listaEventi);
+		programmaNuovo.intervalliProgrammati = new ArrayList<Intervallo>(listaIntervalli);
+		listaProgrammi.add(programmaNuovo);
+		AggiungiProgrammaAllaTable(programmaNuovo);	
+	}
+	
+	
 	//TORNO AL FRAME PRECEDENTE(chiudo questo)
 	private void TornaAlFramePrecedente(JFrame thisframe, JFrame frameHome, JFrame frameCreazioneConferenza) {
 		thisframe.dispose();

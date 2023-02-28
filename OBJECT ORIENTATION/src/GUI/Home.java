@@ -51,38 +51,21 @@ public class Home {
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
 		
 		JLabel exitLabel = new JLabel("");
-		exitLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				System.exit(0);
-			}
-		});
-		
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		exitLabel.setBounds(1053,11,17,21);
 		bcPanel.add(exitLabel);
-		
 		
 		//definisco il pulsante minimize
 		Image imgMinimize = new ImageIcon(this.getClass().getResource("/minimize.png")).getImage();
 		
 		JLabel minimizeLabel = new JLabel("");
 		minimizeLabel.setOpaque(true);
-		
-		minimizeLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.setState(Frame.ICONIFIED);
-			}
-		});
 		minimizeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		minimizeLabel.setAutoscrolls(true);
 		minimizeLabel.setIcon(new ImageIcon(imgMinimize));
 		minimizeLabel.setBounds(1023, 25, 18, 3);
 		bcPanel.add(minimizeLabel);
-		
 		
 		//trascino la finestra undecorated
 		JLabel dragFrame = new JLabel("");
@@ -108,7 +91,6 @@ public class Home {
 		titleConferenze.setBounds(300, 63, 682, 142);
 		bcPanel.add(titleConferenze);
 		
-		
 		JLabel background;
 		bcPanel.setSize(1080,700);
 		bcPanel.setLayout(null);
@@ -129,15 +111,7 @@ public class Home {
 		
 		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
 		JButton loginButton = new JButton("login");
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				LoginOrganizzatore log = new LoginOrganizzatore(controller, frame);
-				log.frame.setVisible(true);
-				frame.setEnabled(false);	//non può essere toccata la finestra Home
-			}
-		});
-		loginButton.setFocusPainted(false);
-		
+		loginButton.setFocusPainted(false);	
 		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		loginButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		loginButton.setBorder(null);
@@ -163,20 +137,15 @@ public class Home {
 		benvenutoTxt.setForeground(new Color(255, 255, 255));
 		benvenutoTxt.setOpaque(false);
 		benvenutoTxt.setEditable(false);
-		benvenutoTxt.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker\r\n- aggiunta, cancellazione e modifica di una conferenza scientifica");
+		benvenutoTxt.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- "
+				+ "puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker\r\n- aggiunta, cancellazione e "
+				+ "modifica di una conferenza scientifica");
 		benvenutoTxt.setBounds(167, 166, 838, 131);
 		bcPanel.add(benvenutoTxt);
 		
 		
 		//apro una nuova finestra per visualizzare le conferenze
 		JButton VisualizzaConferenzeButton = new JButton("Visualizza conferenze");
-		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameConferenze(frame);
-			}
-		});
-		
 		VisualizzaConferenzeButton.setFocusPainted(false);
 		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
 		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -187,12 +156,6 @@ public class Home {
 		bcPanel.add(VisualizzaConferenzeButton);
 		
 		JButton riepilogoKSButton = new JButton("RiepilogoKS");
-		riepilogoKSButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameRiepilogoKS(frame);
-			}
-		});
 		riepilogoKSButton.setFocusPainted(false);
 		riepilogoKSButton.setForeground(new Color(255, 255, 255));
 		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -211,5 +174,50 @@ public class Home {
 		
 		
 		
+		
+		
+		
+		//PULSANTI & LISTNERS
+		
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				System.exit(0);
+			}
+		});
+		
+		minimizeLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setState(Frame.ICONIFIED);
+			}
+		});
+
+		
+
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginOrganizzatore log = new LoginOrganizzatore(controller, frame);
+				log.frame.setVisible(true);
+				frame.setEnabled(false);	//non può essere toccata la finestra Home
+			}
+		});
+
+		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameConferenze(frame);
+			}
+		});
+		
+
+
+		riepilogoKSButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameRiepilogoKS(frame);
+			}
+		});
 	}
 }

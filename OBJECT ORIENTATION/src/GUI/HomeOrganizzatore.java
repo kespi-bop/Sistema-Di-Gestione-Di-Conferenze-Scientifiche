@@ -46,40 +46,22 @@ public class HomeOrganizzatore {
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
-		
 		JLabel exitLabel = new JLabel("");
-		exitLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				System.exit(0);
-			}
-		});
-		
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		exitLabel.setBounds(1053,11,17,21);
 		frame.getContentPane().add(exitLabel);
-		
 		
 		//definisco il pulsante minimize
 		Image imgMinimize = new ImageIcon(this.getClass().getResource("/minimize.png")).getImage();
 		
 		JLabel minimizeLabel = new JLabel("");
 		minimizeLabel.setOpaque(true);
-		
-		minimizeLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.setState(Frame.ICONIFIED);
-			}
-		});
 		minimizeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		minimizeLabel.setAutoscrolls(true);
 		minimizeLabel.setIcon(new ImageIcon(imgMinimize));
 		minimizeLabel.setBounds(1023, 25, 18, 3);
 		frame.getContentPane().add(minimizeLabel);
-		
 		
 		//trascino la finestra undecorated
 		JLabel dragFrame = new JLabel("");
@@ -113,8 +95,8 @@ public class HomeOrganizzatore {
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(32, 33, 35));
 		panel.setBounds(0, 553, 1080, 166);
-		frame.getContentPane().add(panel);
 		panel.setLayout(null);
+		frame.getContentPane().add(panel);
 		
 		//©copyright
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
@@ -125,16 +107,7 @@ public class HomeOrganizzatore {
 		
 		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
 		JButton modificaConferenzaButton = new JButton("Modifica conferenza");
-		modificaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ArrayList<Conferenza> listaConferenze = controller.ottieniConferenze();
-				controller.vediModificaConferenza(frame, listaConferenze);
-			}
-		});
-		
 		modificaConferenzaButton.setFocusPainted(false);
-		
 		modificaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		modificaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
 		modificaConferenzaButton.setBorder(null);
@@ -154,12 +127,6 @@ public class HomeOrganizzatore {
 		panel.add(txtpnSoltantoGliOrganizzatori);
 		
 		JButton creaConferenzaButton = new JButton("Crea conferenza");
-		creaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.vediCreazioneConferenza(frame);
-			}
-		});
 		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		creaConferenzaButton.setForeground(Color.WHITE);
 		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -170,12 +137,6 @@ public class HomeOrganizzatore {
 		panel.add(creaConferenzaButton);
 		
 		JButton cancellaConferenzaButton = new JButton("Cancella conferenza");
-		cancellaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.vediCancellaConferenza(frame, controller.ottieniConferenze());
-			}
-		});
 		cancellaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		cancellaConferenzaButton.setForeground(Color.WHITE);
 		cancellaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
@@ -185,24 +146,7 @@ public class HomeOrganizzatore {
 		cancellaConferenzaButton.setBounds(742, 22, 313, 50);
 		panel.add(cancellaConferenzaButton);
 		
-		final JLabel logoutLabel = DefaultComponentFactory.getInstance().createLabel("Logout");
-		logoutLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				logoutLabel.setText("<html><u>Logout </u></html>");
-			}
-			@Override
-			public void mouseExited(MouseEvent e) {
-				logoutLabel.setText("Logout");
-			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				frame.dispose();
-				frame.setVisible(false);
-				controller.tornaAllaHome(frame, frameHome);
-				controller.deleteOrganizzatoreRicordato();
-			}
-		});
+		JLabel logoutLabel = DefaultComponentFactory.getInstance().createLabel("Logout");
 		logoutLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		logoutLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		logoutLabel.setForeground(new Color(80, 81, 84));
@@ -221,12 +165,6 @@ public class HomeOrganizzatore {
 		frame.getContentPane().add(benvenutoTxt);
 		
 		JButton VisualizzaConferenzeButton = new JButton("Visualizza conferenze");
-		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameConferenze(frame);
-			}
-		});
 		VisualizzaConferenzeButton.setFocusPainted(false);
 		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
 		VisualizzaConferenzeButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -237,12 +175,6 @@ public class HomeOrganizzatore {
 		frame.getContentPane().add(VisualizzaConferenzeButton);
 		
 		JButton riepilogoKSButton = new JButton("RiepilogoKS");
-		riepilogoKSButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.visualizzaFrameRiepilogoKS(frame);
-			}
-		});
 		riepilogoKSButton.setFocusPainted(false);
 		riepilogoKSButton.setForeground(new Color(255, 255, 255));
 		riepilogoKSButton.setFont(new Font("Century Gothic", Font.PLAIN, 13));
@@ -258,6 +190,90 @@ public class HomeOrganizzatore {
 		background.setIcon(new ImageIcon(img));
 		background.setBounds(0,-44,1209,597);
 		frame.getContentPane().add(background);
+		
+		
+		
+		
+		
+		
+		
+		//PULSANTI & LISTNERS
+
+		exitLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.dispose();
+				System.exit(0);
+			}
+		});
+		
+		
+		minimizeLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				frame.setState(Frame.ICONIFIED);
+			}
+		});
+		
+
+		modificaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ArrayList<Conferenza> listaConferenze = controller.ottieniConferenze();
+				controller.vediModificaConferenza(frame, listaConferenze);
+			}
+		});
+		
+		
+		creaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.vediCreazioneConferenza(frame);
+			}
+		});
+		
+
+		cancellaConferenzaButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.vediCancellaConferenza(frame, controller.ottieniConferenze());
+			}
+		});
+		
+
+		logoutLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				logoutLabel.setText("<html><u>Logout </u></html>");
+			}
+			@Override
+			
+			public void mouseExited(MouseEvent e) {
+				logoutLabel.setText("Logout");
+			}
+			@Override
+			
+			public void mouseClicked(MouseEvent e) {
+				controller.tornaAllaHome(frame, frameHome);
+				controller.deleteOrganizzatoreRicordato();
+			}
+		});
+		
+
+		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameConferenze(frame);
+			}
+		});
+		
+
+		riepilogoKSButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.visualizzaFrameRiepilogoKS(frame);
+			}
+		});	
 		
 	}
 }

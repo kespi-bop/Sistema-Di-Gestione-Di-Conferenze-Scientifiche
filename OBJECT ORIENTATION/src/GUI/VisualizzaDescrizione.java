@@ -32,15 +32,15 @@ public class VisualizzaDescrizione {
 		initialize(controller, frameVisualizzaProgrammi, titoloSessione, descrizione);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize(Controller controller, final JFrame frameVisualizzaProgrammi, String titoloSessione, String descrizione) {
 		frame = new JFrame();
 		frame.setUndecorated(true);
 		frame.setResizable(false);
 		frame.getContentPane().setBackground(new Color(32, 33, 35));
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(null);	
+		frame.setBackground(new Color(32, 33, 35));
+		frame.setBounds(100, 100, 513, 348);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
@@ -59,9 +59,7 @@ public class VisualizzaDescrizione {
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				frameVisualizzaProgrammi.setVisible(true);
-				frameVisualizzaProgrammi.setEnabled(true);
-				frame.dispose();
+				controller.TornaAllaPaginaPrecedente(frame, frameVisualizzaProgrammi);
 			}
 		});
 		exitLabel.setIcon(new ImageIcon(imgExit));
@@ -91,12 +89,13 @@ public class VisualizzaDescrizione {
 		
 		JTextPane textDescrizionePane = new JTextPane();
 		textDescrizionePane.setBorder(new LineBorder(new Color(0, 0, 0)));
-		scrollPane.setViewportView(textDescrizionePane);
 		textDescrizionePane.setEditable(false);
 		textDescrizionePane.setSelectionColor(new Color(126, 87, 194));
 		textDescrizionePane.setBackground(new Color(32, 33, 35));
 		textDescrizionePane.setForeground(new Color(255, 255, 255));
 		textDescrizionePane.setText(descrizione);
+		scrollPane.setViewportView(textDescrizionePane);
+		
 		dragFrame.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
 			public void mouseDragged(MouseEvent e) {
@@ -110,9 +109,6 @@ public class VisualizzaDescrizione {
 				mouseY = e.getY();			}
 		});
 		
-		
-		frame.setBackground(new Color(32, 33, 35));
-		frame.setBounds(100, 100, 513, 348);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 	}
 }
