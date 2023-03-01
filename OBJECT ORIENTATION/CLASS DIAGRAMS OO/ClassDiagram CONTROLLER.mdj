@@ -135,7 +135,7 @@
 											"top": 102,
 											"width": 1265.4814453125,
 											"height": 13,
-											"text": "+utente: Utente[1]",
+											"text": "~utente: Utente[1]",
 											"horizontalAlignment": 0
 										},
 										{
@@ -152,7 +152,7 @@
 											"top": 117,
 											"width": 1265.4814453125,
 											"height": 13,
-											"text": "+dataProgramma: Date[0..1]",
+											"text": "~dataProgramma: Date[1]",
 											"horizontalAlignment": 0
 										}
 									],
@@ -820,42 +820,6 @@
 										},
 										{
 											"_type": "UMLOperationView",
-											"_id": "AAAAAAGGnoKfnMFwwJ8=",
-											"_parent": {
-												"$ref": "AAAAAAGGnmEzEr/Xpdk="
-											},
-											"model": {
-												"$ref": "AAAAAAGGnoKfmMFtuvM="
-											},
-											"visible": false,
-											"font": "Arial;13;0",
-											"left": 365,
-											"top": 710,
-											"width": 1265.4814453125,
-											"height": 13,
-											"text": "+Operation19()",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
-											"_id": "AAAAAAGGnoKo48F2ao4=",
-											"_parent": {
-												"$ref": "AAAAAAGGnmEzEr/Xpdk="
-											},
-											"model": {
-												"$ref": "AAAAAAGGnoKo38FzpfU="
-											},
-											"visible": false,
-											"font": "Arial;13;0",
-											"left": 365,
-											"top": 710,
-											"width": 1265.4814453125,
-											"height": 13,
-											"text": "+Operation20()",
-											"horizontalAlignment": 0
-										},
-										{
-											"_type": "UMLOperationView",
 											"_id": "AAAAAAGGnpBjM8Hp5Ho=",
 											"_parent": {
 												"$ref": "AAAAAAGGnmEzEr/Xpdk="
@@ -916,7 +880,7 @@
 							"left": 360,
 							"top": 72,
 							"width": 1275.4814453125,
-							"height": 656,
+							"height": 657,
 							"nameCompartment": {
 								"$ref": "AAAAAAGGnmEzEr/Rago="
 							},
@@ -950,6 +914,7 @@
 								"$ref": "AAAAAAGGnmEzEb/O1E4="
 							},
 							"name": "utente",
+							"visibility": "package",
 							"type": "Utente",
 							"multiplicity": "1"
 						},
@@ -960,8 +925,9 @@
 								"$ref": "AAAAAAGGnmEzEb/O1E4="
 							},
 							"name": "dataProgramma",
+							"visibility": "package",
 							"type": "Date",
-							"multiplicity": "0..1"
+							"multiplicity": "1"
 						}
 					],
 					"operations": [
@@ -2132,22 +2098,6 @@
 									"type": "JFrame"
 								}
 							]
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGGnoKfmMFtuvM=",
-							"_parent": {
-								"$ref": "AAAAAAGGnmEzEb/O1E4="
-							},
-							"name": "Operation19"
-						},
-						{
-							"_type": "UMLOperation",
-							"_id": "AAAAAAGGnoKo38FzpfU=",
-							"_parent": {
-								"$ref": "AAAAAAGGnmEzEb/O1E4="
-							},
-							"name": "Operation20"
 						},
 						{
 							"_type": "UMLOperation",
