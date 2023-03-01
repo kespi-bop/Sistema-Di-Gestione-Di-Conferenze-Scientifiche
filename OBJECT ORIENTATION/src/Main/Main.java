@@ -2,7 +2,7 @@ package Main;
 
 
 import Controller.Controller;
-import GUI.Home;
+import GUI.HomeGuest;
 import GUI.HomeOrganizzatore;
 
 public class Main {
@@ -11,16 +11,15 @@ public class Main {
 		
 		Controller controller = new Controller();	
 		String nome = controller.ottieniOrganizzatoreLoggato();
+		HomeGuest home = new HomeGuest();
 		
 		if(nome.isEmpty())
 		{
-			Home home = new Home();	
 			home.frame.setVisible(true);
-		}
-		
+		}		
 		else
 		{
-			Home home = new Home();
+
 			HomeOrganizzatore homeOrganizzatore = new HomeOrganizzatore(home.frame, nome);
 			homeOrganizzatore.frame.setVisible(true);
 		}

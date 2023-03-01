@@ -13,44 +13,45 @@ import javax.swing.JEditorPane;
 import javax.swing.JButton;
 import java.awt.Cursor;
 import javax.swing.JTextPane;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
-
-import com.jgoodies.forms.factories.DefaultComponentFactory;
-
 import Controller.Controller;
-import Model.Conferenza;
 
-public class HomeOrganizzatore implements Home{
+public class HomeGuest implements Home{
 	
 	Controller controller = new Controller();
 	private int mouseX, mouseY;
 	public JFrame frame;
+
 	
-	public HomeOrganizzatore(JFrame frameHome, String nome) {
-		HomeGuest home = new HomeGuest();
-		initialize(home.frame, nome);
+	public HomeGuest() {
+		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize(final JFrame frameHome, String nome) {
+	private void initialize() {
 		
 		frame = new JFrame("Home");
 		frame.setUndecorated(true);
 		frame.setResizable(false);
-		frame.setBounds(450, 100, 543, 393);
+		frame.setBounds(450, 100, 1080, 700);
+		
+		JPanel bcPanel = new JPanel();
+		bcPanel.setBorder(null);
+		bcPanel.setOpaque(false);
+		bcPanel.setBounds(0, 0, 1080, 700);
+		frame.getContentPane().add(bcPanel);
 		
 		//definisco il pulsante di uscita
 		Image imgExit = new ImageIcon(this.getClass().getResource("/exit.png")).getImage();
+		
 		JLabel exitLabel = new JLabel("");
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		exitLabel.setIcon(new ImageIcon(imgExit));
 		exitLabel.setBounds(1053,11,17,21);
-		frame.getContentPane().add(exitLabel);
+		bcPanel.add(exitLabel);
 		
 		//definisco il pulsante minimize
 		Image imgMinimize = new ImageIcon(this.getClass().getResource("/minimize.png")).getImage();
@@ -61,7 +62,7 @@ public class HomeOrganizzatore implements Home{
 		minimizeLabel.setAutoscrolls(true);
 		minimizeLabel.setIcon(new ImageIcon(imgMinimize));
 		minimizeLabel.setBounds(1023, 25, 18, 3);
-		frame.getContentPane().add(minimizeLabel);
+		bcPanel.add(minimizeLabel);
 		
 		//trascino la finestra undecorated
 		JLabel dragFrame = new JLabel("");
@@ -78,25 +79,25 @@ public class HomeOrganizzatore implements Home{
 				mouseY = e.getY();			}
 		});
 		dragFrame.setBounds(10, 0, 1060, 52);
-		frame.getContentPane().add(dragFrame);
+		bcPanel.add(dragFrame);
 		
 		//definisco il titolo
 		JLabel titleConferenze = new JLabel("CONFERENZE SCIENTIFICHE");
 		titleConferenze.setFont(new Font("Gill Sans Ultra Bold Condensed", Font.BOLD, 40));
 		titleConferenze.setForeground(new Color(57, 113, 177));
 		titleConferenze.setBounds(300, 63, 682, 142);
-		frame.getContentPane().add(titleConferenze);
-		
+		bcPanel.add(titleConferenze);
 		
 		JLabel background;
-		frame.setSize(1080,700);
-		frame.getContentPane().setLayout(null);
+		bcPanel.setSize(1080,700);
+		bcPanel.setLayout(null);
 		
 		JPanel panel = new JPanel();
+		panel.setBorder(null);
 		panel.setBackground(new Color(32, 33, 35));
-		panel.setBounds(0, 553, 1080, 166);
+		panel.setBounds(0, 553, 1080, 147);
+		bcPanel.add(panel);
 		panel.setLayout(null);
-		frame.getContentPane().add(panel);
 		
 		//©copyright
 		JLabel signature = new JLabel("Duminuco&Grieco.Company©");
@@ -106,15 +107,15 @@ public class HomeOrganizzatore implements Home{
 		panel.add(signature);
 		
 		//se premo login non posso utilzzare la finestra Home finchè non finisco di utilizzare la finestra login
-		JButton modificaConferenzaButton = new JButton("Modifica conferenza");
-		modificaConferenzaButton.setFocusPainted(false);
-		modificaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		modificaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		modificaConferenzaButton.setBorder(null);
-		modificaConferenzaButton.setBackground(new Color(126, 87, 194));
-		modificaConferenzaButton.setForeground(new Color(255, 255, 255));
-		modificaConferenzaButton.setBounds(378, 22, 313, 50);
-		panel.add(modificaConferenzaButton);
+		JButton loginButton = new JButton("login");
+		loginButton.setFocusPainted(false);	
+		loginButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		loginButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
+		loginButton.setBorder(null);
+		loginButton.setBackground(new Color(126, 87, 194));
+		loginButton.setForeground(new Color(255, 255, 255));
+		loginButton.setBounds(378, 22, 313, 50);
+		panel.add(loginButton);
 		
 		JTextPane txtpnSoltantoGliOrganizzatori = new JTextPane();
 		txtpnSoltantoGliOrganizzatori.setEditable(false);
@@ -123,35 +124,8 @@ public class HomeOrganizzatore implements Home{
 		txtpnSoltantoGliOrganizzatori.setOpaque(false);
 		txtpnSoltantoGliOrganizzatori.setSelectionColor(new Color(126, 87, 194));
 		txtpnSoltantoGliOrganizzatori.setText("Attenzione! Soltanto gli organizzatori possono aggiungere, cancellare o modificare conferenze");
-		txtpnSoltantoGliOrganizzatori.setBounds(269, 83, 587, 50);
+		txtpnSoltantoGliOrganizzatori.setBounds(269, 83, 587, 69);
 		panel.add(txtpnSoltantoGliOrganizzatori);
-		
-		JButton creaConferenzaButton = new JButton("Crea conferenza");
-		creaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		creaConferenzaButton.setForeground(Color.WHITE);
-		creaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		creaConferenzaButton.setFocusPainted(false);
-		creaConferenzaButton.setBorder(null);
-		creaConferenzaButton.setBackground(new Color(126, 87, 194));
-		creaConferenzaButton.setBounds(23, 22, 313, 50);
-		panel.add(creaConferenzaButton);
-		
-		JButton cancellaConferenzaButton = new JButton("Cancella conferenza");
-		cancellaConferenzaButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		cancellaConferenzaButton.setForeground(Color.WHITE);
-		cancellaConferenzaButton.setFont(new Font("Century Gothic", Font.PLAIN, 12));
-		cancellaConferenzaButton.setFocusPainted(false);
-		cancellaConferenzaButton.setBorder(null);
-		cancellaConferenzaButton.setBackground(new Color(126, 87, 194));
-		cancellaConferenzaButton.setBounds(742, 22, 313, 50);
-		panel.add(cancellaConferenzaButton);
-		
-		JLabel logoutLabel = DefaultComponentFactory.getInstance().createLabel("Logout");
-		logoutLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		logoutLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		logoutLabel.setForeground(new Color(80, 81, 84));
-		logoutLabel.setBounds(23, 104, 85, 39);
-		panel.add(logoutLabel);
 		
 		JEditorPane benvenutoTxt = new JEditorPane();
 		benvenutoTxt.setSelectionColor(new Color(128, 128, 128));
@@ -160,10 +134,14 @@ public class HomeOrganizzatore implements Home{
 		benvenutoTxt.setForeground(new Color(255, 255, 255));
 		benvenutoTxt.setOpaque(false);
 		benvenutoTxt.setEditable(false);
-		benvenutoTxt.setText("Benvenuto "+nome+"!");
-		benvenutoTxt.setBounds(433, 173, 311, 131);
-		frame.getContentPane().add(benvenutoTxt);
+		benvenutoTxt.setText("Benvenuto nel nostro programma! Rendiamo disponibili diverse operazioni:\r\n- puoi visualzzare conferenze filtrandole per data o per sede,\r\n- "
+				+ "puoi ottenere un riepilogo mensile e annuale sulla percentuale delle istituzioni di afferenza\r\n  a cui appartengono i keynote speaker\r\n- aggiunta, cancellazione e "
+				+ "modifica di una conferenza scientifica");
+		benvenutoTxt.setBounds(167, 166, 838, 131);
+		bcPanel.add(benvenutoTxt);
 		
+		
+		//apro una nuova finestra per visualizzare le conferenze
 		JButton VisualizzaConferenzeButton = new JButton("Visualizza conferenze");
 		VisualizzaConferenzeButton.setFocusPainted(false);
 		VisualizzaConferenzeButton.setForeground(new Color(255, 255, 255));
@@ -172,7 +150,7 @@ public class HomeOrganizzatore implements Home{
 		VisualizzaConferenzeButton.setBorder(null);
 		VisualizzaConferenzeButton.setBackground(new Color(57, 113, 177));
 		VisualizzaConferenzeButton.setBounds(193, 363, 169, 66);
-		frame.getContentPane().add(VisualizzaConferenzeButton);
+		bcPanel.add(VisualizzaConferenzeButton);
 		
 		JButton riepilogoKSButton = new JButton("RiepilogoKS");
 		riepilogoKSButton.setFocusPainted(false);
@@ -182,7 +160,7 @@ public class HomeOrganizzatore implements Home{
 		riepilogoKSButton.setBackground(new Color(57, 113, 177));
 		riepilogoKSButton.setBorder(null);
 		riepilogoKSButton.setBounds(700, 363, 169, 66);
-		frame.getContentPane().add(riepilogoKSButton);
+		bcPanel.add(riepilogoKSButton);
 		
 		Image img = new ImageIcon(this.getClass().getResource("/BackGround.jpg")).getImage();
 	
@@ -196,9 +174,8 @@ public class HomeOrganizzatore implements Home{
 		
 		
 		
-		
 		//PULSANTI & LISTNERS
-
+		
 		exitLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -207,58 +184,22 @@ public class HomeOrganizzatore implements Home{
 			}
 		});
 		
-		
 		minimizeLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				frame.setState(Frame.ICONIFIED);
 			}
 		});
+
 		
 
-		modificaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ArrayList<Conferenza> listaConferenze = controller.ottieniConferenze();
-				controller.vediModificaConferenza(frame, listaConferenze);
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginOrganizzatore log = new LoginOrganizzatore(controller, frame);
+				log.frame.setVisible(true);
+				frame.setEnabled(false);	//non può essere toccata la finestra Home
 			}
 		});
-		
-		
-		creaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.vediCreazioneConferenza(frame);
-			}
-		});
-		
-
-		cancellaConferenzaButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				controller.vediCancellaConferenza(frame, controller.ottieniConferenze());
-			}
-		});
-		
-
-		logoutLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				logoutLabel.setText("<html><u>Logout </u></html>");
-			}
-			@Override
-			
-			public void mouseExited(MouseEvent e) {
-				logoutLabel.setText("Logout");
-			}
-			@Override
-			
-			public void mouseClicked(MouseEvent e) {
-				controller.tornaAllaHome(frame, frameHome);
-				controller.deleteOrganizzatoreRicordato();
-			}
-		});
-		
 
 		VisualizzaConferenzeButton.addMouseListener(new MouseAdapter() {
 			@Override
@@ -268,12 +209,12 @@ public class HomeOrganizzatore implements Home{
 		});
 		
 
+
 		riepilogoKSButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				controller.visualizzaFrameRiepilogoKS(frame);
 			}
-		});	
-		
+		});
 	}
 }
