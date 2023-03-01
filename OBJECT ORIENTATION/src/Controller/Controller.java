@@ -293,11 +293,6 @@ public class Controller {
 		framePrecedente.setVisible(true);		
 		framePrecedente.setEnabled(true);
 	}
-
-	
-	
-
-
 	
 }
 

@@ -7317,10 +7317,10 @@
 							},
 							"font": "Arial;13;0",
 							"left": 616,
-							"top": 608,
+							"top": 632,
 							"width": 273,
-							"height": 116,
-							"text": "Al fine di avere una maggiore leggibilità sono stati omessi gli attributi delle classi frame (poichè attributi necessari limitatamente per il design) e sono stati riportati soltanto i metodi chiamati dai listner (non sono stati riportati altri metodi poichè di derivazione di quelli chiamati da listner, i quali sono articolati in sottometodi per migliorarne la modularità)"
+							"height": 129,
+							"text": "Al fine di una maggiore leggibilità sono stati omessi gli attributi delle classi frame (poichè necessari esclusivamente alla creazione del design) e sono stati riportati soltanto i metodi chiamati dai listener (non sono stati riportati altri metodi perchè modularizzazione di quelli chiamati da listener)"
 						}
 					]
 				},
@@ -7346,7 +7346,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj81/apjVy8="
 									},
-									"name": "Conferenza updateConferenza"
+									"name": "Conferenza updateConferenza",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7354,7 +7355,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj81/apjVy8="
 									},
-									"name": "String comboBoxValue"
+									"name": "String comboBoxValue",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7390,7 +7392,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj86w6pp6bw="
 									},
-									"name": "Conferenza updateConferenza"
+									"name": "Conferenza updateConferenza",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7398,7 +7401,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj86w6pp6bw="
 									},
-									"name": "String comboBoxValue"
+									"name": "String comboBoxValue",
+									"type": ""
 								}
 							]
 						},
@@ -7425,7 +7429,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj8+46pvEUk="
 									},
-									"name": "Conferenza updateConferenza"
+									"name": "Conferenza updateConferenza",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7433,7 +7438,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj8+46pvEUk="
 									},
-									"name": "String titolo"
+									"name": "String titolo",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7441,7 +7447,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnj8+46pvEUk="
 									},
-									"name": "String descrizione"
+									"name": "String descrizione",
+									"type": ""
 								}
 							]
 						},
@@ -7866,7 +7873,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnkelQKuMq7g="
 									},
-									"name": "Conferenza"
+									"name": "Conferenza",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7958,7 +7966,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnkeyA6ueH9c="
 									},
-									"name": "String"
+									"name": "String",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
@@ -7966,7 +7975,8 @@
 									"_parent": {
 										"$ref": "AAAAAAGGnkeyA6ueH9c="
 									},
-									"name": "String"
+									"name": "String",
+									"type": ""
 								},
 								{
 									"_type": "UMLParameter",
