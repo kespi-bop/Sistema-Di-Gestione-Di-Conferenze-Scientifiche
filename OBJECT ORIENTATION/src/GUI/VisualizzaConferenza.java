@@ -207,7 +207,7 @@ public class VisualizzaConferenza {
 		exitLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panel.add(exitLabel);
 		
-		dateFinaleTextField = new JFormattedTextField((Format) null);
+		dateFinaleTextField = new JFormattedTextField((format));
 		dateFinaleTextField.setSelectionColor(new Color(126, 87, 194));
 		dateFinaleTextField.setSelectedTextColor(Color.WHITE);
 		dateFinaleTextField.setForeground(Color.WHITE);

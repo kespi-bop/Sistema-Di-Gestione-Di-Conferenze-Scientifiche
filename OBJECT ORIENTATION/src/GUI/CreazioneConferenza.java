@@ -171,7 +171,7 @@ public class CreazioneConferenza {
 		textFieldSpesa.setForeground(new Color(255, 255, 255));
 		textFieldSpesa.setBorder(null);
 		textFieldSpesa.setBackground(new Color(32, 33, 35));
-		textFieldSpesa.setBounds(150, 347, 142, 20);
+		textFieldSpesa.setBounds(150, 347, 130, 20);
 		textFieldSpesa.setColumns(10);
 		
 		JLabel as = new JLabel("premi per aggiungere");
@@ -605,7 +605,7 @@ public class CreazioneConferenza {
 		if(!isEmptySpesa(textFieldSpesa.getText()))
 		{
 			try{
-				model.addRow(new Object[] {comboBoxSponsor.getSelectedItem().toString(),Double. parseDouble(textFieldSpesa.getText())+"€"});	
+				model.addRow(new Object[] {comboBoxSponsor.getSelectedItem().toString(),Math.abs(Double.parseDouble(textFieldSpesa.getText()))+"€"});	
 				comboBoxSponsor.removeItem(comboBoxSponsor.getSelectedItem());
 			}catch(NumberFormatException exception){
 				JOptionPane.showMessageDialog(null,"Inserisci un numero reale come spesa!","ERROR:406", JOptionPane.ERROR_MESSAGE);
