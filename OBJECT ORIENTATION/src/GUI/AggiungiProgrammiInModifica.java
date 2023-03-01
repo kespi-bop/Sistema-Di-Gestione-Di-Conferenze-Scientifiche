@@ -40,7 +40,7 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 import java.text.Format;
 
-public class AggiungiProgrammiEdit {
+public class AggiungiProgrammiInModifica {
 
 	private int mouseX, mouseY;
 	public JFrame frame;
@@ -62,7 +62,7 @@ public class AggiungiProgrammiEdit {
 	private DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	private Controller controller = new Controller();
 	
-	public AggiungiProgrammiEdit(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
+	public AggiungiProgrammiInModifica(Controller controller, JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine) {
 		initialize(controller, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
 	}
 

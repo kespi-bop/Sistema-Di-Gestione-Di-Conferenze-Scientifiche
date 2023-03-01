@@ -105,7 +105,7 @@ public class Controller {
 	
 	public void vediCreazioneProgrammaEdit(JFrame frameAzioniDiModifica, Conferenza updateConferenza, Date dataInizio, Date dataFine)
 	{
-		AggiungiProgrammiEdit aggiungiProgrammi = new AggiungiProgrammiEdit(this, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
+		AggiungiProgrammiInModifica aggiungiProgrammi = new AggiungiProgrammiInModifica(this, frameAzioniDiModifica, updateConferenza, dataInizio, dataFine);
 		aggiungiProgrammi.frame.setVisible(true);
 		frameAzioniDiModifica.setEnabled(false);
 	}
