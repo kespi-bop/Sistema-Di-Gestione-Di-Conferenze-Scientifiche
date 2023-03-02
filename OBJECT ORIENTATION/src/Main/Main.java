@@ -19,7 +19,6 @@ public class Main {
 		}		
 		else
 		{
-
 			HomeOrganizzatore homeOrganizzatore = new HomeOrganizzatore(home.frame, nome);
 			homeOrganizzatore.frame.setVisible(true);
 		}

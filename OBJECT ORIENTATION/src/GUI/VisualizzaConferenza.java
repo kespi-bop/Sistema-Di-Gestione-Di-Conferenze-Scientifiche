@@ -27,7 +27,6 @@ import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 import javax.swing.JPanel;
 import javax.swing.JFormattedTextField;
-import java.text.Format;
 
 public class VisualizzaConferenza {
 
