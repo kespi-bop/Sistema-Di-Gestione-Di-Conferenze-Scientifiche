@@ -1146,13 +1146,6 @@ BEFORE INSERT ON CONFERENZA
 FOR EACH ROW
 EXECUTE PROCEDURE NoConferenzaParallela();  
 
---in caso di cambio sede per una conferenza, devo controllare
---che la nuova sede sia libera(in update)
-CREATE OR REPLACE TRIGGER NoConferenzaParallelaUpdate
-BEFORE UPDATE ON CONFERENZA
-FOR EACH ROW
-EXECUTE PROCEDURE NoConferenzaParallela();
-
 
 
 
