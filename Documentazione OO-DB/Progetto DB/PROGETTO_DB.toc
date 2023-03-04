@@ -1,0 +1,58 @@
+\babel@toc {italian}{}\relax 
+\babel@toc {italian}{}\relax 
+\contentsline {section}{\numberline {1}PREFAZIONE}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Conferenza, sede, programma, locazione e sessione}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Evento sociale e intervallo}{2}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Organizzatore locale, organizzatore scientifico, partecipante, intervento ed ente}{2}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Sponsor e pubblicità}{2}{subsection.1.4}%
+\contentsline {section}{\numberline {2}PROGETTAZIONE CONCETTUALE}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}ER}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}CLASS DIAGRAM}{4}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Ristruttuazione del class diagram}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Eliminazione attributi multivalore}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Eliminazione attributi strutturati}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Scelta degli identificatori primari}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Eliminazioni delle gerarchie}{5}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Analisi delle ridondanze}{5}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}CLASS DIAGRAM RISTRUTTURATO}{6}{subsection.2.9}%
+\contentsline {subsection}{\numberline {2.10}Dizionario classi}{7}{subsection.2.10}%
+\contentsline {subsection}{\numberline {2.11}Dizionario associazioni}{10}{subsection.2.11}%
+\contentsline {subsection}{\numberline {2.12}Dizionario vincoli}{13}{subsection.2.12}%
+\contentsline {section}{\numberline {3}Progettazione Logica}{15}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Schema Logico}{15}{subsection.3.1}%
+\contentsline {section}{\numberline {4}PROGETTAZIONE FISICA}{17}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Creazione delle enumarazioni}{17}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Creazione delle tabelle}{17}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1}Tabella SEDE}{17}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2}Tabella LOCAZIONE}{17}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Tabella CONFERENZA}{18}{subsubsection.4.2.3}%
+\contentsline {subsubsection}{\numberline {4.2.4}Tabella SPONSOR}{18}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.5}Tabella PROGRAMMA}{18}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.6}Tabella INTERVALLO}{19}{subsubsection.4.2.6}%
+\contentsline {subsubsection}{\numberline {4.2.7}Tabella EVENTO\_SOCIALE}{20}{subsubsection.4.2.7}%
+\contentsline {subsubsection}{\numberline {4.2.8}Tabella ENTE}{21}{subsubsection.4.2.8}%
+\contentsline {subsubsection}{\numberline {4.2.9}Tabella ORGANIZZATORE\_LOCALE}{21}{subsubsection.4.2.9}%
+\contentsline {subsubsection}{\numberline {4.2.10}Tabella ORGANIZZATORE\_SCIENTIFICO}{21}{subsubsection.4.2.10}%
+\contentsline {subsubsection}{\numberline {4.2.11}Tabella PARTECIPANTE}{22}{subsubsection.4.2.11}%
+\contentsline {subsubsection}{\numberline {4.2.12}Tabella SESSIONE}{22}{subsubsection.4.2.12}%
+\contentsline {subsubsection}{\numberline {4.2.13}Tabella INTERVENTO}{23}{subsubsection.4.2.13}%
+\contentsline {subsubsection}{\numberline {4.2.14}Tabella PUBBLICITA'}{24}{subsubsection.4.2.14}%
+\contentsline {subsubsection}{\numberline {4.2.15}Tabella AMMINISTRARE}{25}{subsubsection.4.2.15}%
+\contentsline {subsubsection}{\numberline {4.2.16}Tabella ORGANIZZARE\_L}{25}{subsubsection.4.2.16}%
+\contentsline {subsubsection}{\numberline {4.2.17}Tabella ORGANIZZARE\_S}{26}{subsubsection.4.2.17}%
+\contentsline {subsubsection}{\numberline {4.2.18}Tabella PARTECIPARE}{26}{subsubsection.4.2.18}%
+\contentsline {subsection}{\numberline {4.3}Trigger,Procedure e View}{27}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}AUTOMATISMO AMMINISTRARE ORGANIZZATORE}{27}{subsubsection.4.3.1}%
+\contentsline {paragraph}{\textit {Struttura del trigger}}{27}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}AUTOMATISMO PARTECIPAZIONE KEYNOTESPEAKER}{28}{subsubsection.4.3.2}%
+\contentsline {paragraph}{\textit {Struttura del trigger}}{28}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}TRIGGER CONFLISSO SESSIONI}{29}{subsubsection.4.3.3}%
+\contentsline {paragraph}{\textit {Definizione del trigger}}{29}{subsubsection.4.3.3}%
+\contentsline {paragraph}{\textit {Esempio di attivazione del trigger}}{29}{lstnumber.-22.29}%
+\contentsline {subsubsection}{\numberline {4.3.4}TRIGGER LOCAZIONE VALIDA}{30}{subsubsection.4.3.4}%
+\contentsline {paragraph}{\textit {Definizione del trigger}}{30}{subsubsection.4.3.4}%
+\contentsline {paragraph}{\textit {Esempio di attivazione del trigger}}{31}{lstnumber.-24.26}%
+\contentsline {subsubsection}{\numberline {4.3.5}VIEW RIEPILOGOKS}{31}{subsubsection.4.3.5}%
+\contentsline {paragraph}{\textit {Struttura view}}{31}{subsubsection.4.3.5}%
+\contentsline {paragraph}{\textit {Esempio di attivazione del trigger}}{31}{lstnumber.-26.7}%
+\contentsline {subsection}{\numberline {4.4}Popolamento del database}{32}{subsection.4.4}%
