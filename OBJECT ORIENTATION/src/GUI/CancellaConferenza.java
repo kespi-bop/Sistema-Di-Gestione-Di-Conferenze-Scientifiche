@@ -122,7 +122,7 @@ public class CancellaConferenza {
 		signature.setFont(new Font("Century Gothic", Font.PLAIN, 11));
 		panel.add(signature);
 		
-		ConfermaCancellazioneButton = new JButton("conferma");
+		ConfermaCancellazioneButton = new JButton("cancella");
 		ConfermaCancellazioneButton.setBounds(318, 245, 97, 26);
 		ConfermaCancellazioneButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		ConfermaCancellazioneButton.setForeground(Color.WHITE);
