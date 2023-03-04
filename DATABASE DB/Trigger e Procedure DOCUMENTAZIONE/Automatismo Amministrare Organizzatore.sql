@@ -1,6 +1,16 @@
---Organizzare_L_Ente
---L'organizzatore locale di una conferenza deve necessariamente
---appartenere a un ente che amministra la conferenza
+----AUTOMATISMO AMMINISTRARE ORGANIZZATORE
+
+----Per garantire che non esistano Organizzatori_locali il cui ente non amministra la conferenza
+----gestita dall'organizzatore, all'inserimento della coppia di PK dell'Organizzatore_locale
+----e della conferenza che sta amministrando, nella tabella ponte Organizzare_L viene controllato
+----se l'ente dell'organizzatore amministra la conferenza e in caso negativo vengono aggiuniti nella
+----tabella ponte l'Istituzione di afferenza dell'organizzatore e il Cod della conferenza in questione.
+----Automatizzando questo inseritmento non è necessario quindi andare a lanciare alcuna eccezione
+----che controlli la presenza dell'istituzione di un organizzatore_locale di una conferenza come 
+----sua amministratrice.
+
+----Struttura del trigger:
+
 CREATE OR REPLACE FUNCTION Organizzare_L_Ente() RETURNS TRIGGER AS
 $check$
 DECLARE 
@@ -27,3 +37,5 @@ CREATE OR REPLACE TRIGGER Organizzare_L_Ente_Insert
 BEFORE INSERT ON ORGANIZZARE_L
 FOR EACH ROW
 EXECUTE PROCEDURE Organizzare_L_Ente();
+
+----Lo stesso automatismo viene applicato per la tabella ponte Organizzare_S.

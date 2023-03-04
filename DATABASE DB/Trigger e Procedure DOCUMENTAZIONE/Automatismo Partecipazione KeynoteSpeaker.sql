@@ -1,14 +1,14 @@
---AUTOMATISMO PARTECIPAZIONE KEYNOTESPEAKER
+----AUTOMATISMO PARTECIPAZIONE KEYNOTESPEAKER
 
---Per garantire che non esistano KS che non partecipano a una sessione di cui sono KS,
---alla creazione di una sessione, nel caso in cui sia stato inserito un KS,
---questo viene autmoaticamente impostato come partecipante della sessione appena creata.
---La partecipazione è quindi garantita dall'insert nella tabella ponte della coppia
---di Primary Key di Sessione(appena creata) e di KeynoteSpeaker(della sessione appena creata).
---Automatizzando questo inseritmento non è necessario quindi andare a lanciare alcuna eccezione
---che controlli la presenza del KS nella conferenza in cui interviene.
+----Per garantire che non esistano KS che non partecipano a una sessione di cui sono KS,
+----alla creazione di una sessione, nel caso in cui sia stato inserito un KS,
+----questo viene autmoaticamente impostato come partecipante della sessione appena creata.
+----La partecipazione è quindi garantita dall'insert nella tabella ponte della coppia
+----di Primary Key di Sessione(appena creata) e di KeynoteSpeaker(della sessione appena creata).
+----Automatizzando questo inseritmento non è necessario quindi andare a lanciare alcuna eccezione
+----che controlli la presenza del KS nella conferenza in cui interviene.
 
---Struttura del trigger:
+----Struttura del trigger:
 
 CREATE OR REPLACE FUNCTION KSPartecipante() RETURNS TRIGGER AS
 $check$
