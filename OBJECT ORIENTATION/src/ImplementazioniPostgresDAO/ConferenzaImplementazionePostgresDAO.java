@@ -132,7 +132,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 		try {
 			riempiConferenza = connection.prepareStatement("INSERT INTO CONFERENZA(CodConferenza, TitoloConferenza, DataInizio, DataFine, Descrizione, NomeSede)"
 					+ "VALUES("+conferenzaCreata.getCodConferenza()+",'"+conferenzaCreata.getTitoloConferenza()+"','"+sf.format(conferenzaCreata.getDataInizio())+"',"
-					+ "'"+sf.format(conferenzaCreata.getDataFine())+"','"+conferenzaCreata.getDescrizione()+"','"+conferenzaCreata.sedeOspitante.getNomeSede().replace("'", "''")+"');\r\n");
+					+ "'"+sf.format(conferenzaCreata.getDataFine())+"','"+conferenzaCreata.getDescrizione().replace("'", "''")+"','"+conferenzaCreata.sedeOspitante.getNomeSede().replace("'", "''")+"');\r\n");
 			riempiConferenza.executeUpdate();;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -246,7 +246,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 					{
 						riempiSessione = connection.prepareStatement("INSERT INTO SESSIONE(CodSessione, OrarioInizioSessione, OrarioFineSessione, TitoloSessione, Chair, KeynoteSpeaker, CodProgramma, NomeLocazione, DescrizioneSessione)\r\n"
 								+ "VALUES("+codiceSessioneIncrement+",'"+sfTime.format(s.getOrarioInizio())+"','"+sfTime.format(s.getOrarioFine())+"','"+s.getTitolo()+"','"+s.getChair().getEmail()+"',\r\n"
-								+ "'"+s.getKeynoteSpeaker().getemailP()+"',"+p.getCodProgramma()+",'"+s.getLocazione().getNomeLocazione().replace("'", "''")+"', '"+s.getDescrizioneSessione()+"');");
+								+ "'"+s.getKeynoteSpeaker().getemailP()+"',"+p.getCodProgramma()+",'"+s.getLocazione().getNomeLocazione().replace("'", "''")+"', '"+s.getDescrizioneSessione().replace("'", "''")+"');");
 						riempiSessione.executeUpdate();
 						codiceSessioneIncrement++;
 					}
@@ -543,7 +543,7 @@ public class ConferenzaImplementazionePostgresDAO implements ConferenzaDAO{
 				if(!(descrizione.isEmpty()))
 				{
 					aggiornaDescrizione = connection.prepareStatement(
-							"UPDATE CONFERENZA SET Descrizione = '"+descrizione+"' WHERE CodConferenza = "+updatedConferenza.getCodConferenza()+";");		
+							"UPDATE CONFERENZA SET Descrizione = '"+descrizione.replace("'", "''")+"' WHERE CodConferenza = "+updatedConferenza.getCodConferenza()+";");		
 					aggiornaDescrizione.executeUpdate();
 				}				
 				

@@ -918,6 +918,7 @@ public class AggiuntaProgrammi {
 		frameCreazioneConferenza.dispose();
 		controller.commitCreazioneConferenza(conferenzaCreata, listaProgrammi, listaPubblicità);
 		controller.tornaAllaHome(frame, frameHome);	
+		JOptionPane.showMessageDialog(null,"Creazione eseguita con successo!","SUCCESSO!", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	
