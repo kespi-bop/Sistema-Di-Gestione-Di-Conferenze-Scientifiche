@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.10)  4 MAR 2023 19:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.10)  5 MAR 2023 12:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -740,23 +740,23 @@ File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 1054.
  [27] [28] [29] [30]
-Overfull \hbox (57.65617pt too wide) in paragraph at lines 1244--1245
+Overfull \hbox (57.65617pt too wide) in paragraph at lines 1249--1250
 [][][][][][][][][][][][][][][]  
  []
 
-<VIEW.png, id=1049, 213.04594pt x 107.65219pt>
+<VIEW.png, id=1047, 213.04594pt x 107.65219pt>
 File: VIEW.png Graphic file (type png)
 <use VIEW.png>
-Package pdftex.def Info: VIEW.png  used on input line 1279.
-(pdftex.def)             Requested size: 170.71652pt x 86.26805pt.
+Package pdftex.def Info: VIEW.png  used on input line 1290.
+(pdftex.def)             Requested size: 128.0374pt x 64.70021pt.
 [31 <./VIEW.png>] [32] [33] [34] [35] [36] [37] [38] [39] [40] [41] [42]
 [43] [44] (PROGETTO_DB.aux)
 Package rerunfilecheck Info: File `PROGETTO_DB.out' has not changed.
 (rerunfilecheck)             Checksum: D0C7430A25796A6580C4879C5871AF22;8922.
  ) 
 Here is how much of TeX's memory you used:
- 16473 strings out of 475389
- 259339 string characters out of 2776999
+ 16471 strings out of 475389
+ 259298 string characters out of 2776999
  1082655 words of memory out of 3000000
  36208 multiletter control sequences out of 15000+600000
  485613 words of font info for 60 fonts, out of 8000000 for 9000
@@ -783,9 +783,9 @@ dpi600\ectt1200.pk> <C:\Users\aessn\AppData\Local\MiKTeX\fonts/pk/ljfour/jknapp
 en/ec/dpi600\ectt1440.pk> <C:\Users\aessn\AppData\Local\MiKTeX\fonts/pk/ljfour/
 jknappen/ec/dpi600\ectt1728.pk><C:/Users/aessn/AppData/Local/Programs/MiKTeX/fo
 nts/type1/public/amsfonts/cm/cmsy9.pfb>
-Output written on PROGETTO_DB.pdf (45 pages, 1204558 bytes).
+Output written on PROGETTO_DB.pdf (45 pages, 1204958 bytes).
 PDF statistics:
  2675 PDF objects out of 2984 (max. 8388607)
- 1410 named destinations out of 1440 (max. 500000)
+ 1408 named destinations out of 1440 (max. 500000)
  410 words of extra memory for PDF output out of 10000 (max. 10000000)
 

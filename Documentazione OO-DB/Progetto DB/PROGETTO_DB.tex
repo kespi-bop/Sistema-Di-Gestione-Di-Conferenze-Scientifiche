@@ -125,20 +125,20 @@ In seguito sono riportati il diagramma ER e il rispettivo class diagram:
 \newpage
 \vspace{2cm}
 \subsection{Ristruttuazione del class diagram}
-Per motivi di implementazione fisica è necessario ristrutturare il class diagram sopracitato \ref{mycsnr}, tenendo conto dei seguenti punti.
-\subsection{Eliminazione attributi multivalore}
+Per motivi di implementazione fisica è necessario ristrutturare il class diagram sopracitato \ref{mycsnr}, tenendo conto dei seguenti punti:
+\paragraph{\textit{Eliminazione attributi multivalore}}
 L'unico attributo multivalore presente nel diagramma risulta essere l'attributo locazione nell'entità sede, quindi è necessario rendere quest'ultimo un entità a sé stante. 
 % aggiungere foto dettagliata su locazione e come diventa%
-\subsection{Eliminazione attributi strutturati}
+\paragraph{\textit{Eliminazione attributi strutturati}}
 L'unico attributo strutturato risulta essere l'attributo indirizzo all'interno dell'entità sede, il quale può essere ristrutturato componendolo nei suoi sotto-attributi (NomeVia, NumeroCivico, Città)
 % aggiungere foto dettagliata su indirizzo e come diventa%
-\subsection{Scelta degli identificatori primari}
-Per le entità sessione, programma, conferenza, intervento, intervallo, evento sociale sono state introdotte delle chiavi surrogate (rispettivamente codsessione, codprogramma, codconferenza, codintervento, codintervallo, codevento). \vspace{1cm}\newline
+\paragraph{\textit{Scelta degli identificatori primari}}
+Per le entità sessione, programma, conferenza, intervento, intervallo, evento sociale sono state introdotte delle chiavi surrogate (rispettivamente codsessione, codprogramma, codconferenza, codintervento, codintervallo, codevento).
 Per le entità sponsor, partecipante, organizzatore locale, organizzatore scientifico, ente, locazione e sede sono stati identificate come chiavi attributi preesistenti (rispettivamente PartitaIva, emailP, emailL, emailS, NomeIstituzione, NomeLocazione, NomeSede).
-\subsection{Eliminazioni delle gerarchie}
+\paragraph{\textit{Eliminazioni delle gerarchie}}
 L'unica gerarchia identificata (totale e disgiunta) nel class diagram è quella tra organizzatore, organizzatore scientifico ed organizzatore locale. Poiché l'entità organizzatore scientifico è totale e disgiunta, è possibile andare ad accorpare gli attributi dell'entità padre all'interno delle entità figlie.
 % aggiungere foto bla bla%
-\subsection{Analisi delle ridondanze}
+\paragraph{\textit{Analisi delle ridondanze}}
 Nel class diagram non sono presenti ridondanze.
 \newpage
 \subsection{CLASS DIAGRAM RISTRUTTURATO}
@@ -720,8 +720,7 @@ DescrizioneCurriculum VARCHAR(500),
 Titolo TipoTitolo NOT NULL,
 Nome VARCHAR(100) NOT NULL,
 Cognome VARCHAR(100) NOT NULL,
-Istituzione_Di_Afferenza VARCHAR(100)
-);
+Istituzione_Di_Afferenza VARCHAR(100) );
 
 --Aggiungo vincoli:
 --chiavi esterne:
@@ -989,6 +988,7 @@ CONSTRAINT Organizzatore_L FOREIGN KEY(emailL)
 REFERENCES Organizzatore_Locale(emailL)ON DELETE CASCADE;        
 
 \end{lstlisting}
+\newpage
 \subsubsection{Tabella ORGANIZZARE\_S}
 \begin{lstlisting}[language=SQL,
         deletekeywords={IDENTITY,INT},
@@ -1066,15 +1066,17 @@ DECLARE
 	TempEnte ENTE.NomeIstituzione%TYPE;
 	TempIstituzione ENTE.NomeIstituzione%TYPE;
 BEGIN
-	SELECT Istituzione_di_Afferenza INTO TempIstituzione	--estraggo l'istituzione di afferenza dell'organizzatore
-	FROM ORGANIZZATORE_LOCALE								--della conferenza appena aggiunto
+        --estraggo l'istituzione di afferenza dell'organizzatore
+	SELECT Istituzione_di_Afferenza INTO TempIstituzione	
+	FROM ORGANIZZATORE_LOCALE	    --della conferenza appena aggiunto							
 	WHERE emailL = NEW.emailL;
-
-	SELECT NomeIstituzione FROM AMMINISTRARE AS A INTO TempEnte		--verifico se l'ente amministra gia' la conferenza
+        --verifico se l'ente amministra gia' la conferenza
+	SELECT NomeIstituzione FROM AMMINISTRARE AS A INTO TempEnte		
 	WHERE(A.NomeIstituzione = TempIstituzione AND
 		  A.CodConferenza = NEW.CodConferenza);
-	
-	IF(TempEnte IS NULL) THEN		--se non la amministra, allora aggiungo l'ente dell'organizzatore a quelli che amministrano la conferenza
+
+	--se non la amministra, allora aggiungo l'ente dell'organizzatore a quelli che amministrano la conferenza
+	IF(TempEnte IS NULL) THEN		
 		INSERT INTO AMMINISTRARE(CodConferenza,NomeIstituzione)
 						  VALUES(NEW.CodConferenza, TempIstituzione);
 	END IF;
@@ -1102,13 +1104,16 @@ $check$
 DECLARE 
 	TempKS SESSIONE.CodSessione%TYPE;
 BEGIN
-	IF(NEW.KeynoteSpeaker IS NOT NULL) THEN				--controllo che sia stato realmente inserito un KS per la sessione
-		SELECT CodSessione FROM PARTECIPARE AS P INTO TempKS		--controllo che nei partecipanti non ci sia gia' 
-		WHERE (P.CodSessione = NEW.CodSessione AND				--il KS della sessione
+	--controllo che sia stato realmente inserito un KS per la sessione
+	IF(NEW.KeynoteSpeaker IS NOT NULL) THEN	
+		--controllo che nei partecipanti non ci sia gia' il KS della sessione	
+		SELECT CodSessione FROM PARTECIPARE AS P INTO TempKS		 
+		WHERE (P.CodSessione = NEW.CodSessione AND				
 			   P.emailP = NEW.KeynoteSpeaker);
-		
-		IF(TempKS IS NULL) THEN								--se il KS non e' presente tra i partecipanti,
-				INSERT INTO PARTECIPARE (CodSessione, emailP) 	 --allora lo inserisco
+
+		--se il KS non e' presente tra i partecipanti, allora lo inserisco
+		IF(TempKS IS NULL) THEN								
+				INSERT INTO PARTECIPARE (CodSessione, emailP) 	 
 								VALUES(NEW.CodSessione,New.KeynoteSpeaker); 
 		END IF;
 	END IF;
@@ -1141,9 +1146,10 @@ DECLARE
 	TempSessione SESSIONE.CodSessione%TYPE;
 	DataSessione PROGRAMMA.DataProgramma%TYPE;		
 BEGIN
+	--controllo che la locazione non sia gia' occupata a quella data e ora
 	SELECT CodSessione FROM SESSIONE AS S
 	INTO TempSessione
-	WHERE S.NomeLocazione = NEW.NomeLocazione AND			--controllo che la locazione non sia gia' occupata a quella data e ora
+	WHERE S.NomeLocazione = NEW.NomeLocazione AND			
 		  CodProgramma = NEW.CodProgramma AND
 		 ( ( (NEW.OrarioInizioSessione  >= S.OrarioInizioSessione) AND (NEW.OrarioInizioSessione  < S.OrarioFineSessione) ) OR
 		  ( (NEW.OrarioFineSessione > S.OrarioInizioSessione) AND (NEW.OrarioFineSessione <= S.OrarioFineSessione) ) );
@@ -1179,13 +1185,18 @@ VALUES('9:00','10:30','Parts can worth like the whole','.', 'FranciscoFlorez-Rev
 INSERT INTO SESSIONE(OrarioInizioSessione,OrarioFineSessione,TitoloSessione,DescrizioneSessione,
 Chair,KeynoteSpeaker,CodProgramma,NomeLocazione)
 VALUES('9:30','10:30','HBAxSCES - Human Behaviour Analysis for Smart City Environment Safety','.','JonAnderGomezAdrian@gmail.com','GiovanniRana@gmail.com',0,'Teatrino');
-
---Output console
+\end{lstlisting}
+\paragraph{\textit{Output console}}:
+\begin{lstlisting}[language=SQL,
+        deletekeywords={IDENTITY,INT},
+        morekeywords={clustered},    
+        framesep=10pt,
+        framextopmargin=10pt]
 ERROR:  Errore, in questa data e orario la locazione e occupata
 CONTEXT:  funzione PL/pgSQL conflittosessioni() riga 14 a RAISE
 SQL state: P0001
 \end{lstlisting}
-\vspace{1cm}
+\vspace{0.3cm}
 Tra le 9:30 e le 10:30 la locazione Teatrino è occupata dalla sessione "Parts can worth like the whole", non è quindi possibile aggiungere la sessione "HBAxSCES" in Teatrino; verrà quindi lancaita l'exception.
 \subsubsection{TRIGGER LOCAZIONE VALIDA}
 All'inserimento di una sessione, nello specificare la locazione in cui questa si svolga è necessario controllare che questa sia una delle locazioni interne alla Sede della conferenza che ospita la sessione appena creata. Il controllo del trigger avviene tramite una prima SELECT la quale estrae il nome della sede in cui si svolge la conferenza della sessione creata. Una seconda SELECT estrae la locazione che abbia la stessa PK della locazione della sessione inserita ("NEW.NomeLocazione = NomeLocazione") e che appartenga alla sede estratta dalla precedente SELECT. Nel caso in cui non viene estratta una locazione dalla seconda SELECT, vuol dire che questa non si trova all'interno della sede in cui viene svolta la conferenza della sessione appena inserita.
@@ -1204,15 +1215,18 @@ DECLARE
 	TempSede SEDE.NomeSede%TYPE;
 	TempLocazione LOCAZIONE.NomeLocazione%TYPE;
 BEGIN
+	--estraggo la sede della sessione che sto inserendo
 	SELECT NomeSede FROM ((PROGRAMMA NATURAL JOIN CONFERENZA)NATURAL JOIN SEDE)
-	INTO TempSede		--estraggo la sede della sessione che sto inserendo
+	INTO TempSede		
 	WHERE(NEW.CodProgramma = CodProgramma);
-	
-	SELECT NomeLocazione FROM(LOCAZIONE NATURAL JOIN SEDE)		--estraggo la locazione che potrebbe dare conflitto 
+
+	--estraggo la locazione che potrebbe dare conflitto
+	SELECT NomeLocazione FROM(LOCAZIONE NATURAL JOIN SEDE) 
 	INTO TempLocazione
 	WHERE(NomeSede = TempSede AND NEW.NomeLocazione = NomeLocazione);
-	
-	IF(TempLocazione IS  NULL) THEN		--se non trovo alcuna locazione, allora questa non esiste in quella sede
+
+	--se non trovo alcuna locazione, allora questa non esiste in quella sede
+	IF(TempLocazione IS  NULL) THEN		
 		RAISE EXCEPTION 'Errore, in questa conferenza non esiste questa locazione';
 	END IF;
 	RETURN NEW;
@@ -1241,17 +1255,85 @@ VALUES('IEEE CSR CyberSecurity and Resilience', '27/07/2022','29/07/2022','.','m
 INSERT INTO PROGRAMMA(CodProgramma, DataProgramma,CodConferenza)
 VALUES(5,'27/07/2022',2);
 
-INSERT INTO SESSIONE(OrarioInizioSessione,OrarioFineSessione,TitoloSessione,Chair,CodProgramma,NomeLocazione)
+INSERT INTO SESSIONE(OrarioInizioSessione,OrarioFineSessione,TitoloSessione,Chair,CodProgramma,
+NomeLocazione)
 VALUES('9:00','10:00','Plenary session PL-1','FranciscoFlorez-Revuelta@gmail.com',5,'Sala sul Chiostro del 500 (First floor)');
-
+\end{lstlisting}
+\paragraph{\textit{Output console}}:
+\begin{lstlisting}[language=SQL,
+        deletekeywords={IDENTITY,INT},
+        morekeywords={clustered},    
+        framesep=10pt,
+        framextopmargin=10pt]
 ERROR:  Errore, in questa conferenza non esiste questa locazione
 CONTEXT:  funzione PL/pgSQL locazionevalida() riga 15 a RAISE
 SQL state: P0001        
 \end{lstlisting}
 La locazione Sala sul Chiostro del 500 (First floor) appartiene quindi alla sede Convitto Palmieri; la sessione (avente come locazione Sala sul Chiostro del 500 (First floor)) appartiene a una conferenza che ha come sede monte sant'angelo (che NON è la sede della Sala sul chiostro del 500), quindi viene lanciata l'exception.	
+\subsection{TRIGGER CONFLITTO CONFERENZE}
+All'inserimento di una conferenza, nello specificare la data di inizio e di fine è necessario andare a controllare che in quel lasso di tempo(definito da data inizio e fine) la sede non sia già occupata da altre conferenze in corso. Il controllo del trigger avviene tramite una SELECT la quale estrae al'interno di TempConferenza lo specifico codice della conferenza che da conflitto; va a ricercare quindi le conferenze che sono in corso tra data inizio e data fine(compresi)appena inseriti, e che si svolgono nella sede inserita. Nel caso in cui venga effettivamente trovato un CodConferenza allora viene lanciata un'exception: 'Errore, la sede ospita già una conferenza';
+\vspace{0.3cm}
+\paragraph{\textit{Definizione del trigger}}:
+\begin{lstlisting}[language=SQL,
+        deletekeywords={IDENTITY,INT},
+        morekeywords={clustered},    
+        framesep=10pt,
+        framextopmargin=10pt]
+CREATE OR REPLACE FUNCTION NoConferenzaParallela() RETURNS TRIGGER AS
+$check$
+DECLARE 
+	TempConferenza CONFERENZA.CodConferenza%TYPE;
+BEGIN
+	--controllo che la nuova conferenza inserita(o updatata) non abbia la sede occupata in quella data	
+	SELECT CodConferenza FROM CONFERENZA INTO TempConferenza
+	WHERE NomeSede = NEW.NomeSede AND							
+		  ((NEW.DataInizio  BETWEEN DataInizio AND DataFine) OR	
+		  (NEW.DataFine  BETWEEN DataInizio AND DataFine));
+	
+	IF(TempConferenza IS NOT NULL) THEN
+		RAISE EXCEPTION 'Errore, la sede ospita gia una conferenza';
+	END IF;
+	RETURN NEW;
+END;
+$check$ LANGUAGE PLPGSQL;		  
+
+
+--data una nuova conferenza, bisogna controllare che questa
+--possa essere ospitata in una sede libera(in inserimento)
+CREATE OR REPLACE TRIGGER NoConferenzaParallelaInsert
+BEFORE INSERT ON CONFERENZA
+FOR EACH ROW
+EXECUTE PROCEDURE NoConferenzaParallela(); 
+\end{lstlisting}
+\paragraph{\textit{Esempio di attivazione del trigger}} :
+\begin{lstlisting}[language=SQL,
+        deletekeywords={IDENTITY,INT},
+        morekeywords={clustered},    
+        framesep=10pt,
+        framextopmargin=10pt]
+INSERT INTO CONFERENZA(TitoloConferenza,DataInizio,DataFine,Descrizione,NomeSede)
+VALUES('21st International Conference on Image Analysis and Processing', '23/05/2022','27/05/2022',
+'.','monte sant''angelo');
+
+--(per maggiore leggibilita' non sara' riportata alcuna Descrizione della conferenza).	   
+INSERT INTO CONFERENZA(TitoloConferenza,DataInizio,DataFine,Descrizione,NomeSede)
+VALUES('IEEE CSR CyberSecurity and Resilience', '26/05/2022','29/05/2022', 
+'.','monte sant''angelo');
+\end{lstlisting}
+\paragraph{\textit{Output console}}:
+\begin{lstlisting}[language=SQL,
+        deletekeywords={IDENTITY,INT},
+        morekeywords={clustered},    
+        framesep=10pt,
+        framextopmargin=10pt]
+ERROR:  Errore, la sede ospita gia una conferenza
+CONTEXT:  funzione PL/pgSQL noconferenzaparallela() riga 11 a RAISE
+SQL state: P0001
+\end{lstlisting}
+Nella sede monte sant'angelo, nel giorno 26/05/2022 si svolgera' la conferenza  '21st International...', non e' quindi possibile aggiungere la conferenza 'IEEE CSR CyberSecurity...' avente come data di svolgimento 26/05/2022 e come locazione monte sant'angelo; viene dunque lanciata l'exception.
 \subsubsection{VIEW RIEPILOGOKS}
 Questa view ci permette di ottenere un riepilogo annuale sul numero di KeynoteSpeaker per ogni Istituzione di Afferenza che ha partecipato a organizzazione di conferenze in quell'anno.
-\vspace{1cm}
+\vspace{0.2cm}
 \paragraph{\textit{Struttura view}}:
 \begin{lstlisting}[language=SQL,
         deletekeywords={IDENTITY,INT},
@@ -1261,12 +1343,13 @@ Questa view ci permette di ottenere un riepilogo annuale sul numero di KeynoteSp
 CREATE VIEW RiepilogoKS AS
 SELECT istituzione_di_afferenza, count(keynoteSpeaker) 
 FROM PARTECIPANTE NATURAL JOIN(
-	SELECT DISTINCT KeynoteSpeaker FROM SESSIONE NATURAL JOIN PROGRAMMA  --seleziono in modo distinto tutti i KS dell'anno
+	--seleziono in modo distinto tutti i KS dell'anno
+	SELECT DISTINCT KeynoteSpeaker FROM SESSIONE NATURAL JOIN PROGRAMMA  
 	WHERE extract (year from DataProgramma) = extract(year from CURRENT_DATE)) AS T
 WHERE emailp = KeynoteSpeaker
 GROUP BY istituzione_di_afferenza;        
 \end{lstlisting}
-
+\vspace{-0.3cm}
 \paragraph{\textit{Esempio di attivazione del trigger}}:
 \begin{lstlisting}[language=SQL,
         deletekeywords={IDENTITY,INT},
@@ -1275,7 +1358,9 @@ GROUP BY istituzione_di_afferenza;
         framextopmargin=10pt]
 SELECT * FROM RiepilogoKS; 
 \end{lstlisting}
+\vspace{-0.5cm}
 \begin{figure}[h!]
+\hspace{-0.3cm}
 \includegraphics[width=6cm]{VIEW}
 \caption{View in pgAdmin}
 \end{figure}
@@ -1336,10 +1421,12 @@ VALUES('Sala Grande','porta di massa');
 INSERT INTO CONFERENZA(TitoloConferenza,DataInizio,DataFine,Descrizione,NomeSede)
 VALUES('21st International Conference on Image Analysis and Processing', '23/05/2022','27/05/2022',
 	  'ICIAP: 21st International Conference on image analysis and processing 24 May 2022
-	   Vi aspettiamo a ICIAP, la Conferenza organizzata ogni due anni dall'Association for
+	   Vi aspettiamo a ICIAP, la Conferenza organizzata ogni due anni dall''Association for
 	   Research in Computer Vision, Pattern Recognition and Machine Learning (CVPL, ex
-	   GIRPR) che e' parte dell'International Association for Pattern Recognition (IAPR).','convitto palmieri');
-	   
+	   GIRPR) che e'' parte dell''International Association for Pattern Recognition (IAPR).','convitto palmieri');
+	
+
+   
 INSERT INTO CONFERENZA(TitoloConferenza,DataInizio,DataFine,Descrizione,NomeSede)
 VALUES('IEEE CSR CyberSecurity and Resilience', '27/07/2022','29/07/2022',
 	  'The IEEE International Conference on Cyber Security and Resilience recognizes outstanding individuals
@@ -1478,25 +1565,25 @@ VALUES('Gita','18:50:00','23:30:00',4);
 
 --popolo la tabella ENTE:
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' degli Studi di Napoli Federico II');
+VALUES('Universita degli Studi di Napoli Federico II');
 
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' Parthenope');
+VALUES('Universita Parthenope');
 
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' del Salento');
+VALUES('Universita del Salento');
 
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' Vanvitelli');
+VALUES('Universita Vanvitelli');
 
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' degli Studi di Salerno');
+VALUES('Universita degli Studi di Salerno');
 
 INSERT INTO ENTE(NomeIstituzione)
 VALUES('University of Cambridge');
 
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' di Pavia');
+VALUES('Universita di Pavia');
 
 INSERT INTO ENTE(NomeIstituzione)
 VALUES('Bournemouth University');
@@ -1511,7 +1598,7 @@ INSERT INTO ENTE(NomeIstituzione)
 VALUES('University of Alicante');
 
 INSERT INTO ENTE(NomeIstituzione)
-VALUES('Universita' di Catania');
+VALUES('Universita di Catania');
 
 
 
@@ -1519,25 +1606,25 @@ VALUES('Universita' di Catania');
 
 --popolo la tabella ORGANIZZATORE_LOCALE:
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('CarmenBisogni@unisa.it','Conferenze1000','Mss', 'Carmen','Bisogni', 'Universita' degli Studi di Salerno');
+VALUES('CarmenBisogni@unisa.it','Conferenze1000','Mss', 'Carmen','Bisogni', 'Universita degli Studi di Salerno');
 
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('PiercarloDondi@unipa.it','Conferenze1000','Professor', 'Piercarlo','Dondi', 'Universita' di Pavia');
+VALUES('PiercarloDondi@unipa.it','Conferenze1000','Professor', 'Piercarlo','Dondi', 'Universita di Pavia');
 
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('FabioNarducci@unisa.it','Conferenze1000','Mr', 'Fabio','Narducci', 'Universita' degli Studi di Salerno');
+VALUES('FabioNarducci@unisa.it','Conferenze1000','Mr', 'Fabio','Narducci', 'Universita degli Studi di Salerno');
 
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
 VALUES('AlessandroBruno@gmail.it','Conferenze1000','Mr', 'Alessandro','Bruno', 'Humanitas University');
 
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('SimonePalazzo@unica.it','Conferenze1000','Mr', 'Simone','Palazzo', 'Universita' di Catania');
+VALUES('SimonePalazzo@unica.it','Conferenze1000','Mr', 'Simone','Palazzo', 'Universita di Catania');
 
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('FedericaProiettoSalanitri@unisa.it','Conferenze1000','Mss', 'Federica','Proietto Salanitri', 'Universita' di Catania');
+VALUES('FedericaProiettoSalanitri@unisa.it','Conferenze1000','Mss', 'Federica','Proietto Salanitri', 'Universita di Catania');
 
 INSERT INTO ORGANIZZATORE_LOCALE(emailL,password,Titolo,Nome,Cognome,Istituzione_di_Afferenza)
-VALUES('VincenzoLomonaco@unipa.it','Conferenze1000','Professor', 'Vincenzo','Lomonaco', 'Universita' di Pavia');
+VALUES('VincenzoLomonaco@unipa.it','Conferenze1000','Professor', 'Vincenzo','Lomonaco', 'Universita di Pavia');
 
 
 
@@ -1549,6 +1636,8 @@ INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,
 Istituzione_di_Afferenza)
 VALUES('ZoheirSabeur@gmail.com','Conferenze1000','Professor','Zoheir','Sabeur',
 'Bournemouth University');
+
+
 
 INSERT INTO ORGANIZZATORE_SCIENTIFICO(emailS,password,Titolo,Nome,Cognome,
 Istituzione_di_Afferenza)
@@ -1577,37 +1666,37 @@ VALUES('StephenHawking@gmail.com','Conferenze1000','Mr', 'Stephen','Hawking', 'U
 
 --popolo la tabella PARTECIPANTE:
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('NicolaLerme@unipa.it','Mr','Nicola','Lerme','Universita' di Pavia');
+VALUES('NicolaLerme@unipa.it','Mr','Nicola','Lerme','Universita di Pavia');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('LorenzoBaraldi@unina.it','Mr','Lorenzo', 'Baraldi', 'Universita' degli Studi di Napoli Federico II');
+VALUES('LorenzoBaraldi@unina.it','Mr','Lorenzo', 'Baraldi', 'Universita degli Studi di Napoli Federico II');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('AlessandroGrieco@unina.it','Mr','Alessandro','Grieco','Universita' degli Studi di Napoli Federico II');
+VALUES('AlessandroGrieco@unina.it','Mr','Alessandro','Grieco','Universita degli Studi di Napoli Federico II');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('StefanoAllegretti@unipart.it','Mr','Stefano','Allegretti','Universita' Parthenope');
+VALUES('StefanoAllegretti@unipart.it','Mr','Stefano','Allegretti','Universita Parthenope');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('DarioMoccia@unipart.it','Professor','Dario', 'Moccia','Universita' Parthenope');
+VALUES('DarioMoccia@unipart.it','Professor','Dario', 'Moccia','Universita Parthenope');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('ClaudioFerrari@unica.it','Professor','Claudio','Ferrari','Universita' di Catania');
+VALUES('ClaudioFerrari@unica.it','Professor','Claudio','Ferrari','Universita di Catania');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('FedericoBeccaria@univa.it','Mr','Federico','Beccaria','Universita' Vanvitelli');
+VALUES('FedericoBeccaria@univa.it','Mr','Federico','Beccaria','Universita Vanvitelli');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('AndreaPilzer@univa.it','Professor','Andrea','Pizler','Universita' Vanvitelli');
+VALUES('AndreaPilzer@univa.it','Professor','Andrea','Pizler','Universita Vanvitelli');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
 VALUES('GiovanniRana@gmail.com','Professor','Giovanni','Rana','Bournemouth University');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('CosimoDistante@unisal.it','Professor','Cosimo','Distante','Universita' del Salento');
+VALUES('CosimoDistante@unisal.it','Professor','Cosimo','Distante','Universita del Salento');
 
 INSERT INTO PARTECIPANTE(emailP, Titolo, Nome, Cognome, Istituzione_di_Afferenza)
-VALUES('FrancescoBarecchia@unina.it','Mr','Francesco','Barecchia','Universita' degli Studi di Napoli Federico II');
+VALUES('FrancescoBarecchia@unina.it','Mr','Francesco','Barecchia','Universita degli Studi di Napoli Federico II');
 
 
 
@@ -1665,7 +1754,7 @@ public health systems are generating large datasets of biomedical data in genera
 INSERT INTO SESSIONE(OrarioInizioSessione,OrarioFineSessione,TitoloSessione,DescrizioneSessione,
 Chair,KeynoteSpeaker,CodProgramma,NomeLocazione)
 VALUES('9:00','10:30','Deep Learning for Visual Object Tracking Pt1','In its simplest definition, visual object tracking consists in the persistent recognition and localization of a generic target object in a video. 
-Several challenges such as object occlusions, pose and scale changes, rotations and shape variations, and the presence of similar objects, must be tackled to accurately keep track of a target's position. The ultimate
+Several challenges such as object occlusions, pose and scale changes, rotations and shape variations, and the presence of similar objects, must be tackled to accurately keep track of a target''s position. The ultimate
 goal of generic object tracking is to build robust models capable to overcome such challenging factors. In the past, such issues have been addressed by disparate principles formalizing the concepts of appearance
 model, motion model, and matching operation. In recent years, algorithms based on deep learning tried to learn such conceptual blocks by exploiting the ability of deep neural networks in learning complex functions 
 from visual examples.','ZoheirSabeur@gmail.com','AlessandroGrieco@unina.it',1,'Teatrino');
@@ -1673,7 +1762,7 @@ from visual examples.','ZoheirSabeur@gmail.com','AlessandroGrieco@unina.it',1,'T
 INSERT INTO SESSIONE(OrarioInizioSessione,OrarioFineSessione,TitoloSessione,DescrizioneSessione,
 Chair,KeynoteSpeaker,CodProgramma,NomeLocazione)
 VALUES('11:00','13:00','Deep Learning for Visual Object Tracking Pt2','In its simplest definition, visual object tracking consists in the persistent recognition and localization of a generic target object in a video.
-Several challenges such as object occlusions, pose and scale changes, rotations and shape variations, and the presence of similar objects, must be tackled to accurately keep track of a target's position. The ultimate
+Several challenges such as object occlusions, pose and scale changes, rotations and shape variations, and the presence of similar objects, must be tackled to accurately keep track of a target''s position. The ultimate
 goal of generic object tracking is to build robust models capable to overcome such challenging factors. In the past, such issues have been addressed by disparate principles formalizing the concepts of appearance model,
 motion model, and matching operation. In recent years, algorithms based on deep learning tried to learn such conceptual blocks by exploiting the ability of deep neural networks in learning complex functions from visual 
 examples.','ZoheirSabeur@gmail.com','AlessandroGrieco@unina.it',1,'Teatrino');	   

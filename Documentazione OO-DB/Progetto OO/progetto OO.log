@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.10)  4 MAR 2023 19:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.8.28) (preloaded format=pdflatex 2022.10.10)  5 MAR 2023 11:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -475,34 +475,56 @@ Package pdftex.def Info: LOGO.png  used on input line 25.
 Chapter 1.
 [3
 
-] [4]
+]
+Overfull \hbox (4.59389pt too wide) in paragraph at lines 53--54
+[]\OT1/cmr/bx/n/10 Sessione\OT1/cmr/m/n/10 : Spe-cial-iz-zazione della classe S
+e-duta, classe per la ges-tione delle ses-sioni in un pro-gramma. Garan- 
+ []
+
+
+Overfull \hbox (2.62538pt too wide) in paragraph at lines 59--60
+[]\OT1/cmr/bx/n/10 Organizzatore Lo-cale\OT1/cmr/m/n/10 : Spe-cial-iz-zazione d
+ella classe Utente, classe che mem-o-rizza in-for-mazioni riguardanti 
+ []
+
+
+Overfull \hbox (21.42392pt too wide) in paragraph at lines 60--61
+[]\OT1/cmr/bx/n/10 Organizzatore Sci-en-tifico\OT1/cmr/m/n/10 : Spe-cial-iz-zaz
+ione della classe Utente, classe che mem-o-rizza in-for-mazioni riguardanti 
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 74.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 74.
+[4]
 Chapter 2.
-<crc_cardsEx.png, id=132, 619.113pt x 97.5645pt>
+<crc_cardsEx.png, id=140, 619.113pt x 97.5645pt>
 File: crc_cardsEx.png Graphic file (type png)
 <use crc_cardsEx.png>
-Package pdftex.def Info: crc_cardsEx.png  used on input line 90.
+Package pdftex.def Info: crc_cardsEx.png  used on input line 94.
 (pdftex.def)             Requested size: 455.24408pt x 71.74252pt.
 [5
 
  <./crc_cardsEx.png>]
-<crc_cards1.png, id=138, 411.33675pt x 532.99126pt>
+<crc_cards1.png, id=148, 411.33675pt x 532.99126pt>
 File: crc_cards1.png Graphic file (type png)
 <use crc_cards1.png>
-Package pdftex.def Info: crc_cards1.png  used on input line 98.
+Package pdftex.def Info: crc_cards1.png  used on input line 102.
 (pdftex.def)             Requested size: 449.55362pt x 582.54298pt.
-<crc_cards2.png, id=139, 362.5545pt x 483.60675pt>
+<crc_cards2.png, id=149, 362.5545pt x 483.60675pt>
 File: crc_cards2.png Graphic file (type png)
 <use crc_cards2.png>
-Package pdftex.def Info: crc_cards2.png  used on input line 102.
+Package pdftex.def Info: crc_cards2.png  used on input line 106.
 (pdftex.def)             Requested size: 483.69684pt x 645.23294pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<crc_cards3.png, id=140, 362.5545pt x 483.0045pt>
+<crc_cards3.png, id=150, 362.5545pt x 483.0045pt>
 File: crc_cards3.png Graphic file (type png)
 <use crc_cards3.png>
-Package pdftex.def Info: crc_cards3.png  used on input line 106.
+Package pdftex.def Info: crc_cards3.png  used on input line 110.
 (pdftex.def)             Requested size: 483.69684pt x 644.42941pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -524,43 +546,43 @@ Overfull \vbox (0.42941pt too high) has occurred while \output is active []
 
 
 [8 <./crc_cards3.png>]
-<ClassDiagram MODEL.jpg, id=157, 1817.79124pt x 1760.5775pt>
+<ClassDiagram MODEL.jpg, id=167, 1817.79124pt x 1760.5775pt>
 File: ClassDiagram MODEL.jpg Graphic file (type jpg)
 <use ClassDiagram MODEL.jpg>
-Package pdftex.def Info: ClassDiagram MODEL.jpg  used on input line 113.
+Package pdftex.def Info: ClassDiagram MODEL.jpg  used on input line 117.
 (pdftex.def)             Requested size: 512.1496pt x 496.02086pt.
 
-Overfull \hbox (14.22633pt too wide) in paragraph at lines 113--114
+Overfull \hbox (14.22633pt too wide) in paragraph at lines 117--118
  [][] 
  []
 
 [9 <./ClassDiagram MODEL.jpg>]
-<crc_card_gui1.png, id=162, 364.9635pt x 510.10574pt>
+<crc_card_gui1.png, id=172, 364.9635pt x 510.10574pt>
 File: crc_card_gui1.png Graphic file (type png)
 <use crc_card_gui1.png>
-Package pdftex.def Info: crc_card_gui1.png  used on input line 121.
+Package pdftex.def Info: crc_card_gui1.png  used on input line 125.
 (pdftex.def)             Requested size: 426.79134pt x 596.55667pt.
-<crc_card_gui2.png, id=163, 366.168pt x 474.573pt>
+<crc_card_gui2.png, id=173, 366.168pt x 474.573pt>
 File: crc_card_gui2.png Graphic file (type png)
 <use crc_card_gui2.png>
-Package pdftex.def Info: crc_card_gui2.png  used on input line 125.
+Package pdftex.def Info: crc_card_gui2.png  used on input line 129.
 (pdftex.def)             Requested size: 369.88582pt x 479.40184pt.
-<crc_card_gui3.png, id=164, 363.15675pt x 154.77824pt>
+<crc_card_gui3.png, id=174, 363.15675pt x 154.77824pt>
 File: crc_card_gui3.png Graphic file (type png)
 <use crc_card_gui3.png>
-Package pdftex.def Info: crc_card_gui3.png  used on input line 126.
+Package pdftex.def Info: crc_card_gui3.png  used on input line 130.
 (pdftex.def)             Requested size: 369.88582pt x 157.65915pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<ClassDiagram GUI.jpg, id=165, 1471.4975pt x 980.66376pt>
+<ClassDiagram GUI.jpg, id=175, 1471.4975pt x 980.66376pt>
 File: ClassDiagram GUI.jpg Graphic file (type jpg)
 <use ClassDiagram GUI.jpg>
-Package pdftex.def Info: ClassDiagram GUI.jpg  used on input line 132.
+Package pdftex.def Info: ClassDiagram GUI.jpg  used on input line 136.
 (pdftex.def)             Requested size: 512.1496pt x 341.3221pt.
 
-Overfull \hbox (14.22633pt too wide) in paragraph at lines 132--133
+Overfull \hbox (14.22633pt too wide) in paragraph at lines 136--137
  [][] 
  []
 
@@ -572,82 +594,82 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Warning: Text page 11 contains only floats.
 
 [11 <./crc_card_gui2.png> <./crc_card_gui3.png>] [12 <./ClassDiagram GUI.jpg>]
-<crc_card_dao1.png, id=181, 362.5545pt x 458.31226pt>
+<crc_card_dao1.png, id=191, 362.5545pt x 458.31226pt>
 File: crc_card_dao1.png Graphic file (type png)
 <use crc_card_dao1.png>
-Package pdftex.def Info: crc_card_dao1.png  used on input line 138.
+Package pdftex.def Info: crc_card_dao1.png  used on input line 142.
 (pdftex.def)             Requested size: 312.9803pt x 395.66537pt.
-<crc_card_dao2.png, id=182, 364.9635pt x 230.0595pt>
-File: crc_card_dao2.png Graphic file (type png)
-<use crc_card_dao2.png>
-Package pdftex.def Info: crc_card_dao2.png  used on input line 139.
-(pdftex.def)             Requested size: 312.9803pt x 197.30319pt.
+<crc_card_dao2.png, id=192, 364.9635pt x 230.0595pt>
 File: crc_card_dao2.png Graphic file (type png)
 <use crc_card_dao2.png>
 Package pdftex.def Info: crc_card_dao2.png  used on input line 143.
+(pdftex.def)             Requested size: 312.9803pt x 197.30319pt.
+File: crc_card_dao2.png Graphic file (type png)
+<use crc_card_dao2.png>
+Package pdftex.def Info: crc_card_dao2.png  used on input line 147.
 (pdftex.def)             Requested size: 369.88582pt x 233.17618pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [13 <./crc_card_dao1.png> <./crc_card_dao2.png>]
-<ClassDiagram DAO.jpg, id=190, 1645.14626pt x 677.53125pt>
+<ClassDiagram DAO.jpg, id=200, 1645.14626pt x 677.53125pt>
 File: ClassDiagram DAO.jpg Graphic file (type jpg)
 <use ClassDiagram DAO.jpg>
-Package pdftex.def Info: ClassDiagram DAO.jpg  used on input line 150.
+Package pdftex.def Info: ClassDiagram DAO.jpg  used on input line 154.
 (pdftex.def)             Requested size: 540.60236pt x 222.63487pt.
 
-Overfull \hbox (42.6791pt too wide) in paragraph at lines 150--151
+Overfull \hbox (42.6791pt too wide) in paragraph at lines 154--155
  [][] 
  []
 
 [14 <./ClassDiagram DAO.jpg>]
-<ClassDiagram CONTROLLER.jpg, id=195, 1328.965pt x 708.6475pt>
+<ClassDiagram CONTROLLER.jpg, id=205, 1328.965pt x 708.6475pt>
 File: ClassDiagram CONTROLLER.jpg Graphic file (type jpg)
 <use ClassDiagram CONTROLLER.jpg>
-Package pdftex.def Info: ClassDiagram CONTROLLER.jpg  used on input line 157.
+Package pdftex.def Info: ClassDiagram CONTROLLER.jpg  used on input line 161.
 (pdftex.def)             Requested size: 455.24408pt x 242.75356pt.
  [15 <./ClassDiagram CONTROLLER.jpg>]
 Chapter 3.
-<SD1.png, id=200, 1508.63625pt x 753.81625pt>
+<SD1.png, id=210, 1508.63625pt x 753.81625pt>
 File: SD1.png Graphic file (type png)
 <use SD1.png>
-Package pdftex.def Info: SD1.png  used on input line 164.
+Package pdftex.def Info: SD1.png  used on input line 168.
 (pdftex.def)             Requested size: 512.1496pt x 255.90306pt.
 
-Overfull \hbox (14.22633pt too wide) in paragraph at lines 164--165
+Overfull \hbox (14.22633pt too wide) in paragraph at lines 168--169
  [][] 
  []
 
 [16
 
  <./SD1.png>]
-<SD2.png, id=205, 1326.9575pt x 893.3375pt>
+<SD2.png, id=215, 1326.9575pt x 893.3375pt>
 File: SD2.png Graphic file (type png)
 <use SD2.png>
-Package pdftex.def Info: SD2.png  used on input line 171.
+Package pdftex.def Info: SD2.png  used on input line 175.
 (pdftex.def)             Requested size: 512.1496pt x 344.78795pt.
 
-Overfull \hbox (14.22633pt too wide) in paragraph at lines 171--172
+Overfull \hbox (14.22633pt too wide) in paragraph at lines 175--176
  [][] 
  []
 
 [17 <./SD2.png>]
-<mockup.jpg, id=210, 5977.33125pt x 8993.6pt>
+<mockup.jpg, id=220, 5977.33125pt x 8993.6pt>
 File: mockup.jpg Graphic file (type jpg)
 <use mockup.jpg>
-Package pdftex.def Info: mockup.jpg  used on input line 178.
-(pdftex.def)             Requested size: 412.56496pt x 620.69632pt.
+Package pdftex.def Info: mockup.jpg  used on input line 182.
+(pdftex.def)             Requested size: 369.88582pt x 556.47215pt.
  [18 <./mockup.jpg>] (progetto OO.aux)
 Package rerunfilecheck Info: File `"progetto OO".out' has not changed.
 (rerunfilecheck)             Checksum: 9714D24E4767DFB9E1BB7B9D95CDAAF9;2884.
  ) 
 Here is how much of TeX's memory you used:
- 11288 strings out of 475389
- 188090 string characters out of 2776999
- 636933 words of memory out of 3000000
- 32458 multiletter control sequences out of 15000+600000
- 473698 words of font info for 44 fonts, out of 8000000 for 9000
+ 11309 strings out of 475389
+ 188304 string characters out of 2776999
+ 635967 words of memory out of 3000000
+ 32469 multiletter control sequences out of 15000+600000
+ 475521 words of font info for 50 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,9n,77p,2224b,538s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\aessn\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm
@@ -655,12 +677,16 @@ Here is how much of TeX's memory you used:
 ts/cm/cmbx10.pfb><C:/Users/aessn/AppData/Local/Programs/MiKTeX/fonts/type1/publ
 ic/amsfonts/cm/cmbx12.pfb><C:/Users/aessn/AppData/Local/Programs/MiKTeX/fonts/t
 ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/aessn/AppData/Local/Programs/MiKTeX
-/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/aessn/AppData/Local/Progra
-ms/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/aessn/AppData/Loc
-al/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
-Output written on "progetto OO.pdf" (18 pages, 3826061 bytes).
+/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Users/aessn/AppData/Local/Programs
+/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/aessn/AppData/Local/P
+rograms/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/aessn/AppData/
+Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/aessn
+/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Us
+ers/aessn/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt12.p
+fb>
+Output written on "progetto OO.pdf" (18 pages, 3860670 bytes).
 PDF statistics:
- 259 PDF objects out of 1000 (max. 8388607)
- 53 named destinations out of 1000 (max. 500000)
+ 282 PDF objects out of 1000 (max. 8388607)
+ 57 named destinations out of 1000 (max. 500000)
  222 words of extra memory for PDF output out of 10000 (max. 10000000)
 
