@@ -13,6 +13,9 @@ sessione avrà quindi una successione di interventi, ad orari predefiniti e di s
 intervento si conserva un abstract (un breve testo in cui viene spiegato il contenuto del lavoro presentato). Si deve poter considerare la presenza di spazi di intervallo (coffee breaks, pranzo) ma anche la presenza di 
 eventi sociali (cene, gite, etc)."*
 
+Autori: Gianfranco Duminuco(N86004061), Alessandro Grieco(N86004241).
+Codice Gruppo: OOBD_06.
+
 ## *📂Files di progetto:*
 - File Documentazione-BasiDiDati-OOBD_6.pdf prodotto in LATEX contenente una descrizione dettagliata di tutto il progetto.
 - File "SQL CREAZIONE E VINCOLI.sql" contenente i codici di creazione del DB e per la realizzazione fisica dei vincoli.
