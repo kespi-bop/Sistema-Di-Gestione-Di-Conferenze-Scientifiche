@@ -38,4 +38,4 @@ In questo README è presente una breve descrizione dei vari files riguardanti la
 🗀   Images
 
 ## 💻 *Directory Eseguibile*
-- Applicativo eseguibile .jar
+- Applicativo eseguibile .jasd
