@@ -482,7 +482,7 @@ public class CreazioneConferenza {
 		
 		table.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
-	        	RimuoviRiga(me, comboBoxSponsor);
+	        	RimuoviRiga(me, comboBoxSponsor, table);
 	         }
 	      });
 
@@ -495,13 +495,13 @@ public class CreazioneConferenza {
 
 		table_2.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
-	        	 RimuoviRiga(me, comboBoxOrganizzatoreL);
+	        	 RimuoviRiga(me, comboBoxOrganizzatoreL, table_2);
 	         }
 	      });		
 		
 		table_1.addMouseListener(new MouseAdapter() {
 	         public void mouseClicked(MouseEvent me) {
-	        	 RimuoviRiga(me, comboBoxOrganizzatoreS);
+	        	 RimuoviRiga(me, comboBoxOrganizzatoreS, table_1);
 	         }
 	      });
 
@@ -538,7 +538,7 @@ public class CreazioneConferenza {
 	
 	
 	//METODI IMPLEMENTATIVI
-	private void RimuoviRiga(MouseEvent me, JComboBox<String> comboBoxSponsor) {
+	private void RimuoviRiga(MouseEvent me, JComboBox<String> comboBoxSponsor, JTable table) {	
         if (me.getClickCount() == 2) {     //se viene effettuato un doppio click in una zona
             JTable target = (JTable)me.getSource();
             int row = target.getSelectedRow(); // seleziona riga
